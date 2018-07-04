@@ -1,0 +1,7 @@
+<button mat-raised-button [matMenuTriggerFor]="menu">Menu</button>
+<mat-menu #menu="matMenu">
+  <a mat-menu-item routerLink="/game">Start</a>
+  <a mat-menu-item routerLink="/leaderboard">Leaderboard</a>
+  <a mat-menu-item routerLink="/settings">Settings</a>
+</mat-menu>
+<router-outlet></router-outlet>

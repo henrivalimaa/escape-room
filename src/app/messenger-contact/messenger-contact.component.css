@@ -1,0 +1,60 @@
+.header {
+    min-height: 20em;
+    padding: 1em;
+    background-image: url(http://stalkerskolan.se/wp-content/uploads/2014/03/anonym-1024x576.jpg);
+    background-size: cover;
+    background-position-y: center;
+    background-position-x: center;
+    background-repeat: no-repeat;
+}
+
+.contact-menu-btn {
+	float: right;
+}
+
+.contact-name {
+    position: relative;
+    bottom: -16em;
+    color: #fff;
+}
+
+.contact-name p, h3 {
+	margin: 0;
+}
+
+.contact-media {
+	padding: 1em;
+  margin-bottom: 1em;
+  box-shadow: 0 2px 1px #b3b3b3;
+  background: #fff;
+}
+
+.container-header {
+  margin: 0;
+  color: #449082;
+  font-weight: 100;
+}
+
+.contact-media ul {
+	list-style: none;
+	padding: 0;
+	margin-bottom: 0;
+}
+
+.contact-media ul > li {
+	display: inline-block;
+	height: 5em;
+	width: 5em;
+	overflow: hidden;
+	margin-right: 0.3em;
+	background-image: url(http://stalkerskolan.se/wp-content/uploads/2014/03/anonym-1024x576.jpg);
+  background-size: cover;
+  background-position-x: -35px;
+}
+
+.contact-about {
+	padding: 1em;
+  margin-bottom: 1em;
+  box-shadow: 0 2px 1px #b3b3b3;
+  background: #fff;
+}

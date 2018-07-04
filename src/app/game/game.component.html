@@ -1,0 +1,47 @@
+<div class="messenger-header">
+	<button class="transparent inline back-btn"><fa name="arrow-left" size="2x"></fa></button>
+	<div class="profile-picture inline">
+		<img src="http://stalkerskolan.se/wp-content/uploads/2014/03/anonym-1024x576.jpg">
+	</div>
+	<div class="inline name">
+		<h3>UNKNOWN</h3>
+		<p *ngIf="!typing">Online</p>
+		<p *ngIf="typing">Typing...</p>
+	</div>
+	<button class="transparent inline right center-y mr-1" [matMenuTriggerFor]="menu"><fa name="ellipsis-v" size="2x"></fa></button>
+	<button class="transparent inline right center-y mr-1"><fa name="phone" size="2x"></fa></button>
+	<button class="transparent inline right center-y mr-1"><fa name="video-camera" size="2x"></fa></button>
+	<mat-menu #menu="matMenu">
+	  <a mat-menu-item (click)="openContact();">View contact</a>
+	  <a mat-menu-item routerLink="/leaderboard">Media</a>
+	  <a mat-menu-item routerLink="/settings" style="color:red;">Exit game</a>
+	</mat-menu>
+</div>
+
+<div class="message-area">
+	<div *ngFor='let message of messages' class="message-row" [@fade]>
+	  <div class="row" [ngClass]="{ 'message-right': !message.incoming, 'message-left': message.incoming }">
+	  	<div class="tip"></div>
+	  	<div class="message-content">
+	  		<span>{{ message.text }}</span>
+	  		<div class="checked" *ngIf="!message.incoming">
+		  		<fa name="check" class="check-overflow"></fa>
+		  		<fa name="check"></fa>
+		  	</div>
+		  	<span class="message-time">{{ message.time }}</span>
+	  	</div>
+	  </div>
+	</div>
+</div>
+
+<div class="messenger-input">
+	<div class="inline input-area">
+		<button class="icon-btn"><fa name="smile-o" size="2x"></fa></button>
+		<input placeholder="Type a message" type="text"  name="text-input"  [(ngModel)]="message" (keydown)="sendMessage($event)">
+		<button class="icon-btn right mr-05"><fa name="camera" size="2x"></fa></button>
+		<button class="icon-btn right mr-1"><fa name="paperclip" size="2x"></fa></button>
+	</div>
+	<dir class="inline microphone">
+		<button class="microphone-btn"><fa name="microphone" size="2x"></fa></button>
+	</dir>
+</div>
