@@ -47,7 +47,7 @@
 </div>
 
 <div class="center-xy container" *ngIf="!playerInitialized" [@fade]>
-	<img class="logo center-x" src="http://www.escapetheroom.com.cy/images/logo.png" *ngIf="!playerInitialized">
+	<img class="logo center-x" src="/assets/images/logo.png" *ngIf="!playerInitialized">
 
 	<mat-form-field class="inline name-field center-x">
     <input matInput placeholder="Enter name (Group)" [(ngModel)]="player.name" (keydown)="startGame($event)">
