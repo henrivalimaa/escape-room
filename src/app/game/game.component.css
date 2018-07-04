@@ -18,6 +18,8 @@
 
 .profile-picture img {
 	height: 4em;
+    position: relative;
+    left: -40%
 }
 
 .back-btn {
@@ -123,6 +125,24 @@
 
     .input-area input {
         max-width: 50%;
+    }
+}
+
+@media only screen and (max-width: 321px) {
+    .input-area {
+        width: 74.9% !important;
+    }
+
+    .input-area input {
+        max-width: 45%;
+    }
+
+    .icon-btn {
+        margin-right: 0;
+    }
+
+    .messenger-header button {
+        margin-right: 0 !important;
     }
 }
 

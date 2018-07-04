@@ -1,7 +1,7 @@
 .header {
     min-height: 20em;
     padding: 1em;
-    background-image: url(http://stalkerskolan.se/wp-content/uploads/2014/03/anonym-1024x576.jpg);
+    background-image: url(/assets/images/unknown.jpg);
     background-size: cover;
     background-position-y: center;
     background-position-x: center;
@@ -47,7 +47,7 @@
 	width: 5em;
 	overflow: hidden;
 	margin-right: 0.3em;
-	background-image: url(http://stalkerskolan.se/wp-content/uploads/2014/03/anonym-1024x576.jpg);
+	background-image: url(/assets/images/unknown.jpg);
   background-size: cover;
   background-position-x: -35px;
 }

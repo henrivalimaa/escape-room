@@ -37,7 +37,7 @@ export class GameComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-  	window.scrollTo(0,document.body.scrollHeight);       
+  	window.scrollTo(0, document.body.scrollHeight);       
   }
 
   startGame(): void {
