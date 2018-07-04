@@ -17,6 +17,7 @@ import { MessageService } from '../services/message.service';
 })
 export class GameComponent implements OnInit, AfterViewChecked {
 	private player: any = {};
+	private playerInitialized: boolean = false;
 
 	private messages: any[] = [];
 	private message: string;
@@ -32,16 +33,25 @@ export class GameComponent implements OnInit, AfterViewChecked {
 	) { }
 
   ngOnInit() {
-  	this.player = { name: 'Ville Utti' };
-  	this.startGame();
+  	// this.startGame();
   }
 
   ngAfterViewChecked() {
   	window.scrollTo(0, document.body.scrollHeight);       
   }
 
-  startGame(): void {
-  	this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Hello ' + this.player.name, incoming: true });
+  startGame(event): void {
+  	if (event.key === "Enter") {
+  		if (this.player.name != null) {
+  			this.typing = true;
+  			this.playerInitialized = true;
+  			
+  			setTimeout(() => {
+  				this.typing = false;
+  				this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Hello ' + this.player.name, incoming: true });
+  			}, 3000)
+  		}
+  	}
   }
 
   sendMessage(event): void {
@@ -61,7 +71,7 @@ export class GameComponent implements OnInit, AfterViewChecked {
       this.messages.push(nextMessage);
       this.typing = false;
       if (nextMessage.continous) this.continueDialog(message);
- 		}, 0);
+ 		}, nextMessage.delay);
 	}
 
 	openContact(): void {

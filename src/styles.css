@@ -13,6 +13,19 @@ html, body {
 	background-image: url(https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png);
 }
 
+.center-xy {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.center-x {
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
 .inline {
 	display: inline-block;
 }
@@ -27,6 +40,10 @@ html, body {
 	color: #fff;
 }
 
+.hidden {
+	visibility: hidden;
+}
+
 .transparent:focus {
 	outline: none;
 }
@@ -37,6 +54,10 @@ html, body {
 
 .mr-05 {
 	margin-right: 0.5em;
+}
+
+.mb-1 {
+	margin-bottom: 1em;
 }
 
 .mat-dialog-container {
@@ -52,4 +73,46 @@ html, body {
     background: #ddd;
     min-height: inherit;
     max-height: inherit;
+}
+
+/*
+.cdk-overlay-pane {
+    position: absolute;
+    pointer-events: auto;
+    box-sizing: border-box;
+    z-index: 1000;
+    display: flex;
+    max-width: 100%;
+    max-height: 100%;
+    max-height: unset;
+    max-width: unset !important;
+    height: 100%;
+    width: 100% !important;
+}
+*/
+
+.mat-fab, .mat-flat-button, .mat-mini-fab, .mat-raised-button {
+    color: #fff;
+    background-color: #449082;
+}
+
+.mat-form-field-label {
+    color: #449082 !important;
+}
+
+.mat-focused .mat-form-field-label {
+    color: #449082 !important;
+}
+
+.mat-form-field-ripple {
+    background-color: #449082 !important;
+}
+
+.mat-form-field-underline {
+    background-color: #449082 !important;
+}
+
+.mat-input-element {
+	color: #777 !important;
+	width: 20em;
 }

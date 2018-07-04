@@ -1,5 +1,5 @@
 <div class="header">
-	<button class="transparent back-btn"><fa name="arrow-left" size="2x"></fa></button>
+	<button class="transparent back-btn" (click)="close()"><fa name="arrow-left" size="2x"></fa></button>
 	<button class="transparent contact-menu-btn"><fa name="ellipsis-v" size="2x"></fa></button>
 	<div class="contact-name">
 		<h3>UNKNOWN</h3>
@@ -10,9 +10,21 @@
 <div class="contact-media">
 	<h4 class="container-header">Media</h4>
 	<ul>
-		<li></li>
-		<li></li>
+		<li (click)="fullscreen = true"></li>
+		<li (click)="fullscreen = true"></li>
 	</ul>
+	<div class="fullscreen-media" *ngIf="fullscreen">
+		<div class="fullscreen-header">
+			<button class="transparent mb-1" (click)="fullscreen = false"><fa name="arrow-left" size="2x"></fa></button>
+			<div class="fullscreen-contact-name inline">
+				<h3>UNKNOWN</h3>
+				<p>1 hour ago.</p>
+			</div>
+			<button class="transparent icon-btn inline right"><fa name="ellipsis-v" size="2x"></fa></button>
+			<button class="transparent icon-btn inline right mr-1"><fa name="share" size="2x"></fa></button>
+			<button class="transparent icon-btn inline right mr-1"><fa name="star-o" size="2x"></fa></button>
+		</div>
+	</div>
 </div>
 
 <div class="contact-about">

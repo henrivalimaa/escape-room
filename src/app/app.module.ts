@@ -10,6 +10,8 @@ import { GameComponent } from './game/game.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
@@ -37,6 +39,8 @@ import { MessageService } from './services/message.service';
     MatMenuModule,
     MatButtonModule,
     MatDialogModule,
+    MatInputModule,
+    MatFormFieldModule,
     AngularFontAwesomeModule
   ],
   providers: [MessageService],

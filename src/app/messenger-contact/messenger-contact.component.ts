@@ -14,4 +14,8 @@ export class MessengerContactComponent implements OnInit {
 
   ngOnInit() {}
 
+  close(): void {
+    this.dialogRef.close();
+  }
+
 }

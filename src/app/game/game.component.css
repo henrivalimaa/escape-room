@@ -283,3 +283,19 @@
 button:focus {
     outline: none !important;
 }
+
+.player-name-dialog {
+    
+}
+
+.logo {
+    display: block;
+    max-width: 36em;
+}
+
+.name-field {
+    width: 20em;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+}

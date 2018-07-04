@@ -58,3 +58,35 @@
   box-shadow: 0 2px 1px #b3b3b3;
   background: #fff;
 }
+
+.fullscreen-media {
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-image: url(/assets/images/unknown.jpg);
+  background-size: cover;
+  background-position-x: center;
+}
+
+.fullscreen-header {
+	padding: 1em;
+	background: #7773;
+}
+
+.fullscreen-contact-name {
+	margin-left: 1em;
+	position: relative;
+	top: 0.5em;
+}
+
+.fullscreen-contact-name h3, p {
+	color: #fff;
+	margin: 0;
+}
+
+.icon-btn {
+	position: relative;
+	top: 1em;
+}

@@ -1,4 +1,4 @@
-<div class="messenger-header">
+<div class="messenger-header" *ngIf="playerInitialized" [@fade]>
 	<button class="transparent inline back-btn"><fa name="arrow-left" size="2x"></fa></button>
 	<div class="profile-picture inline">
 		<img src="/assets/images/unknown.jpg">
@@ -18,7 +18,7 @@
 	</mat-menu>
 </div>
 
-<div class="message-area">
+<div class="message-area" *ngIf="playerInitialized">
 	<div *ngFor='let message of messages' class="message-row" [@fade]>
 	  <div class="row" [ngClass]="{ 'message-right': !message.incoming, 'message-left': message.incoming }">
 	  	<div class="tip"></div>
@@ -34,7 +34,7 @@
 	</div>
 </div>
 
-<div class="messenger-input">
+<div class="messenger-input" *ngIf="playerInitialized" [@fade]>
 	<div class="inline input-area">
 		<button class="icon-btn"><fa name="smile-o" size="2x"></fa></button>
 		<input placeholder="Type a message" type="text"  name="text-input"  [(ngModel)]="message" (keydown)="sendMessage($event)">
@@ -44,4 +44,19 @@
 	<dir class="inline microphone">
 		<button class="microphone-btn"><fa name="microphone" size="2x"></fa></button>
 	</dir>
+</div>
+
+<div class="center-xy container" *ngIf="!playerInitialized" [@fade]>
+	<img class="logo center-x" src="http://www.escapetheroom.com.cy/images/logo.png" *ngIf="!playerInitialized">
+
+	<mat-form-field class="inline name-field center-x">
+    <input matInput placeholder="Enter name (Group)" [(ngModel)]="player.name" (keydown)="startGame($event)">
+  </mat-form-field>
+
+  <!--<div class="leaderboard center-x">
+		<h4 class="container-header">Leaderboard</h4>
+		<ul>
+			<li>Team Pirtu: 49 points - time: 20:03:56 min</li>
+		</ul>
+	</div>-->
 </div>
