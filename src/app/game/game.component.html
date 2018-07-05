@@ -44,6 +44,9 @@
 	<dir class="inline microphone">
 		<button class="microphone-btn"><fa name="microphone" size="2x"></fa></button>
 	</dir>
+
+	<input type="file" accept="image/*;capture=camera">
+	<input type="file" accept="audio/*;capture=microphone">
 </div>
 
 <div class="center-xy container" *ngIf="!playerInitialized" [@fade]>
