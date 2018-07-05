@@ -52,10 +52,11 @@ export class GameComponent implements OnInit, AfterViewChecked {
     var pattern = /image-*/;
     var reader = new FileReader();
 
+    /*
     if (!file.type.match(pattern)) {
       alert('invalid format');
       return;
-    }
+    }*/
 
     this.loaded = false;
 
