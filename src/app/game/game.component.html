@@ -24,6 +24,7 @@
 	  	<div class="tip"></div>
 	  	<div class="message-content">
 	  		<span>{{ message.text }}</span>
+	  		<img style="max-width: 4em;" *ngIf="message.image" [src]="message.image" (load)="handleImageLoad()"/>
 	  		<div class="checked" *ngIf="!message.incoming">
 		  		<fa name="check" class="check-overflow"></fa>
 		  		<fa name="check"></fa>
@@ -45,7 +46,6 @@
 		<button class="microphone-btn"><fa name="microphone" size="2x"></fa></button>
 	</dir>
 
-	<input type="file" accept="image/*;capture=camera">
 	<input type="file" accept="audio/*;capture=microphone">
 </div>
 
@@ -57,3 +57,5 @@
   </mat-form-field>
   <button class="start-btn" (click)="startGame()">START GAME</button>
 </div>
+
+<input type="file" name="file" accept="image/*;capture=camera" (change)="handleInputChange($event)">

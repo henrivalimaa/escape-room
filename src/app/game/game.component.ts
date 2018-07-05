@@ -15,6 +15,7 @@ import { MessageService } from '../services/message.service';
     fadeAnimation
   ]
 })
+
 export class GameComponent implements OnInit, AfterViewChecked {
 	private player: any = {};
 	private playerInitialized: boolean = false;
@@ -25,7 +26,10 @@ export class GameComponent implements OnInit, AfterViewChecked {
 	private phase: number = 0;
 	private typing: boolean = false;
 
-	@ViewChild('chatContainer') private chatContainer: ElementRef;
+	private loaded: boolean = false;
+  private imageLoaded: boolean = false;
+  private imageSrc: string = '';
+  private images: any[] = [];
 
   constructor(
   	private messageService: MessageService,
@@ -35,7 +39,36 @@ export class GameComponent implements OnInit, AfterViewChecked {
   ngOnInit() {}
 
   ngAfterViewChecked() {
-  	window.scrollTo(0, document.body.scrollHeight);       
+  	window.scrollTo(0, document.body.scrollHeight);    
+  }
+
+  handleImageLoad() {
+    this.imageLoaded = true;
+  }
+
+  handleInputChange(e) {
+    var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+
+    var pattern = /image-*/;
+    var reader = new FileReader();
+
+    if (!file.type.match(pattern)) {
+      alert('invalid format');
+      return;
+    }
+
+    this.loaded = false;
+
+    reader.onload = this.handleReaderLoaded.bind(this);
+    reader.readAsDataURL(file);
+  }
+  
+  handleReaderLoaded(e) {
+    var reader = e.target;
+    this.imageSrc = reader.result;
+    this.images.push(this.imageSrc);
+    this.loaded = true;
+    this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), image: this.images[this.images.length - 1] , incoming: false });
   }
 
   startGame(event): void {
