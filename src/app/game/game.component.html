@@ -50,13 +50,7 @@
 	<img class="logo center-x" src="/assets/images/logo.png" *ngIf="!playerInitialized">
 
 	<mat-form-field class="inline name-field center-x">
-    <input matInput placeholder="Enter name (Group)" [(ngModel)]="player.name" (keydown)="startGame($event)">
+    <input matInput placeholder="Enter name (Group)" [(ngModel)]="player.name">
   </mat-form-field>
-
-  <!--<div class="leaderboard center-x">
-		<h4 class="container-header">Leaderboard</h4>
-		<ul>
-			<li>Team Pirtu: 49 points - time: 20:03:56 min</li>
-		</ul>
-	</div>-->
+  <button class="start-btn" (click)="startGame()">START GAME</button>
 </div>

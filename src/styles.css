@@ -115,4 +115,5 @@ html, body {
 .mat-input-element {
 	color: #777 !important;
 	width: 20em;
+	text-align: center !important;
 }

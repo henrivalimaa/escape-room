@@ -32,26 +32,22 @@ export class GameComponent implements OnInit, AfterViewChecked {
   	public dialog: MatDialog
 	) { }
 
-  ngOnInit() {
-  	// this.startGame();
-  }
+  ngOnInit() {}
 
   ngAfterViewChecked() {
   	window.scrollTo(0, document.body.scrollHeight);       
   }
 
   startGame(event): void {
-  	if (event.key === "Enter") {
-  		if (this.player.name != null) {
-  			this.typing = true;
-  			this.playerInitialized = true;
-  			
-  			setTimeout(() => {
-  				this.typing = false;
-  				this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Hello ' + this.player.name, incoming: true });
-  			}, 3000)
-  		}
-  	}
+		if (this.player.name != null) {
+			this.typing = true;
+			this.playerInitialized = true;
+			
+			setTimeout(() => {
+				this.typing = false;
+				this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Hello ' + this.player.name, incoming: true });
+			}, 3000)
+		}
   }
 
   sendMessage(event): void {
