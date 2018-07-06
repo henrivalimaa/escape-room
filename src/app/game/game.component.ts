@@ -22,7 +22,6 @@ export class GameComponent implements OnInit, AfterViewChecked {
 
 	private messages: any[] = [];
 	private message: string;
-	private selectedMessage: any;
 
 	private phase: number = 0;
 	private typing: boolean = false;
@@ -34,7 +33,6 @@ export class GameComponent implements OnInit, AfterViewChecked {
   private galleryImages: any[] = [];
 
   private showGallery: boolean = false;
-  private showImageFullScreen: boolean = false;
 
   constructor(
   	private messageService: MessageService,
@@ -128,12 +126,6 @@ export class GameComponent implements OnInit, AfterViewChecked {
   	this.showGallery = false;
   	this.images.push(imagePath);
     this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), image: imagePath , incoming: false });
-  }
-
-  showFullScreen(message): void {
-  	this.showImageFullScreen = true;
-
-  	this.selectedMessage = message;
   }
 
 }

@@ -25,7 +25,7 @@
 	  	<div class="message-content">
 	  		<span>{{ message.text }}</span>
 	  		<div class="image-wrapper" *ngIf="message.image">
-	  			<img [src]="message.image" (load)="handleImageLoad()" (click)="showFullScreen(message)" />
+	  			<img [src]="message.image" (load)="handleImageLoad()"/>
 	  		</div>
 	  		<div class="checked" *ngIf="!message.incoming">
 		  		<fa name="check" class="check-overflow"></fa>
@@ -70,18 +70,4 @@
 	<div class="gallery-image-wrapper" *ngFor='let image of galleryImages'>
 		<img [src]="image.src" (click)="attachImage(image.src)">
 	</div>
-</div>
-
-<div class="full-screen-container" *ngIf="showImageFullScreen">
-	<div class="fullscreen-header">
-		<button class="transparent mb-1" (click)="fullscreen = false"><fa name="arrow-left" size="2x"></fa></button>
-		<div class="fullscreen-contact-name inline">
-			<h3>UNKNOWN</h3>
-			<p>1 hour ago.</p>
-		</div>
-		<button class="transparent icon-btn inline right"><fa name="ellipsis-v" size="2x"></fa></button>
-		<button class="transparent icon-btn inline right mr-1"><fa name="share" size="2x"></fa></button>
-		<button class="transparent icon-btn inline right mr-1"><fa name="star-o" size="2x"></fa></button>
-	</div>
-	<img [src]="selectedMessage.image">
 </div>
