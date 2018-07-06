@@ -22,6 +22,8 @@ import { MessengerMediaComponent } from './messenger-media/messenger-media.compo
 
 import { MessageService } from './services/message.service';
 
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +43,8 @@ import { MessageService } from './services/message.service';
     MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    PickerModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent],

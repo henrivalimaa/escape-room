@@ -39,7 +39,7 @@
 
 <div class="messenger-input" *ngIf="playerInitialized" [@fade]>
 	<div class="inline input-area">
-		<button class="icon-btn"><fa name="smile-o" size="2x"></fa></button>
+		<button class="icon-btn" (click)="showEmojiPicker=!showEmojiPicker"><fa name="smile-o" size="2x"></fa></button>
 		<input placeholder="Type a message" type="text"  name="text-input"  [(ngModel)]="message" (keydown)="sendMessage($event)">
 		<div class="file-input-wrapper">
 		  <button class="icon-btn right mr-05 btn-file-input"><fa name="camera" size="2x"></fa></button>
@@ -60,6 +60,9 @@
   </mat-form-field>
   <button class="start-btn" (click)="startGame()">START GAME</button>
 </div>
+
+
+<emoji-mart *ngIf="showEmojiPicker" title="Pick your emoji…" emoji="point_up" (emojiClick)="addEmoji($event)" [style]="{ position: 'absolute', bottom: '0px', left: '0px'}"></emoji-mart>
 
 <div class="gallery" *ngIf="showGallery">
 	<div class="gallery-header">

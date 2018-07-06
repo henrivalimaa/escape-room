@@ -7,6 +7,7 @@ import { MessengerContactComponent } from '../messenger-contact/messenger-contac
 
 import { MessageService } from '../services/message.service';
 
+
 @Component({
   selector: 'game',
   templateUrl: './game.component.html',
@@ -27,11 +28,13 @@ export class GameComponent implements OnInit, AfterViewChecked {
 	private typing: boolean = false;
 
 	private loaded: boolean = false;
+
+	private showEmojiPicker: boolean = false; 
+
   private imageLoaded: boolean = false;
   private imageSrc: string = '';
   private images: any[] = [];
   private galleryImages: any[] = [];
-
   private showGallery: boolean = false;
 
   constructor(
@@ -82,6 +85,14 @@ export class GameComponent implements OnInit, AfterViewChecked {
 			}, 3000)
 		}
   }
+
+  addEmoji(event): void {
+  		if (this.message == null) this.message = event.emoji.native;
+  		else this.message = this.message + event.emoji.native;
+
+  		this.showEmojiPicker = false;
+
+  } 
 
   sendMessage(event): void {
 	  if (event.key === "Enter") {
