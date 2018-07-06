@@ -35,12 +35,7 @@ export class GameComponent implements OnInit, AfterViewChecked {
   private imageLoaded: boolean = false;
   private imageSrc: string = '';
   private images: any[] = [];
-
-  private imageLoaded: boolean = false;
-  private imageSrc: string = '';
-  private images: any[] = [];
   private galleryImages: any[] = [];
-
   private showGallery: boolean = false;
   private showImageFullScreen: boolean = false;
 
@@ -94,8 +89,6 @@ export class GameComponent implements OnInit, AfterViewChecked {
   }
 
   addEmoji(event): void {
-  		console.log(event);
-  		console.log(this.message)
   		if (this.message == null) this.message = event.emoji.native;
   		else this.message = this.message + event.emoji.native;
 
