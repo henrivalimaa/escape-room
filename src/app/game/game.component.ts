@@ -22,6 +22,7 @@ export class GameComponent implements OnInit, AfterViewChecked {
 
 	private messages: any[] = [];
 	private message: string;
+	private selectedMessage: any;
 
 	private phase: number = 0;
 	private typing: boolean = false;
@@ -30,13 +31,19 @@ export class GameComponent implements OnInit, AfterViewChecked {
   private imageLoaded: boolean = false;
   private imageSrc: string = '';
   private images: any[] = [];
+  private galleryImages: any[] = [];
+
+  private showGallery: boolean = false;
+  private showImageFullScreen: boolean = false;
 
   constructor(
   	private messageService: MessageService,
   	public dialog: MatDialog
 	) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  	this.loadGalleryImages();
+  }
 
   ngAfterViewChecked() {
   	window.scrollTo(0, document.body.scrollHeight);    
@@ -61,6 +68,7 @@ export class GameComponent implements OnInit, AfterViewChecked {
     var reader = e.target;
     this.imageSrc = reader.result;
     this.images.push(this.imageSrc);
+    this.galleryImages.push({ src: this.imageSrc });
     this.loaded = true;
     this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), image: this.images[this.images.length - 1] , incoming: false });
   }
@@ -106,6 +114,26 @@ export class GameComponent implements OnInit, AfterViewChecked {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The contact was closed');
     });
+  }
+
+  loadGalleryImages(): void {
+  	this.galleryImages = [
+  		{ src: 'https://images.unsplash.com/photo-1506361797048-46a149213205?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=493e200df17b54d1ef10eb61e1df148a&w=1000&q=80' },
+  		{ src: 'https://images.unsplash.com/photo-1506361797048-46a149213205?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=493e200df17b54d1ef10eb61e1df148a&w=1000&q=80' },
+  		{ src: 'https://images.unsplash.com/photo-1506361797048-46a149213205?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=493e200df17b54d1ef10eb61e1df148a&w=1000&q=80' }
+  	];
+  }
+
+  attachImage(imagePath: string): void {
+  	this.showGallery = false;
+  	this.images.push(imagePath);
+    this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), image: imagePath , incoming: false });
+  }
+
+  showFullScreen(message): void {
+  	this.showImageFullScreen = true;
+
+  	this.selectedMessage = message;
   }
 
 }

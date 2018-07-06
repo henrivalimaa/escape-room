@@ -415,8 +415,62 @@ button:focus {
     width: 100%;
     height: 100%;
 }
+
 .file-input-wrapper > .btn-file-input {
     display: inline-block;
     width: 40px;
     height: 40px;
+}
+
+.gallery {
+    position: absolute;
+    height: 30em;
+    width: 80%;
+    overflow: hidden;
+    background: #353535;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    box-shadow: 0 3px 3px #000;
+}
+
+.gallery .gallery-image-wrapper {
+    margin-left: 0.5em;
+    position: relative;
+    display: inline-flex;
+}
+
+.gallery .gallery-image-wrapper > img {
+    max-height: 5em;
+}
+
+.gallery-header {
+    background-color: #7773;
+    color: #777;
+    /* text-align: center; */
+    position: relative;
+    height: 3.5em;
+    margin-bottom: 0.5em;
+    box-shadow: 0 1px 2px #1b1b1b;
+}
+
+.gallery-header .back-btn {
+    top: 2.6em;
+    left: 0.5em;
+}
+
+.gallery-header .menu-btn {
+    position: relative;
+    top: 1.25em;
+    right: 0.5em;
+}
+
+.gallery-header h3 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }

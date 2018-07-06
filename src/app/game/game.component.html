@@ -25,7 +25,7 @@
 	  	<div class="message-content">
 	  		<span>{{ message.text }}</span>
 	  		<div class="image-wrapper" *ngIf="message.image">
-	  			<img [src]="message.image" (load)="handleImageLoad()"/>
+	  			<img [src]="message.image" (load)="handleImageLoad()" (click)="showFullScreen(message)" />
 	  		</div>
 	  		<div class="checked" *ngIf="!message.incoming">
 		  		<fa name="check" class="check-overflow"></fa>
@@ -45,7 +45,7 @@
 		  <button class="icon-btn right mr-05 btn-file-input"><fa name="camera" size="2x"></fa></button>
 		  <input type="file" name="file" accept="image/*;capture=camera" (change)="handleInputChange($event)">
 		</div>
-		<button class="icon-btn right mr-1"><fa name="paperclip" size="2x"></fa></button>
+		<button (click)="showGallery=true" class="icon-btn right mr-1"><fa name="paperclip" size="2x"></fa></button>
 	</div>
 	<dir class="inline microphone">
 		<button class="microphone-btn"><fa name="microphone" size="2x"></fa></button>
@@ -59,4 +59,29 @@
     <input matInput placeholder="Enter name (Group)" [(ngModel)]="player.name">
   </mat-form-field>
   <button class="start-btn" (click)="startGame()">START GAME</button>
+</div>
+
+<div class="gallery" *ngIf="showGallery">
+	<div class="gallery-header">
+		<button class="transparent inline back-btn" (click)="showGallery=false"><fa name="arrow-left" size="2x"></fa></button>
+		<h3 class="inline">All images</h3>
+		<button class="transparent inline right menu-btn"><fa name="ellipsis-v" size="2x"></fa></button>
+	</div>
+	<div class="gallery-image-wrapper" *ngFor='let image of galleryImages'>
+		<img [src]="image.src" (click)="attachImage(image.src)">
+	</div>
+</div>
+
+<div class="full-screen-container" *ngIf="showImageFullScreen">
+	<div class="fullscreen-header">
+		<button class="transparent mb-1" (click)="fullscreen = false"><fa name="arrow-left" size="2x"></fa></button>
+		<div class="fullscreen-contact-name inline">
+			<h3>UNKNOWN</h3>
+			<p>1 hour ago.</p>
+		</div>
+		<button class="transparent icon-btn inline right"><fa name="ellipsis-v" size="2x"></fa></button>
+		<button class="transparent icon-btn inline right mr-1"><fa name="share" size="2x"></fa></button>
+		<button class="transparent icon-btn inline right mr-1"><fa name="star-o" size="2x"></fa></button>
+	</div>
+	<img [src]="selectedMessage.image">
 </div>
