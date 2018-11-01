@@ -4,12 +4,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { GameComponent } from '../game/game.component';
 import { LeaderboardComponent } from '../leaderboard/leaderboard.component';
 import { SettingsComponent } from '../settings/settings.component';
+import { LoginComponent } from '../login/login.component';
+
+import { AuthGuard } from '../services/auth-guard.service';
 
 const routes: Routes = [
-	{ path: '', redirectTo: '/game', pathMatch: 'full' },
-  { path: 'game', component: GameComponent },
-  { path: 'leaderboard', component: LeaderboardComponent },
-  { path: 'settings', component: SettingsComponent }
+	{ path: 'login', component: LoginComponent },
+	{ path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'game', component: GameComponent, canActivate: [AuthGuard] },
+  { path: 'leaderboard', component: LeaderboardComponent, canActivate: [AuthGuard] },
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

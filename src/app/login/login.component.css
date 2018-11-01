@@ -1,0 +1,206 @@
+.logo {
+    display: block;
+    max-width: 36em;
+}
+
+.start-btn {
+    display: block;
+    background-color: transparent;
+    border: none;
+    height: 3em;
+    width: 12em;
+    background-position: center;
+    background-size: 15em 4em;
+    background-repeat: no-repeat;
+    color: #fff;
+    font-size: 23px;
+    font-weight: 700;
+    position: relative;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    background-color: #ff9a2e;
+    box-shadow: 0 4px 0 #6d4b24, inset 1px 32px #f1af62, inset 1px 10px 0 #fff;
+    border-radius: 5px;
+    text-shadow: 0 1px #172926;
+    border: 1px solid #6d4b25;
+    font-family: 'Acme', sans-serif;
+}
+
+.start-btn img {
+    height: 1.5em;
+}
+
+.start-btn span {
+    position: relative;
+    bottom: 8px;
+    margin-right: 0.5em;
+}
+
+@media only screen and (min-width: 1600px) {
+    .input-area {
+        width: 95% !important;
+    }
+}
+
+
+@media only screen and (max-width: 1280px) {
+    .input-area {
+        width: 92.9% !important;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .input-area {
+        width: 91.9% !important;
+    }
+}
+
+@media only screen and (max-width: 965px) {
+    .input-area {
+        width: 89.9% !important;
+    }
+}
+
+@media only screen and (max-width: 780px) {
+    .input-area {
+        width: 88.9% !important;
+    }
+
+    .input-area input {
+        max-width: 70%;
+    }
+}
+
+@media only screen and (max-width: 710px) {
+    .input-area {
+        width: 86.9% !important;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .input-area {
+        width: 84.9% !important;
+    }
+
+    .logo {
+        max-width: 32em !important;
+    }
+}
+
+@media only screen and (max-width: 525px) {
+    .input-area {
+        width: 82.9% !important;
+    }
+
+    .input-area input {
+        max-width: 65%;
+    }
+
+    .logo {
+        max-width: 30em !important;
+    }
+
+    .start-btn {
+        max-width: 65% !important;
+    }
+}
+
+@media only screen and (max-width: 465px) {
+    .input-area {
+        width: 80.9% !important;
+    }
+
+    .input-area input {
+        max-width: 60%;
+    }
+
+    .logo {
+        max-width: 26em !important;
+    }
+
+    .start-btn {
+        max-width: 60% !important;
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .input-area {
+        width: 78.9% !important;
+    }
+
+    .input-area input {
+        max-width: 55%;
+    }
+
+    .logo {
+        max-width: 24em !important;
+    }
+
+    .name-field {
+        width: 18em !important;
+    }
+
+    .start-btn {
+        max-width: 55% !important;
+    }
+}
+
+@media only screen and (max-width: 376px) {
+    .input-area {
+        width: 76.9% !important;
+    }
+
+    .input-area input {
+        max-width: 50%;
+    }
+
+    .logo {
+        max-width: 22em !important;
+    }
+
+    .name-field {
+        width: 16em !important;
+    }
+
+    .start-btn {
+        max-width: 50% !important;
+    }
+}
+
+@media only screen and (max-width: 321px) {
+    .input-area {
+        width: 74.9% !important;
+    }
+
+    .input-area input {
+        max-width: 45%;
+    }
+
+    .icon-btn {
+        margin-right: 0;
+    }
+
+    .messenger-header button {
+        margin-right: 0 !important;
+    }
+
+    .logo {
+        max-width: 18em !important;
+    }
+
+    .name-field {
+        width: 12em !important;
+    }
+
+    .start-btn {
+        max-width: 45% !important;
+    }
+}
+
+.edition {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 3em;
+}

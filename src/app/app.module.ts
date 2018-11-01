@@ -19,10 +19,18 @@ import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { SettingsComponent } from './settings/settings.component';
 import { MessengerContactComponent } from './messenger-contact/messenger-contact.component';
 import { MessengerMediaComponent } from './messenger-media/messenger-media.component';
+import { LoginComponent } from './login/login.component';
 
 import { MessageService } from './services/message.service';
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './services/auth-guard.service';
 
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+
+import { environment } from '../environments/environment';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
 @NgModule({
   declarations: [
@@ -31,7 +39,8 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     LeaderboardComponent,
     SettingsComponent,
     MessengerContactComponent,
-    MessengerMediaComponent
+    MessengerMediaComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -44,9 +53,12 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
     MatInputModule,
     MatFormFieldModule,
     AngularFontAwesomeModule,
-    PickerModule
+    PickerModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
-  providers: [MessageService],
+  providers: [MessageService, AuthService, AuthGuard],
   bootstrap: [AppComponent],
   entryComponents: [MessengerContactComponent]
 })

@@ -16,3 +16,14 @@ export const fadeAnimation =
       animate(1000, style({ opacity: 0 }))
     ]),
   ]);
+
+export const slideAnimation =
+  trigger('slide', [
+      transition(':enter', [
+      style({ opacity: 0, top: '60%' }),
+      animate(500, style({ opacity: 1, top: '50%' }))
+    ]),
+    transition(':leave', [
+      animate(500, style({ opacity: 0 }))
+    ]),
+  ]);

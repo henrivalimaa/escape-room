@@ -1,4 +1,4 @@
-<div class="messenger-header" *ngIf="playerInitialized" [@fade]>
+<div class="messenger-header">
 	<button class="transparent inline back-btn"><fa name="arrow-left" size="2x"></fa></button>
 	<div class="profile-picture inline">
 		<img src="/assets/images/unknown.jpg">
@@ -8,9 +8,9 @@
 		<p *ngIf="!typing">Online</p>
 		<p *ngIf="typing">Typing...</p>
 	</div>
-	<button class="transparent inline right center-y mr-1" [matMenuTriggerFor]="menu"><fa name="ellipsis-v" size="2x"></fa></button>
-	<button class="transparent inline right center-y mr-1"><fa name="phone" size="2x"></fa></button>
-	<button class="transparent inline right center-y mr-1"><fa name="video-camera" size="2x"></fa></button>
+	<button class="transparent inline right center-y mr-05" [matMenuTriggerFor]="menu"><fa name="ellipsis-v" size="2x"></fa></button>
+	<button class="transparent inline right center-y mr-05"><fa name="phone" size="2x"></fa></button>
+	<button class="transparent inline right center-y mr-05"><fa name="video-camera" size="2x"></fa></button>
 	<mat-menu #menu="matMenu">
 	  <a mat-menu-item (click)="openContact();">View contact</a>
 	  <a mat-menu-item routerLink="/leaderboard">Media</a>
@@ -18,7 +18,57 @@
 	</mat-menu>
 </div>
 
-<div class="message-area" *ngIf="playerInitialized">
+<div class="points" *ngIf="showPoints" [@slide] [ngClass]="points > 0 ? 'correct-answer' : 'wrong-answer'">
+	<span *ngIf="points > 0">+ </span>{{ points }}
+</div>
+
+<div class="result-container" *ngIf="showResult" [@fade]>
+	<div class="result-header text-center">
+		<div class="messenger-header">
+			<div class="profile-picture inline">
+				<img [src]="player.photoURL">
+			</div>
+			<div class="inline name">
+				<h3>Your result</h3>
+				<p>Online</p>
+			</div>
+			<button class="transparent inline right center-y mr-1" [matMenuTriggerFor]="menu"><fa name="ellipsis-v" size="2x"></fa></button>
+			<mat-menu #menu="matMenu">
+			  <a mat-menu-item (click)="authService.logout()" style="color:red;">Exit game</a>
+			</mat-menu>
+		</div>
+		<div class="result-text">
+			<p>{{ result.score }} points</p>
+			<p style="font-size: 30px;">Time: {{ time.minutes }} min {{ time.seconds }} s</p>
+		</div>
+		<div class="stars">
+			<img [ngClass]="result.score > 0 ? 'filled-star' : 'dimm-star'"  style="width: 2.5em" src="http://purepng.com/public/uploads/large/purepng.com-golden-starstargeometricallydecagonconcavestardomgoldclipart-1421526502612njj9w.png">
+			<img [ngClass]="result.score > 200 ? 'filled-star' : 'dimm-star'" src="http://purepng.com/public/uploads/large/purepng.com-golden-starstargeometricallydecagonconcavestardomgoldclipart-1421526502612njj9w.png">
+			<img [ngClass]="result.score > 325 ? 'filled-star' : 'dimm-star'" style="width: 2.5em" src="http://purepng.com/public/uploads/large/purepng.com-golden-starstargeometricallydecagonconcavestardomgoldclipart-1421526502612njj9w.png">
+		</div>
+	</div>
+	<div class="result-leaderboard">
+		<h3>
+			Leaderboard
+			<fa name="trophy" class="trophy"></fa>
+			<i class="fas fa-redo-alt refresh-btn" (click)="refreshLeaderboard()"></i>
+		</h3>
+		<h3 *ngIf="loadingLeaderboard" [@fade] class="center-xy">Loading leaderboard...</h3>
+		<ul *ngIf="!loadingLeaderboard" [@fade]>
+			<li *ngFor="let r of results; let i = index">
+				<span style="width: 5%">
+					<fa name="trophy" *ngIf="i < 3" [ngClass]="{ 'gold': i == 0, 'silver': i == 1, 'bronze': i == 2 }"></fa>
+					<span *ngIf="i > 2">{{ i + 1 }}</span>
+				</span>
+				<span style="width: 45%; text-align: center;">{{ r.player }}</span>
+				<span style="width: 20%; text-align: center;">{{ r.score }}</span>
+				<span style="width: 30%; text-align: center;">{{ convertTime(r.time) }}</span>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<div class="message-area">
 	<div *ngFor='let message of messages' class="message-row" [@fade]>
 	  <div class="row" [ngClass]="{ 'message-right': !message.incoming, 'message-left': message.incoming }">
 	  	<div class="tip"></div>
@@ -37,9 +87,9 @@
 	</div>
 </div>
 
-<div class="messenger-input" *ngIf="playerInitialized" [@fade]>
+<div class="messenger-input">
 	<div class="inline input-area">
-		<button class="icon-btn" (click)="showEmojiPicker=!showEmojiPicker"><fa name="smile-o" size="2x"></fa></button>
+		<button class="icon-btn" (click)="showEmojiPicker=!showEmojiPicker"><i class="far fa-smile-beam fa-2x"></i></button>
 		<input placeholder="Type a message" type="text"  name="text-input"  [(ngModel)]="message" (keydown)="sendMessage($event)">
 		<div class="file-input-wrapper">
 		  <button class="icon-btn right mr-05 btn-file-input"><fa name="camera" size="2x"></fa></button>
@@ -47,22 +97,21 @@
 		</div>
 		<button (click)="showGallery=true" class="icon-btn right mr-1"><fa name="paperclip" size="2x"></fa></button>
 	</div>
-	<dir class="inline microphone">
-		<button class="microphone-btn"><fa name="microphone" size="2x"></fa></button>
-	</dir>
+	<div class="inline microphone">
+		<button class="microphone-btn">
+			<fa name="microphone" size="2x"></fa>
+			<!--<i class="fas fa-paper-plane fa-2x" *ngIf="message != ''"></i>-->
+		</button>
+	</div>
 </div>
 
-<div class="center-xy container" *ngIf="!playerInitialized" [@fade]>
-	<img class="logo center-x" src="/assets/images/logo.png" *ngIf="!playerInitialized">
-
-	<mat-form-field class="inline name-field center-x">
-    <input matInput placeholder="Enter name (Group)" [(ngModel)]="player.name">
-  </mat-form-field>
-  <button class="start-btn" (click)="startGame()">START GAME</button>
-</div>
-
-
-<emoji-mart *ngIf="showEmojiPicker" title="Pick your emoji…" emoji="point_up" (emojiClick)="addEmoji($event)" [style]="{ position: 'absolute', bottom: '0px', left: '0px'}"></emoji-mart>
+<emoji-mart 
+	*ngIf="showEmojiPicker" 
+	title="Pick your emoji…" 
+	emoji="point_up" 
+	(emojiClick)="addEmoji($event)" 
+	[style]="{ position: 'absolute', bottom: '0px', left: '0px'}">
+</emoji-mart>
 
 <div class="gallery" *ngIf="showGallery">
 	<div class="gallery-header">
@@ -74,3 +123,4 @@
 		<img [src]="image.src" (click)="attachImage(image.src)">
 	</div>
 </div>
+
