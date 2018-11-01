@@ -97,7 +97,6 @@ export class GameComponent implements OnInit, AfterViewChecked {
 		setTimeout(() => {
 			this.typing = false;
 			this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Hello ' + this.player.displayName, incoming: true });
-      this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), image: this.player.photoURL, incoming: true });
 		}, 3000)
   }
 
@@ -109,11 +108,12 @@ export class GameComponent implements OnInit, AfterViewChecked {
   } 
 
   sendMessage(event): void {
+    console.log(event);
 	  if (event.key === "Enter") {
 	  	if (this.message != null || this.message == '') {
 	  		this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: this.message, incoming: false });
 	    	this.continueDialog(this.message);
-	    	this.message = null;
+	    	this.message = '';
 	  	}
 	  }
 	}
@@ -127,7 +127,7 @@ export class GameComponent implements OnInit, AfterViewChecked {
       this.typing = false;
       if (this.nextMessage.continous) this.continueDialog(message);
       if (this.nextMessage.final) this.endGame();
- 		}, 20);
+ 		}, 50);
 	}
 
   sortResults<T>(propName: keyof Result, order: "ASC" | "DESC"): void {
@@ -153,8 +153,14 @@ export class GameComponent implements OnInit, AfterViewChecked {
     this.time.seconds = this.result.time - this.time.minutes * 60;
     this.result.player = this.player.displayName;
     this.result.timeStamp = new Date();
+    this.result.score = this.result.score + this.getTimePoints(this.result.time);
     this.scoreService.createResult(this.result);
     this.refreshLeaderboard();
+  }
+
+  getTimePoints(seconds:number): number {
+    console.log(Math.floor((30 - seconds/60) * 50))
+    return Math.floor((30 - seconds/60) * 50);
   }
 
   refreshLeaderboard(): void {

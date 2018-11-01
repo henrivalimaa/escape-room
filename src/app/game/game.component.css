@@ -248,6 +248,14 @@
     padding: 1em 1.35em;
     border-radius: 50%;
     border: none;
+    width: 4em;
+    height: 4em;
+}
+
+.microphone-btn .fa-paper-plane {
+    position: relative;
+    left: 40%;
+    transform: translateX(-50%);
 }
 
 .microphone {
@@ -257,7 +265,7 @@
 
 .message-area {
     position: relative;
-	margin-top: 6em;
+	padding-top: 6em;
 	margin-bottom: 4em;
 }
 
@@ -397,9 +405,9 @@ button:focus {
 }
 
 .gallery {
-    position: absolute;
-    height: 30em;
-    width: 80%;
+    position: fixed;
+    height: 100%;
+    width: 100%;
     overflow: hidden;
     background: #353535;
     z-index: 1000;
@@ -516,7 +524,7 @@ button:focus {
 }
 
 .result-leaderboard ul {
-    height: 100%;
+    height: 80%;
     overflow-y: scroll;
     list-style: none;
     padding: 0em 1em;

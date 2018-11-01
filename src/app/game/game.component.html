@@ -1,7 +1,7 @@
 <div class="messenger-header">
 	<button class="transparent inline back-btn"><fa name="arrow-left" size="2x"></fa></button>
 	<div class="profile-picture inline">
-		<img src="/assets/images/unknown.jpg">
+		<img src="./assets/images/unknown.jpg">
 	</div>
 	<div class="inline name">
 		<h3>UNKNOWN</h3>
@@ -57,7 +57,7 @@
 		<ul *ngIf="!loadingLeaderboard" [@fade]>
 			<li *ngFor="let r of results; let i = index">
 				<span style="width: 5%">
-					<fa name="trophy" *ngIf="i < 3" [ngClass]="{ 'gold': i == 0, 'silver': i == 1, 'bronze': i == 2 }"></fa>
+					<i class="fas fa-crown" *ngIf="i < 3" [ngClass]="{ 'gold': i == 0, 'silver': i == 1, 'bronze': i == 2 }"></i>
 					<span *ngIf="i > 2">{{ i + 1 }}</span>
 				</span>
 				<span style="width: 45%; text-align: center;">{{ r.player }}</span>
@@ -99,8 +99,8 @@
 	</div>
 	<div class="inline microphone">
 		<button class="microphone-btn">
-			<fa name="microphone" size="2x"></fa>
-			<!--<i class="fas fa-paper-plane fa-2x" *ngIf="message != ''"></i>-->
+			<fa name="microphone" size="2x" *ngIf="message === null || message === ''"></fa>
+			<i class="fas fa-paper-plane fa-2x" *ngIf="message != ''" (click)="sendMessage($event)"></i>
 		</button>
 	</div>
 </div>
@@ -113,7 +113,7 @@
 	[style]="{ position: 'absolute', bottom: '0px', left: '0px'}">
 </emoji-mart>
 
-<div class="gallery" *ngIf="showGallery">
+<div class="gallery" *ngIf="showGallery" [@fade]>
 	<div class="gallery-header">
 		<button class="transparent inline back-btn" (click)="showGallery=false"><fa name="arrow-left" size="2x"></fa></button>
 		<h3 class="inline">All images</h3>

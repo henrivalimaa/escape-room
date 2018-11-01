@@ -8,7 +8,7 @@
     background-color: transparent;
     border: none;
     height: 3em;
-    width: 12em;
+    width: 20em;
     background-position: center;
     background-size: 15em 4em;
     background-repeat: no-repeat;
@@ -29,11 +29,14 @@
 
 .start-btn img {
     height: 1.5em;
+    background: #fff;
+    padding: 0.5em;
+    float: right;
 }
 
 .start-btn span {
     position: relative;
-    bottom: 8px;
+    top: 13px;
     margin-right: 0.5em;
 }
 
