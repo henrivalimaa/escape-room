@@ -14,7 +14,7 @@
 	<mat-menu #menu="matMenu">
 	  <a mat-menu-item (click)="openContact();">View contact</a>
 	  <a mat-menu-item routerLink="/leaderboard">Media</a>
-	  <a mat-menu-item routerLink="/settings" style="color:red;">Exit game</a>
+	  <a mat-menu-item (click)="authService.logout()" style="color:red;">Exit game</a>
 	</mat-menu>
 </div>
 
@@ -90,7 +90,7 @@
 <div class="messenger-input">
 	<div class="inline input-area">
 		<button class="icon-btn" (click)="showEmojiPicker=!showEmojiPicker"><i class="far fa-smile-beam fa-2x"></i></button>
-		<input placeholder="Type a message" type="text"  name="text-input"  [(ngModel)]="message" (keydown)="sendMessage($event)">
+		<input placeholder="Type a message" type="text"  name="text-input"  [(ngModel)]="message">
 		<div class="file-input-wrapper">
 		  <button class="icon-btn right mr-05 btn-file-input"><fa name="camera" size="2x"></fa></button>
 		  <input type="file" name="file" accept="image/*;capture=camera" (change)="handleInputChange($event)">
@@ -100,7 +100,7 @@
 	<div class="inline microphone">
 		<button class="microphone-btn">
 			<fa name="microphone" size="2x" *ngIf="message === null || message === ''"></fa>
-			<i class="fas fa-paper-plane fa-2x" *ngIf="message != ''" (click)="sendMessage($event)"></i>
+			<i class="fas fa-paper-plane fa-2x" *ngIf="message != ''" (click)="sendMessage()"></i>
 		</button>
 	</div>
 </div>

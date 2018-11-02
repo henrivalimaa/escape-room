@@ -59,6 +59,9 @@ export class GameComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
   	this.loadGalleryImages();
     this.player = this.authService.currentUser;
+    this.result = new Result();
+    this.time = {};
+    this.messageService.reset();
     this.startGame();
   }
 
@@ -97,7 +100,7 @@ export class GameComponent implements OnInit, AfterViewChecked {
 		setTimeout(() => {
 			this.typing = false;
 			this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Hello ' + this.player.displayName, incoming: true });
-		}, 3000)
+		}, 2000)
   }
 
   addEmoji(event): void {
@@ -107,15 +110,12 @@ export class GameComponent implements OnInit, AfterViewChecked {
   		this.showEmojiPicker = false;
   } 
 
-  sendMessage(event): void {
-    console.log(event);
-	  if (event.key === "Enter") {
-	  	if (this.message != null || this.message == '') {
-	  		this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: this.message, incoming: false });
-	    	this.continueDialog(this.message);
-	    	this.message = '';
-	  	}
-	  }
+  sendMessage(): void {
+  	if (this.message != null || this.message == '') {
+  		this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: this.message, incoming: false });
+    	this.continueDialog(this.message);
+    	this.message = '';
+  	}
 	}
 
 	continueDialog(message: string): void {
@@ -127,7 +127,7 @@ export class GameComponent implements OnInit, AfterViewChecked {
       this.typing = false;
       if (this.nextMessage.continous) this.continueDialog(message);
       if (this.nextMessage.final) this.endGame();
- 		}, 50);
+ 		}, this.nextMessage.delay);
 	}
 
   sortResults<T>(propName: keyof Result, order: "ASC" | "DESC"): void {

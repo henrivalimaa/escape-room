@@ -1,8 +1,40 @@
-<div class="center-xy container">
+<div class="center-xy container" *ngIf="showLeaderboard === false" [@fade]>
 	<img class="logo center-x" src="./assets/images/logo.png">
 	<img class="edition" src="https://vignette.wikia.nocookie.net/vintagepenguin/images/7/71/HalloweenParty_logo.png/revision/latest?cb=20171028152356">
-  <button class="start-btn" (click)="signInWithGoogle()">
-  	<span>Login with</span>
-  	<img src="https://cdn4.iconfinder.com/data/icons/new-google-logo-2015/400/new-google-favicon-512.png">
+	<div class="login-buttons">
+		<label>Login with</label>
+		<button class="login-btn google-btn" (click)="signInWithGoogle()">
+	  	<img src="https://cdn4.iconfinder.com/data/icons/new-google-logo-2015/400/new-google-favicon-512.png">
+	  </button>
+	  <button class="login-btn facebook-btn" (click)="signInWithFacebook()">
+	  	<img src="https://en.facebookbrand.com/wp-content/uploads/2016/05/flogo_rgb_hex-brc-site-250.png">
+	  </button>
+	</div>
+	<button class="leaderboard-btn" (click)="displayLeaderboard()">
+  	Leaderboard
+  	<i class="fas fa-crown"></i>
   </button>
+</div>
+
+<div class="leaderboard-container" *ngIf="showLeaderboard === true" [@fade]>
+	<div class="leaderboard">
+		<h3>
+			<i class="fas fa-arrow-left back-btn" (click)="showLeaderboard = false"></i>
+			Leaderboard
+			<fa name="trophy" class="trophy"></fa>
+			<i class="fas fa-redo-alt refresh-btn" (click)="refreshLeaderboard()"></i>
+		</h3>
+		<h3 *ngIf="loadingLeaderboard" [@fade] class="center-xy">Loading leaderboard...</h3>
+		<ul *ngIf="!loadingLeaderboard" [@fade]>
+			<li *ngFor="let r of results; let i = index">
+				<span style="width: 5%">
+					<i class="fas fa-crown" *ngIf="i < 3" [ngClass]="{ 'gold': i == 0, 'silver': i == 1, 'bronze': i == 2 }"></i>
+					<span *ngIf="i > 2">{{ i + 1 }}</span>
+				</span>
+				<span style="width: 45%; text-align: center;">{{ r.player }}</span>
+				<span style="width: 20%; text-align: center;">{{ r.score }}</span>
+				<span style="width: 30%; text-align: center;">{{ convertTime(r.time) }}</span>
+			</li>
+		</ul>
+	</div>
 </div>

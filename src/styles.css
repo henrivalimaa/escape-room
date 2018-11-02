@@ -13,6 +13,18 @@ html, body {
 	background-image: url(https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png);
 }
 
+router-outlet ~ * {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+main {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
 .center-xy {
 	position: absolute;
 	top: 50%;

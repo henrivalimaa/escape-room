@@ -31,6 +31,12 @@ export class AuthService {
     )
   }
 
+  facebookLogin() {
+    return this._firebaseAuth.auth.signInWithPopup(
+      new firebase.auth.FacebookAuthProvider()
+    )
+  }
+
   get authenticated(): boolean {
     if (this.userDetails == null ) {
       return false;
