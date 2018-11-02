@@ -129,3 +129,22 @@ main {
 	width: 20em;
 	text-align: center !important;
 }
+
+@media only screen and (max-width: 800px) {
+    .cdk-overlay-pane {
+        height: 100% !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+    }
+
+    .mat-menu-panel {
+        position: fixed;
+        right: 0;
+        top: 4em;
+    }
+}
+
+.emoji-mart {
+    position: fixed !important;
+}

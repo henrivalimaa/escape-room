@@ -159,8 +159,7 @@ export class GameComponent implements OnInit, AfterViewChecked {
   }
 
   getTimePoints(seconds:number): number {
-    console.log(Math.floor((30 - seconds/60) * 50))
-    return Math.floor((30 - seconds/60) * 50);
+    return Math.floor((60 - seconds/60) * 50);
   }
 
   refreshLeaderboard(): void {

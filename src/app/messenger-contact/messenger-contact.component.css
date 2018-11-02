@@ -57,6 +57,12 @@
   margin-bottom: 1em;
   box-shadow: 0 2px 1px #b3b3b3;
   background: #fff;
+  color: #449082 !important;
+}
+
+.contact-about p {
+	color: #9e9e9e !important;
+	margin-top: 1em;
 }
 
 .fullscreen-media {
