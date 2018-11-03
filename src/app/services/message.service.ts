@@ -56,7 +56,7 @@ export class MessageService {
 			{ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Humiliation! Let\'s go!', continous: true, incoming: true, points: 100, delay: 5000 },
 			{ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Alright.. Last one...', continous: true, incoming: true, delay: 3000 },
 			{ time: new Date().getHours() + '.' + new Date().getMinutes(), image: 'assets/images/halloween/attic.jpg', continous: true, incoming: true, delay: 3000 },
-			{ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Aaaaaaaaaaaand the answer is?', continous: false, responseRequired: true, answer: 'Henri on paras! <3', incoming: true, delay: 2000 },
+			{ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Aaaaaaaaaaaand the answer is?', continous: false, responseRequired: true, answer: 'Henri on paras!', incoming: true, delay: 2000 },
 			{ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Gongratulations. Your personal information is no longer in my posession... Bye...', continous: true, incoming: true, points: 100, delay: 5000 },
 			{ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Bye', continous: true, incoming: true, delay: 5000 },
 			{ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Bye.', continous: false, incoming: true, delay: 5000, final: true },
