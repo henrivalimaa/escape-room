@@ -9,7 +9,7 @@ import { AuthService } from '../services/auth.service';
 import { Result } from '../services/result';
 import { ScoreService } from '../services/score.service';
 
-import { fadeAnimation, slideAnimation } from '../animations/animations';
+import { fadeAnimation, slideAnimation, darkenAnimation } from '../animations/animations';
 
 import { map } from 'rxjs/operators';
 
@@ -17,7 +17,7 @@ import { map } from 'rxjs/operators';
   selector: 'game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
-  animations: [fadeAnimation, slideAnimation]
+  animations: [fadeAnimation, slideAnimation, darkenAnimation]
 })
 
 export class GameComponent implements OnInit, AfterViewChecked {

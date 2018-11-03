@@ -458,7 +458,7 @@ button:focus {
 }
 
 .points {
-        position: fixed;
+    position: fixed;
     left: 50%;
     top: 50%;
     -webkit-transform: translate(-50%, -50%);
@@ -466,7 +466,22 @@ button:focus {
     font-size: 60px;
     z-index: 1000;
     font-family: 'Luckiest Guy', cursive;
-    text-shadow: -1px 0 #292929, 0 1px #292929, 1px 0 #292929, 0 -1px #292929, 0 0 50px;
+    text-shadow: -1px 0 #ffffff, 0 1px #000000, 1px 0 #000000, 0 -1px #ffffff, 0 0 50px;
+    height: 100%;
+    width: 100%;
+}
+
+.points-text {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    text-align: center;
+}
+
+.points-text p {
+    font-size: 45px;
+    margin-top: 0.5em;
 }
 
 .correct-answer {

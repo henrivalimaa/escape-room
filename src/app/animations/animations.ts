@@ -29,6 +29,17 @@ export const slideAnimation =
     ]),
   ]);
 
+export const darkenAnimation =
+  trigger('darken', [
+      transition(':enter', [
+      style({ opacity: 0 }),
+      animate(200, style({ opacity: 1 }))
+    ]),
+    transition(':leave', [
+      animate(200, style({ opacity: 0 }))
+    ]),
+  ]);
+
 export const viewFadeAnimation = trigger('viewFade', [
   transition('* => *', [
     query(

@@ -19,7 +19,11 @@
 </div>
 
 <div class="points" *ngIf="showPoints" [@slide] [ngClass]="points > 0 ? 'correct-answer' : 'wrong-answer'">
-	<span *ngIf="points > 0">+ </span>{{ points }}
+	<div class="points-text">
+		<span *ngIf="points > 0">+ </span><span>{{ points }}</span>
+		<p *ngIf="points > 0">Correct!</p>
+		<p *ngIf="points < 0">Wrong!</p>
+	</div>
 </div>
 
 <div class="result-container" *ngIf="showResult" [@fade]>
