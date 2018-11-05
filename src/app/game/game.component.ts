@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, OnDestroy, ElementRef, ViewChild, HostListener } from '@angular/core';
 
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MessengerContactComponent } from '../messenger-contact/messenger-contact.component';
@@ -6,12 +6,14 @@ import { MessengerContactComponent } from '../messenger-contact/messenger-contac
 import { MessageService } from '../services/message.service';
 import { AuthService } from '../services/auth.service';
 
-import { Result } from '../services/result';
+import { Result, Game, Session, WindowRefService, ICustomWindow } from '../services/result';
 import { ScoreService } from '../services/score.service';
+import { SessionService } from '../services/session.service';
 
 import { fadeAnimation, slideAnimation, darkenAnimation } from '../animations/animations';
 
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'game',
@@ -20,9 +22,12 @@ import { map } from 'rxjs/operators';
   animations: [fadeAnimation, slideAnimation, darkenAnimation]
 })
 
-export class GameComponent implements OnInit, AfterViewChecked {
+export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
+  private _window: ICustomWindow;
+
 	private player: any = {};
-	private playerInitialized: boolean = false;
+  private session: Session;
+	private gameInitialized: boolean = false;
 
 	private messages: any[] = [];
 	private message: string;
@@ -42,6 +47,9 @@ export class GameComponent implements OnInit, AfterViewChecked {
   private galleryImages: any[] = [];
   private showGallery: boolean = false;
 
+  private game: Game;
+  private games: Observable<any>;
+
   private result: Result = new Result();
   private results: any;
   private showResult: boolean = false;
@@ -49,20 +57,57 @@ export class GameComponent implements OnInit, AfterViewChecked {
   private showPoints: boolean = false;
   private loadingLeaderboard: boolean = false;
 
+  slideConfig = {'slidesToShow': 1, 'dots': true};
+
   constructor(
   	private messageService: MessageService,
     private authService: AuthService,
     private scoreService: ScoreService,
-  	public dialog: MatDialog
-	) { }
+    private sessionService: SessionService,
+  	public dialog: MatDialog,
+    private windowRef: WindowRefService
+	) {
+    this._window = windowRef.nativeWindow;
+  }
 
   ngOnInit() {
   	this.loadGalleryImages();
     this.player = this.authService.currentUser;
+    
+    /*
+    if (this.sessionService.getLastSession(this.player.email) === true) {
+      this.sessionService.lastSession.subscribe(function(session){
+        this.session = session;
+      });
+    } else {
+      this.session = new Session();
+      this.session.user = this.player.email;
+      this.session.loggedIn = new Date().toDateString();
+      this.session.game = {};
+      this.sessionService.createSession(this.session);
+    }
+    */
+
     this.result = new Result();
     this.time = {};
     this.messageService.reset();
-    this.startGame();
+    this.games = this.messageService.getGames();
+  }
+
+  ngOnDestroy() {
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  public onDestroy($event) {
+    /*
+    if (this.gameInitialized === true) {
+      if(this.messageService.isUnfinished) {
+        let time = Math.floor((new Date().getTime()/1000) - (this.time.start.getTime()/1000));
+        this.sessionService.storeGameSession(this.game.key, time, this.result.score);
+      }
+    }
+    */
+    return $event.returnValue = true;
   }
 
   ngAfterViewChecked() {
@@ -93,7 +138,10 @@ export class GameComponent implements OnInit, AfterViewChecked {
     this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), image: this.images[this.images.length - 1] , incoming: false });
   }
 
-  startGame(): void {
+  startGame(game: Game): void {
+    this.game = game;
+    this.messageService.setGame(game.key);
+    this.gameInitialized = true;
     this.time.start = new Date();
 		this.typing = true;
 		this.result.score = 0;

@@ -24,6 +24,7 @@ import { LoginComponent } from './login/login.component';
 import { MessageService } from './services/message.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth-guard.service';
+import { WindowRefService } from './services/result';
 
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
@@ -31,6 +32,8 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+
+import { SlickModule } from 'ngx-slick';
 
 @NgModule({
   declarations: [
@@ -56,9 +59,10 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
     PickerModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    SlickModule.forRoot()
   ],
-  providers: [MessageService, AuthService, AuthGuard],
+  providers: [MessageService, AuthService, AuthGuard, WindowRefService],
   bootstrap: [AppComponent],
   entryComponents: [MessengerContactComponent]
 })

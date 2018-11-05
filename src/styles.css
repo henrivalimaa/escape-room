@@ -148,3 +148,7 @@ main {
 .emoji-mart {
     position: fixed !important;
 }
+
+.slick-slider, .slick-list, .slick-track {
+  height: 100%;
+}

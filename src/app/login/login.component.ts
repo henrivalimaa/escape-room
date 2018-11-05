@@ -2,8 +2,9 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from "@angular/router";
 import { AuthService } from '../services/auth.service';
 import { ScoreService } from '../services/score.service';
+import { SessionService } from '../services/session.service';
 import { fadeAnimation, slideAnimation } from '../animations/animations';
-import { Result } from '../services/result';
+import { Result, Session } from '../services/result';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -15,16 +16,20 @@ import { map } from 'rxjs/operators';
 export class LoginComponent implements OnInit {
   private showLeaderboard: boolean = false;
   private loadingLeaderboard: boolean = false;
-
+  private session: Session;
   private results: any = {};
 
   constructor(
     private authService: AuthService, 
     private router: Router,
     private zone: NgZone,
-    private scoreService: ScoreService) { }
+    private scoreService: ScoreService,
+    private sessionService: SessionService) { }
 
   ngOnInit() {
+    if (this.authService.authenticated) {
+      this.afterSignIn();
+    }
   }
 
   signInWithGoogle(): void {
