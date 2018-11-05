@@ -1,6 +1,7 @@
 export class Result {
   player: string;
   score: number;
+  game: string;
   timeStamp: Date;
   time: number;
 }
@@ -9,6 +10,9 @@ export class Game {
 	title: string;
 	key: string;
 	maxTime: 120;
+  duration: string;
+  questions: number;
+  sender: any;
 	images: any;
 	messages: Array<any>;
 }

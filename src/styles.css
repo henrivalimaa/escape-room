@@ -152,3 +152,7 @@ main {
 .slick-slider, .slick-list, .slick-track {
   height: 100%;
 }
+
+.fa-2x {
+    font-size: 1.8em;
+}

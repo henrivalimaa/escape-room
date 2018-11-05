@@ -24,6 +24,7 @@ import { LoginComponent } from './login/login.component';
 import { MessageService } from './services/message.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth-guard.service';
+import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
 import { WindowRefService } from './services/result';
 
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
@@ -62,7 +63,7 @@ import { SlickModule } from 'ngx-slick';
     AngularFireAuthModule,
     SlickModule.forRoot()
   ],
-  providers: [MessageService, AuthService, AuthGuard, WindowRefService],
+  providers: [MessageService, AuthService, AuthGuard, WindowRefService, CanDeactivateGuard],
   bootstrap: [AppComponent],
   entryComponents: [MessengerContactComponent]
 })

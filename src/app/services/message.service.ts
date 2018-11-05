@@ -12,7 +12,7 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 })
 export class MessageService {
 	private user: any = {};
-	private game: Game;
+	private game: Game = null;
 
 	gamesRef: AngularFireList<Game> = null;
 	games: Observable<any>;
@@ -64,6 +64,7 @@ export class MessageService {
   }
 
   get isUnfinished(): boolean {
+    if (this.game === null) return false;
   	if (localStorage.getItem('phase') < this.game.messages.length.toString()) return true;
   	return false;
   }
@@ -73,6 +74,7 @@ export class MessageService {
   }
 
   getNextMessage(userResponse: string): any {
+    if (parseInt(localStorage.getItem('phase')) >= this.game.messages.length) return null;
   	let phase = localStorage.getItem('phase');
   	if (this.game.messages[parseInt(phase) - 1].responseRequired) {
   		if (this.game.messages[parseInt(phase) - 1].answer.toLowerCase() != userResponse.toLowerCase()) return this.getFailureMessage();
@@ -95,8 +97,19 @@ export class MessageService {
 let newGame = new Game();
 newGame.title = 'Halloween';
 newGame.key = 'halloween-2018';
+newGame.duration = '30-60min';
+newGame.questions = 10;
+newGame.sender = {
+  name: 'UNKOWN',
+  photo: './assets/images/unknown.jpg',
+  gallery: {
+    { url: 'https://images.unsplash.com/photo-1506361797048-46a149213205?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=493e200df17b54d1ef10eb61e1df148a&w=1000&q=80' },
+    { url: 'https://images.unsplash.com/photo-1506361797048-46a149213205?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=493e200df17b54d1ef10eb61e1df148a&w=1000&q=80' },
+    { url: 'https://images.unsplash.com/photo-1506361797048-46a149213205?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=493e200df17b54d1ef10eb61e1df148a&w=1000&q=80' }
+  }
+};
 newGame.images = {};
-newGame.images.background = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDkrinP9yCtrk6jzwlPc2uj6ghwouvgQ0sHKSzc8f2ZkvT_sKGCg';
+newGame.images.background = 'https://www.sopapeldeparede.com.br/wp-content/uploads/2014/10/lead-image-halloween.jpg';
 newGame.maxTime = 120;
 newGame.messages = [
 	{ time: '', continous: true },

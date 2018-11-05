@@ -1,10 +1,10 @@
 <div class="game-list" *ngIf="!gameInitialized" [@fade]>
-	<h2>Games available</h2>
+	<h2>Games available <i class="fas fa-gamepad"></i></h2>
 	<div class="game-list-carousel">
 		<ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
 	    <div ngxSlickItem *ngFor="let game of games | async" class="slide" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
 	    	<div class="game-info">
-					<p>{{ game.title }}</p>
+					<p [style.color]="game.themeColor">{{ game.title }}</p>
 					<small>{{ game.questions }} Questions</small>
 					<small>Duration: {{ game.duration }}</small>
 				</div>
@@ -20,19 +20,23 @@
 <div class="messenger-header">
 	<button class="transparent inline back-btn"><fa name="arrow-left" size="2x"></fa></button>
 	<div class="profile-picture inline">
-		<img src="./assets/images/unknown.jpg">
+		<img [src]="game.sender.photo" *ngIf="gameInitialized===true">
+		<img [src]="player.photoURL" *ngIf="!gameInitialized">
 	</div>
 	<div class="inline name">
-		<h3>UNKNOWN</h3>
+		<h3 *ngIf="!gameInitialized">{{ player.displayName }}</h3>
+		<h3 *ngIf="gameInitialized===true" [@fade]>{{ game.sender.name }}</h3>
 		<p *ngIf="!typing">Online</p>
 		<p *ngIf="typing">Typing...</p>
 	</div>
 	<button class="transparent inline right center-y mr-05" [matMenuTriggerFor]="menu"><fa name="ellipsis-v" size="2x"></fa></button>
-	<button class="transparent inline right center-y mr-05"><fa name="phone" size="2x"></fa></button>
-	<button class="transparent inline right center-y mr-05"><fa name="video-camera" size="2x"></fa></button>
+	<button *ngIf="gameInitialized===true" [@fade] class="transparent inline right center-y mr-05"><fa name="phone" size="2x"></fa></button>
+	<button *ngIf="gameInitialized===true" [@fade] class="transparent inline right center-y mr-05"><fa name="video-camera" size="2x"></fa></button>
 	<mat-menu #menu="matMenu">
-	  <a mat-menu-item (click)="openContact();">View contact</a>
-	  <a mat-menu-item routerLink="/leaderboard">Media</a>
+	  <a mat-menu-item *ngIf="gameInitialized === true" (click)="openContact();">View contact</a>
+	  <!--<a mat-menu-item routerLink="/leaderboard">Media</a>-->
+	  <a mat-menu-item *ngIf="!gameInitialized" routerLink="/leaderboard">Leaderboards</a>
+	  <a mat-menu-item *ngIf="!gameInitialized" routerLink="/settings">Settings</a>
 	  <a mat-menu-item (click)="authService.logout()" style="color:red;">Exit game</a>
 	</mat-menu>
 </div>
@@ -60,14 +64,25 @@
 			  <a mat-menu-item (click)="authService.logout()" style="color:red;">Exit game</a>
 			</mat-menu>
 		</div>
-		<div class="result-text">
+		<div class="result-text" *ngIf="resultNamed === true" [@fade]>
 			<p>{{ result.score }} points</p>
 			<p style="font-size: 30px;">Time: {{ time.minutes }} min {{ time.seconds }} s</p>
 		</div>
-		<div class="stars">
+		<div class="stars" *ngIf="resultNamed === true" [@fade]>
 			<img [ngClass]="result.score > 0 ? 'filled-star' : 'dimm-star'"  style="width: 2.5em" src="http://purepng.com/public/uploads/large/purepng.com-golden-starstargeometricallydecagonconcavestardomgoldclipart-1421526502612njj9w.png">
 			<img [ngClass]="result.score > 200 ? 'filled-star' : 'dimm-star'" src="http://purepng.com/public/uploads/large/purepng.com-golden-starstargeometricallydecagonconcavestardomgoldclipart-1421526502612njj9w.png">
 			<img [ngClass]="result.score > 325 ? 'filled-star' : 'dimm-star'" style="width: 2.5em" src="http://purepng.com/public/uploads/large/purepng.com-golden-starstargeometricallydecagonconcavestardomgoldclipart-1421526502612njj9w.png">
+		</div>
+		<div class="nickname-dialog" *ngIf="!resultNamed" [@fade]>
+			<p>Save your score as</p>
+			<form class="nickname-input">
+			  <mat-form-field class="center-x">
+			    <input matInput placeholder="Nickname" name="nickname" [(ngModel)]="result.player">
+			    <mat-hint>Don't use your name!</mat-hint>
+			  </mat-form-field>
+			</form>
+			<div>{{ result.player }}</div>
+			<button class="save-score-btn" (click)="saveScore()">Save<i class="far fa-save"></i></button>
 		</div>
 	</div>
 	<div class="result-leaderboard">
@@ -142,8 +157,8 @@
 		<h3 class="inline">All images</h3>
 		<button class="transparent inline right menu-btn"><fa name="ellipsis-v" size="2x"></fa></button>
 	</div>
-	<div class="gallery-image-wrapper" *ngFor='let image of galleryImages'>
-		<img [src]="image.src" (click)="attachImage(image.src)">
+	<div class="gallery-image-wrapper" *ngFor='let image of game.sender.gallery'>
+		<img [src]="image.url" (click)="attachImage(image.url)">
 	</div>
 </div>
 

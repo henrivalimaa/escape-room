@@ -11,26 +11,29 @@
 }
 
 .profile-picture {
-	width: 4em;
-	height: 4em;
+	width: 3.5em;
+	height: 3.5em;
 	overflow: hidden;
 	border-radius: 50%;
+    transform: translateY(5%);
 }
 
 .profile-picture img {
-	height: 4em;
+	width: 3.8em;
     position: relative;
-    left: -40%
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .back-btn {
     position: relative;
-    transform: translateY(-75%);
+    transform: translateY(-55%);
     padding-right: 0.5em;
 }
 
 .name {
-	transform: translateY(-37%);
+	transform: translateY(-23%);
 	margin-left: 0.5em;
 }
 
@@ -39,7 +42,7 @@
 }
 
 .center-y {
-	transform: translateY(70%);
+	transform: translateY(60%);
 }
 
 @media only screen and (min-width: 1600px) {
@@ -610,7 +613,9 @@ button:focus {
 }
 
 .game-list-carousel {
-    height: 60%;
+    height: 65%;
+    background: #0001;
+    box-shadow: 0 4px 10px #909090;
 }
 
 .game-list h2 {
@@ -620,9 +625,15 @@ button:focus {
     text-shadow: 0 1px 1px #000;
 }
 
+.game-list h2 > i {
+    margin-left: 0.5em;
+    transform: rotate(33deg);
+    color: #2eccac;
+}
+
 .slide .game-info {
     position: relative;
-    top: 50%;
+    top: 45%;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
@@ -672,4 +683,36 @@ button:focus {
     /* border: 1px solid #225e52; */
     font-family: 'Luckiest Guy', cursive;
     bottom: 0em;
+}
+
+.nickname-dialog > p {
+    text-align: center;
+    font-family: 'Luckiest Guy', cursive;
+    margin: 0;
+    font-size: 25px;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    color: #fff;
+    text-shadow: 0 1px #172926;
+}
+
+.save-score-btn {
+    display: block;
+    background-color: transparent;
+    border: none;
+    height: 1.5em;
+    width: 5em;
+    color: #fff;
+    font-size: 36px;
+    position: relative;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
+    margin-top: 0.5em;
+}
+
+.save-score-btn i {
+    margin-left: 0.5em;
 }

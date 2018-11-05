@@ -57,6 +57,8 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   private showPoints: boolean = false;
   private loadingLeaderboard: boolean = false;
 
+  private resultNamed: boolean = false;
+
   slideConfig = {'slidesToShow': 1, 'dots': true};
 
   constructor(
@@ -169,13 +171,17 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
 	continueDialog(message: string): void {
 		this.typing = true;
 		this.nextMessage = this.messageService.getNextMessage(message);
+    if (this.nextMessage === null) {
+      this.typing = false;
+      return;
+    }
     if (this.nextMessage.points) this.displayPoints(this.nextMessage.points);
 		setTimeout(() => {
       this.messages.push(this.nextMessage);
       this.typing = false;
+      if (this.nextMessage.final === true) this.endGame();
       if (this.nextMessage.continous) this.continueDialog(message);
-      if (this.nextMessage.final) this.endGame();
- 		}, this.nextMessage.delay);
+ 		}, 50);
 	}
 
   sortResults<T>(propName: keyof Result, order: "ASC" | "DESC"): void {
@@ -195,12 +201,17 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   endGame(): void {
     if (this.showResult === true) return;
     this.showResult = true;
+    this.refreshLeaderboard();
+  }
+
+  saveScore() {
+    this.resultNamed = true;
     this.time.end = new Date();
     this.result.time =  Math.floor((this.time.end.getTime()/1000) - (this.time.start.getTime()/1000));
     this.time.minutes = Math.floor(this.result.time / 60);
     this.time.seconds = this.result.time - this.time.minutes * 60;
-    this.result.player = this.player.displayName;
     this.result.timeStamp = new Date();
+    this.result.game = this.game.key;
     this.result.score = this.result.score + this.getTimePoints(this.result.time);
     this.scoreService.createResult(this.result);
     this.refreshLeaderboard();
@@ -213,7 +224,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   refreshLeaderboard(): void {
     this.loadingLeaderboard = true;
     setTimeout(() => {
-      this.scoreService.getResultList().snapshotChanges().pipe(
+      this.scoreService.getGameResultList(this.game.key).snapshotChanges().pipe(
         map(changes =>
           changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
         )
@@ -229,7 +240,6 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.result.score = this.result.score + points;
     this.showPoints = true;
     this.points = points;
-    console.log(points);
     setTimeout(() => {
       this.showPoints = false;
      }, 1500);
@@ -252,6 +262,14 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   		{ src: 'https://images.unsplash.com/photo-1506361797048-46a149213205?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=493e200df17b54d1ef10eb61e1df148a&w=1000&q=80' },
   		{ src: 'https://images.unsplash.com/photo-1506361797048-46a149213205?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=493e200df17b54d1ef10eb61e1df148a&w=1000&q=80' }
   	];
+  }
+
+  canDeactivate() {
+    if (this.messageService.isUnfinished === true) {
+      return window.confirm('Do you want to leave this game?');
+    }
+
+    return true;
   }
 
   attachImage(imagePath: string): void {

@@ -31,6 +31,10 @@ export class ScoreService {
   getResultList(): AngularFireList<Result> {
     return this.results;
   }
+
+  getGameResultList(key:string): AngularFireList<Result> {
+    return this.db.list(this.basePath, ref => ref.orderByChild('game').equalTo(key));
+  }
  
   deleteAll(): void {
     this.results.remove().catch(error => this.handleError(error));
