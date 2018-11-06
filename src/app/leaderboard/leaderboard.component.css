@@ -1,0 +1,101 @@
+.leaderboards-view {
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+	background-color: #225e5270;
+}
+
+.leaderboards-view .header h1 {
+    font-size: 30px;
+    text-align: center;
+    color: #fff;
+    margin-top: 1em;
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
+    border-bottom: 2px dashed #2f795da8;
+    padding-bottom: 0.5em;
+    box-shadow: 0 1px 4px #000;
+    margin: 0;
+    padding-top: 1em;
+    background: #0069546b;
+}
+
+.leaderboards-view .header h1 > .trophy {
+	transform: rotate(25deg);
+	color: #ffe829;
+	position: absolute;
+}
+
+.leaderboards-view .header {
+		flex: 0 1 auto;
+}
+
+.leaderboard-container {
+		flex: 1 1 auto;
+		overflow: hidden;
+}
+
+.leaderboard {
+    min-height: 30em;
+    height: 34em;
+    box-shadow: 0 2px 6px #4e4e4e;
+}
+
+.leaderboard h3 {
+		text-align: center;
+		color: #fff;
+		text-shadow: 0 1px #172926;
+		font-family: 'Luckiest Guy', cursive;
+}
+
+.leaderboard small {
+		color: #fff;
+		text-shadow: 0 1px #172926;
+		font-family: 'Luckiest Guy', cursive;
+}
+
+.leaderboard ul {
+		height: 90%;
+		overflow-y: scroll;
+		list-style: none;
+		padding: 0em 1em;
+}
+
+.leaderboard ul li {
+		padding: 1em 1em;
+		color: #fff;
+		border-bottom: 1px solid #fff5;
+		font-weight: bold;
+}
+
+.leaderboard ul li span {
+		display: inline-block;
+}
+
+.gold {
+		color: #ffe829;
+		text-shadow: 0 1px 1px #000;
+}
+
+.silver {
+		color: #cccccc;
+		text-shadow: 0 1px 1px #000;
+}
+
+.bronze {
+		color: #ec9d34;
+		text-shadow: 0 1px 1px #000;
+}
+
+.refresh-btn {
+		position: absolute;
+		right: 1em;
+}
+
+.back-btn {
+		float: left;
+		position: relative;
+		left: 1em;
+    color: #fff;
+    font-size: 0.8em;
+}

@@ -1,0 +1,128 @@
+.messenger-header {
+    background: #215e53;
+    color: #fff;
+    padding: 0.5em;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0px 3px 12px #777;
+}
+
+.profile-picture {
+	width: 3.5em;
+	height: 3.5em;
+	overflow: hidden;
+	border-radius: 50%;
+    transform: translateY(5%);
+}
+
+.profile-picture img {
+	width: 3.8em;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.back-btn {
+    position: relative;
+    transform: translateY(-55%);
+    padding-right: 0.5em;
+}
+
+.name {
+	transform: translateY(-23%);
+	margin-left: 0.5em;
+}
+
+.name h3, p {
+	margin: 0;
+}
+
+.center-y {
+	transform: translateY(60%);
+}
+
+.game-list {
+    top: 6em;
+    position: fixed;
+    z-index: 1000;
+    height: 100%;
+    width: 100%;
+    background-image: url(https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png);
+}
+
+.game-list-carousel {
+    height: 65%;
+    background: #0001;
+    box-shadow: 0 4px 10px #909090;
+}
+
+.game-list h2 {
+    text-align: center;
+    font-family: 'Luckiest Guy', cursive;
+    color: #fff;
+    text-shadow: 0 1px 1px #000;
+}
+
+.game-list h2 > i {
+    margin-left: 0.5em;
+    transform: rotate(33deg);
+    color: #2eccac;
+}
+
+.slide .game-info {
+    position: relative;
+    top: 45%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-family: 'Luckiest Guy', cursive;
+    color: #fff;
+    text-shadow: 0 1px 1px #000;
+    text-align: center;
+    font-size: 30px;
+}
+
+.game-info small {
+    margin-top: 1em;
+    display: block;
+    font-size: 20px;
+}
+
+.game-info p {
+    color: #f3a936;
+}
+
+.slide {
+    background-size: cover;
+    background-position: center;
+    transition: all 1s ease;
+    position: relative;
+}
+
+.play-btn {
+    display: block;
+    background-color: transparent;
+    border: none;
+    height: 2.5em;
+    width: 8em;
+    background-position: center;
+    background-size: 15em 4em;
+    background-repeat: no-repeat;
+    color: #fff;
+    font-size: 49px;
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    /* background-color: transparent; */
+    /* box-shadow: 0 4px 0 #183e36, inset 1px 32px #41ad98, inset 1px 10px 0 #fff; */
+    border-radius: 5px;
+    text-shadow: 0 1px #172926;
+    /* border: 1px solid #225e52; */
+    font-family: 'Luckiest Guy', cursive;
+    bottom: 0em;
+}

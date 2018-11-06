@@ -1,12 +1,12 @@
 import { Component, OnInit, AfterViewChecked, OnDestroy, ElementRef, ViewChild, HostListener } from '@angular/core';
-
+import { ActivatedRoute } from "@angular/router";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MessengerContactComponent } from '../messenger-contact/messenger-contact.component';
 
 import { MessageService } from '../services/message.service';
 import { AuthService } from '../services/auth.service';
 
-import { Result, Game, Session, WindowRefService, ICustomWindow } from '../services/result';
+import { Result, Game } from '../services/result';
 import { ScoreService } from '../services/score.service';
 import { SessionService } from '../services/session.service';
 
@@ -23,10 +23,8 @@ import { Observable } from 'rxjs';
 })
 
 export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
-  private _window: ICustomWindow;
 
 	private player: any = {};
-  private session: Session;
 	private gameInitialized: boolean = false;
 
 	private messages: any[] = [];
@@ -47,8 +45,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   private galleryImages: any[] = [];
   private showGallery: boolean = false;
 
-  private game: Game;
-  private games: Observable<any>;
+  private game: any;
 
   private result: Result = new Result();
   private results: any;
@@ -66,34 +63,23 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     private authService: AuthService,
     private scoreService: ScoreService,
     private sessionService: SessionService,
-  	public dialog: MatDialog,
-    private windowRef: WindowRefService
-	) {
-    this._window = windowRef.nativeWindow;
-  }
+    private route: ActivatedRoute,
+  	public dialog: MatDialog
+	) {}
 
   ngOnInit() {
   	this.loadGalleryImages();
     this.player = this.authService.currentUser;
-    
-    /*
-    if (this.sessionService.getLastSession(this.player.email) === true) {
-      this.sessionService.lastSession.subscribe(function(session){
-        this.session = session;
-      });
-    } else {
-      this.session = new Session();
-      this.session.user = this.player.email;
-      this.session.loggedIn = new Date().toDateString();
-      this.session.game = {};
-      this.sessionService.createSession(this.session);
-    }
-    */
 
     this.result = new Result();
     this.time = {};
     this.messageService.reset();
-    this.games = this.messageService.getGames();
+
+    this.route
+      .queryParams
+      .subscribe(params => {
+        if (params.id) this.startGame(params.id);
+      });
   }
 
   ngOnDestroy() {
@@ -101,14 +87,6 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   @HostListener('window:beforeunload', ['$event'])
   public onDestroy($event) {
-    /*
-    if (this.gameInitialized === true) {
-      if(this.messageService.isUnfinished) {
-        let time = Math.floor((new Date().getTime()/1000) - (this.time.start.getTime()/1000));
-        this.sessionService.storeGameSession(this.game.key, time, this.result.score);
-      }
-    }
-    */
     return $event.returnValue = true;
   }
 
@@ -140,17 +118,25 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), image: this.images[this.images.length - 1] , incoming: false });
   }
 
-  startGame(game: Game): void {
-    this.game = game;
-    this.messageService.setGame(game.key);
-    this.gameInitialized = true;
-    this.time.start = new Date();
-		this.typing = true;
-		this.result.score = 0;
-		setTimeout(() => {
-			this.typing = false;
-			this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Hello ' + this.player.displayName, incoming: true });
-		}, 2000)
+  startGame(key: string): void {
+    this.messageService.getCurrentGame(key).snapshotChanges().pipe(
+        map(changes =>
+          changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+        )
+      ).subscribe(games => {
+          this.game = games[0];
+          this.messageService.setGame(this.game);
+
+          this.gameInitialized = true;
+
+          this.time.start = new Date();
+          this.typing = true;
+          this.result.score = 0;
+          setTimeout(() => {
+            this.typing = false;
+            this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Hello ' + this.player.displayName, incoming: true });
+          }, 2000)
+      });
   }
 
   addEmoji(event): void {

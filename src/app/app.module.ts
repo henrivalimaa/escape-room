@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
@@ -35,6 +36,37 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { SlickModule } from 'ngx-slick';
+import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent';
+import { GameListComponent } from './game-list/game-list.component';
+
+const cookieConfig:NgcCookieConsentConfig = {
+  "cookie": {
+    "domain": "henrivalimaa.com"
+  },
+  "position": "bottom",
+  "theme": "edgeless",
+  "palette": {
+    "popup": {
+      "background": "#215e53",
+      "text": "#ffffff",
+      "link": "#ffffff"
+    },
+    "button": {
+      "background": "#2a9887",
+      "text": "#fff",
+      "border": "transparent"
+    }
+  },
+  "type": "info",
+  "content": {
+    "message": "This website uses cookies to ensure you get the best experience on our website.",
+    "dismiss": "I Accept",
+    "deny": "Refuse cookies",
+    "link": "Learn more",
+    "href": "https://cookiesandyou.com"
+  }
+};
+
 
 @NgModule({
   declarations: [
@@ -44,7 +76,8 @@ import { SlickModule } from 'ngx-slick';
     SettingsComponent,
     MessengerContactComponent,
     MessengerMediaComponent,
-    LoginComponent
+    LoginComponent,
+    GameListComponent
   ],
   imports: [
     BrowserModule,
@@ -56,12 +89,14 @@ import { SlickModule } from 'ngx-slick';
     MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
+    MatSelectModule,
     AngularFontAwesomeModule,
     PickerModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    SlickModule.forRoot()
+    SlickModule.forRoot(),
+    NgcCookieConsentModule.forRoot(cookieConfig)
   ],
   providers: [MessageService, AuthService, AuthGuard, WindowRefService, CanDeactivateGuard],
   bootstrap: [AppComponent],

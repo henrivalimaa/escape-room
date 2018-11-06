@@ -1,3 +1,31 @@
-<p>
-  leaderboard works!
-</p>
+<div class="leaderboards-view">
+	<div class="header">
+		<h1>
+			<a routerLink="/game-list" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+			Leaderboards 
+			<fa name="trophy" class="trophy"></fa>
+		</h1>
+	</div>
+	<div class="leaderboard-container">
+		<div class="leaderboard">
+			<h3 *ngIf="loadingLeaderboard" [@fade] class="center-xy">Loading leaderboard...</h3>
+			<ngx-slick *ngIf="!loadingLeaderboard" [@fade] class="carousel" #slickModal="slick-modal" [config]="slideConfig">
+		    <div ngxSlickItem *ngFor="let leaderboard of leaderboards" class="slide">
+		    	<h3>{{ leaderboard.name }}</h3>
+		    	<small *ngIf="!leaderboard.results.length" class="center-xy">No results</small>
+		    	<ul *ngIf="leaderboard.results.length">
+						<li *ngFor="let r of leaderboard.results; let i = index">
+							<span style="width: 5%">
+								<i class="fas fa-crown" *ngIf="i < 3" [ngClass]="{ 'gold': i == 0, 'silver': i == 1, 'bronze': i == 2 }"></i>
+								<span *ngIf="i > 2">{{ i + 1 }}</span>
+							</span>
+							<span style="width: 45%; text-align: center;">{{ r.player }}</span>
+							<span style="width: 20%; text-align: center;">{{ r.score }}</span>
+							<span style="width: 30%; text-align: center;">{{ convertTime(r.time) }}</span>
+						</li>
+					</ul>
+		    </div>
+		  </ngx-slick>
+		</div>
+	</div>
+</div>

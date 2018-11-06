@@ -31,12 +31,12 @@ export class MessageService {
 
   }
 
-  setGame(key: string): void {
-  	this.games.subscribe(games => {
-  		games.forEach(game => {
-  			if (game.key === key) this.game = game;
-  		});
-  	})
+  setGame(game: Game): void {
+  	this.game = game;
+  }
+
+  getCurrentGame(key) {
+    return this.db.list(this.basePath, ref => ref.orderByChild('key').equalTo(key))
   }
 
   createGame(game: Game): void {

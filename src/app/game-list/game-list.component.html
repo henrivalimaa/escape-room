@@ -1,0 +1,35 @@
+<div class="messenger-header">
+	<button class="transparent inline back-btn"><fa name="arrow-left" size="2x"></fa></button>
+	<div class="profile-picture inline">
+		<img [src]="player.photoURL">
+	</div>
+	<div class="inline name">
+		<h3>{{ player.displayName }}</h3>
+		<p>Online</p>
+	</div>
+	<button class="transparent inline right center-y mr-05" [matMenuTriggerFor]="menu"><fa name="ellipsis-v" size="2x"></fa></button>
+	<mat-menu #menu="matMenu">
+	  <a mat-menu-item routerLink="/leaderboard">Leaderboards</a>
+	  <a mat-menu-item routerLink="/settings">Settings</a>
+	  <a mat-menu-item (click)="authService.logout()" style="color:red;">Logout</a>
+	</mat-menu>
+</div>
+
+<div class="game-list">
+	<h2>Games available <i class="fas fa-gamepad"></i></h2>
+	<div class="game-list-carousel">
+		<ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
+	    <div ngxSlickItem *ngFor="let game of games | async" class="slide" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
+	    	<div class="game-info">
+					<p [style.color]="game.themeColor">{{ game.title }}</p>
+					<small>{{ game.questions }} Questions</small>
+					<small>Duration: {{ game.duration }}</small>
+				</div>
+	    	<button class="play-btn" (click)="startGame(game)">
+			  	Play
+			  	<i class="far fa-play-circle"></i>
+			  </button>
+	    </div>
+	  </ngx-slick>
+	</div>
+</div>

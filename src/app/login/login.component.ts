@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
 
   private afterSignIn(): void {
     this.zone.run(() => {
-      this.router.navigate(['game']);
+      this.router.navigate(['game-list']);
     });
   }
 

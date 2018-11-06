@@ -1,43 +1,20 @@
-<div class="game-list" *ngIf="!gameInitialized" [@fade]>
-	<h2>Games available <i class="fas fa-gamepad"></i></h2>
-	<div class="game-list-carousel">
-		<ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
-	    <div ngxSlickItem *ngFor="let game of games | async" class="slide" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
-	    	<div class="game-info">
-					<p [style.color]="game.themeColor">{{ game.title }}</p>
-					<small>{{ game.questions }} Questions</small>
-					<small>Duration: {{ game.duration }}</small>
-				</div>
-	    	<button class="play-btn" (click)="startGame(game)">
-			  	Play
-			  	<i class="far fa-play-circle"></i>
-			  </button>
-	    </div>
-	  </ngx-slick>
-	</div>
-</div>
-
 <div class="messenger-header">
-	<button class="transparent inline back-btn"><fa name="arrow-left" size="2x"></fa></button>
+	<button class="transparent inline back-btn" routerLink="/game-list"><fa name="arrow-left" size="2x"></fa></button>
 	<div class="profile-picture inline">
-		<img [src]="game.sender.photo" *ngIf="gameInitialized===true">
-		<img [src]="player.photoURL" *ngIf="!gameInitialized">
+		<img [src]="game.sender.photo" *ngIf="gameInitialized===true" [@fade]>
 	</div>
 	<div class="inline name">
-		<h3 *ngIf="!gameInitialized">{{ player.displayName }}</h3>
 		<h3 *ngIf="gameInitialized===true" [@fade]>{{ game.sender.name }}</h3>
 		<p *ngIf="!typing">Online</p>
 		<p *ngIf="typing">Typing...</p>
 	</div>
 	<button class="transparent inline right center-y mr-05" [matMenuTriggerFor]="menu"><fa name="ellipsis-v" size="2x"></fa></button>
-	<button *ngIf="gameInitialized===true" [@fade] class="transparent inline right center-y mr-05"><fa name="phone" size="2x"></fa></button>
-	<button *ngIf="gameInitialized===true" [@fade] class="transparent inline right center-y mr-05"><fa name="video-camera" size="2x"></fa></button>
+	<button class="transparent inline right center-y mr-05"><fa name="phone" size="2x"></fa></button>
+	<button class="transparent inline right center-y mr-05"><fa name="video-camera" size="2x"></fa></button>
 	<mat-menu #menu="matMenu">
-	  <a mat-menu-item *ngIf="gameInitialized === true" (click)="openContact();">View contact</a>
-	  <!--<a mat-menu-item routerLink="/leaderboard">Media</a>-->
-	  <a mat-menu-item *ngIf="!gameInitialized" routerLink="/leaderboard">Leaderboards</a>
-	  <a mat-menu-item *ngIf="!gameInitialized" routerLink="/settings">Settings</a>
-	  <a mat-menu-item (click)="authService.logout()" style="color:red;">Exit game</a>
+	  <a mat-menu-item (click)="openContact();">View contact</a>
+	  <a mat-menu-item routerLink="/game-list">Games list</a>
+	  <a mat-menu-item (click)="authService.logout()" style="color:red;">Logout</a>
 	</mat-menu>
 </div>
 
@@ -61,7 +38,8 @@
 			</div>
 			<button class="transparent inline right center-y mr-1" [matMenuTriggerFor]="menu"><fa name="ellipsis-v" size="2x"></fa></button>
 			<mat-menu #menu="matMenu">
-			  <a mat-menu-item (click)="authService.logout()" style="color:red;">Exit game</a>
+				<a mat-menu-item routerLink="/game-list">Games</a>
+			  <a mat-menu-item (click)="authService.logout()" style="color:red;">Logout</a>
 			</mat-menu>
 		</div>
 		<div class="result-text" *ngIf="resultNamed === true" [@fade]>
@@ -81,7 +59,6 @@
 			    <mat-hint>Don't use your name!</mat-hint>
 			  </mat-form-field>
 			</form>
-			<div>{{ result.player }}</div>
 			<button class="save-score-btn" (click)="saveScore()">Save<i class="far fa-save"></i></button>
 		</div>
 	</div>

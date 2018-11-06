@@ -17,7 +17,7 @@ export class AuthService {
         if (user) {
           this.userDetails = user;
           this.zone.run(() => {
-            this.router.navigate(['game']);
+            this.router.navigate(['game-list']);
           });
         }
         else {
@@ -37,6 +37,10 @@ export class AuthService {
     return this._firebaseAuth.auth.signInWithPopup(
       new firebase.auth.FacebookAuthProvider()
     )
+  }
+
+  get isNewUser(): boolean {
+    return false;
   }
 
   get authenticated(): boolean {

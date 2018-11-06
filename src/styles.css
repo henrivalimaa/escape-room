@@ -130,6 +130,7 @@ main {
 	text-align: center !important;
 }
 
+/*
 @media only screen and (max-width: 800px) {
     .cdk-overlay-pane {
         height: 100% !important;
@@ -144,6 +145,7 @@ main {
         top: 4em;
     }
 }
+*/
 
 .emoji-mart {
     position: fixed !important;
