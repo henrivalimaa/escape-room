@@ -167,7 +167,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.typing = false;
       if (this.nextMessage.final === true) this.endGame();
       if (this.nextMessage.continous) this.continueDialog(message);
- 		}, 50);
+ 		}, this.nextMessage.delay);
 	}
 
   sortResults<T>(propName: keyof Result, order: "ASC" | "DESC"): void {
