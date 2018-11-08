@@ -1,9 +1,10 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from "@angular/router";
 import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
 import { MessageService } from '../services/message.service';
 
-import { Game } from '../services/result';
+import { Game, User } from '../services/result';
 
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -23,11 +24,12 @@ export class GameListComponent implements OnInit {
   constructor(
   	private authService: AuthService, 
   	private messageService: MessageService,
+    private userService: UserService,
   	private router: Router,
   	private zone: NgZone) { }
 
   ngOnInit() {
-  	this.player = this.authService.currentUser;
+  	this.player = this.userService.currentUser;
   	this.messageService.reset();
     this.games = this.messageService.getGames();
   }

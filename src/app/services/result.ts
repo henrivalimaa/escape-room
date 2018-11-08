@@ -1,5 +1,5 @@
 export class Result {
-  player: string;
+  gamerTag: string;
   score: number;
   game: string;
   timeStamp: Date;
@@ -21,6 +21,15 @@ export class Session {
 	user: string;
 	loggedIn: string;
 	game: any;
+}
+
+export class User {
+  email: string;
+  photoURL: string;
+  displayName: string;
+  createdDate: string;
+  gamerTag: string;
+  additionalData: any;
 }
 
 import { Injectable } from '@angular/core';

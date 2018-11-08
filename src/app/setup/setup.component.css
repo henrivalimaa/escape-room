@@ -1,0 +1,145 @@
+.logo {
+    display: block;
+    max-width: 36em;
+}
+
+.setup-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+}
+
+.setup-container .setup-header h2 {
+    margin-bottom: 0;
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
+    color: #e4e4e4;
+    text-align: center;
+    font-size: 34px;
+    font-weight: 100;
+}
+
+.progress-bar {
+    position: absolute;
+    top: 0;
+}
+
+.user-creation-loader {
+    text-align: center;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    padding-top: 4em;
+}
+
+.user-creation-loader  h2 {
+    color: #fff;
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
+}
+
+.user-creation-loader  p {
+    color: #949494;
+}
+
+.setup-section {
+    height: 26em;
+    overflow-y: scroll;
+    margin-bottom: 2em;
+}
+
+@media only screen and (max-height: 640px) {
+    .setup-section {
+        height: 22em !important;
+    }
+
+    .profile-image {
+        height: 5.5em !important;
+    }
+
+    .profile-image img {
+        height: 7em !important;
+    }
+}
+
+.profile-image {
+    height: 9.5em;
+    width: 9.5em;
+    overflow: hidden;
+    margin-bottom: 1em
+}
+
+.profile-image img {
+    height: 11em;
+    width: auto;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.section-title {
+    color: #449082 !important;
+    padding-bottom: 0.5em;
+    border-bottom: 1px dashed #449082;
+}
+
+.error {
+    color: #bb2e2b;
+    padding: 0.5em 0.6em;
+    font-size: 12px;
+    margin-left: 1em;
+    display: inline-block;
+    position: relative;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgb(101, 101, 101);
+}
+
+.arrow-left {
+    width: 0; 
+    height: 0;
+    position: absolute;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid #dedede;
+    left: -9px;
+    background: #fff;
+}
+
+@media only screen and (max-width: 600px) {
+    .logo {
+        max-width: 32em !important;
+    }
+}
+
+@media only screen and (max-width: 525px) {
+    .logo {
+        max-width: 30em !important;
+    }
+}
+
+@media only screen and (max-width: 465px) {
+    .logo {
+        max-width: 26em !important;
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .logo {
+        max-width: 24em !important;
+    }
+}
+
+@media only screen and (max-width: 376px) {
+    .logo {
+        max-width: 22em !important;
+    }
+}
+
+@media only screen and (max-width: 321px) {
+    .logo {
+        max-width: 18em !important;
+    }
+}

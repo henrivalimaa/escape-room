@@ -5,6 +5,7 @@ import { MessengerContactComponent } from '../messenger-contact/messenger-contac
 
 import { MessageService } from '../services/message.service';
 import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
 
 import { Result, Game } from '../services/result';
 import { ScoreService } from '../services/score.service';
@@ -54,13 +55,12 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   private showPoints: boolean = false;
   private loadingLeaderboard: boolean = false;
 
-  private resultNamed: boolean = false;
-
   slideConfig = {'slidesToShow': 1, 'dots': true};
 
   constructor(
   	private messageService: MessageService,
     private authService: AuthService,
+    private userService: UserService,
     private scoreService: ScoreService,
     private sessionService: SessionService,
     private route: ActivatedRoute,
@@ -69,7 +69,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   ngOnInit() {
   	this.loadGalleryImages();
-    this.player = this.authService.currentUser;
+    this.player = this.userService.currentUser;
 
     this.result = new Result();
     this.time = {};
@@ -167,7 +167,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.typing = false;
       if (this.nextMessage.final === true) this.endGame();
       if (this.nextMessage.continous) this.continueDialog(message);
- 		}, this.nextMessage.delay);
+ 		}, 50);
 	}
 
   sortResults<T>(propName: keyof Result, order: "ASC" | "DESC"): void {
@@ -187,16 +187,17 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   endGame(): void {
     if (this.showResult === true) return;
     this.showResult = true;
+    this.saveScore();
     this.refreshLeaderboard();
   }
 
   saveScore() {
-    this.resultNamed = true;
     this.time.end = new Date();
     this.result.time =  Math.floor((this.time.end.getTime()/1000) - (this.time.start.getTime()/1000));
     this.time.minutes = Math.floor(this.result.time / 60);
     this.time.seconds = this.result.time - this.time.minutes * 60;
     this.result.timeStamp = new Date();
+    this.result.gamerTag = this.player.gamerTag;
     this.result.game = this.game.key;
     this.result.score = this.result.score + this.getTimePoints(this.result.time);
     this.scoreService.createResult(this.result);

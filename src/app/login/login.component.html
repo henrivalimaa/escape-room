@@ -1,4 +1,4 @@
-<div class="center-xy container" *ngIf="showLeaderboard === false" [@fade]>
+<div class="center-xy container" *ngIf="!showLeaderboard && !showSetupDialog" [@fade]>
 	<img class="logo center-x" src="./assets/images/logo.png">
 	<div class="login-buttons">
 		<label>Login with</label>
@@ -37,3 +37,4 @@
 		</ul>
 	</div>
 </div>
+

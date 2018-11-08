@@ -13,6 +13,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
@@ -32,12 +36,14 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 import { environment } from '../environments/environment';
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { SlickModule } from 'ngx-slick';
 import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent';
 import { GameListComponent } from './game-list/game-list.component';
+import { SetupComponent } from './setup/setup.component';
 
 const cookieConfig:NgcCookieConsentConfig = {
   "cookie": {
@@ -77,7 +83,8 @@ const cookieConfig:NgcCookieConsentConfig = {
     MessengerContactComponent,
     MessengerMediaComponent,
     LoginComponent,
-    GameListComponent
+    GameListComponent,
+    SetupComponent
   ],
   imports: [
     BrowserModule,
@@ -90,11 +97,16 @@ const cookieConfig:NgcCookieConsentConfig = {
     MatInputModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatStepperModule,
+    MatIconModule,
+    MatProgressBarModule,
+    MatTooltipModule,
     AngularFontAwesomeModule,
     PickerModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     SlickModule.forRoot(),
     NgcCookieConsentModule.forRoot(cookieConfig)
   ],

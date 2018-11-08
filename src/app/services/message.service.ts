@@ -65,7 +65,7 @@ export class MessageService {
 
   get isUnfinished(): boolean {
     if (this.game === null) return false;
-  	if (localStorage.getItem('phase') < this.game.messages.length.toString()) return true;
+  	if (parseInt(localStorage.getItem('phase')) < this.game.messages.length) return true;
   	return false;
   }
 

@@ -1,16 +1,15 @@
 <div class="messenger-header">
-	<button class="transparent inline back-btn"><fa name="arrow-left" size="2x"></fa></button>
 	<div class="profile-picture inline">
 		<img [src]="player.photoURL">
 	</div>
 	<div class="inline name">
-		<h3>{{ player.displayName }}</h3>
+		<h3>{{ player.gamerTag }}</h3>
 		<p>Online</p>
 	</div>
 	<button class="transparent inline right center-y mr-05" [matMenuTriggerFor]="menu"><fa name="ellipsis-v" size="2x"></fa></button>
 	<mat-menu #menu="matMenu">
 	  <a mat-menu-item routerLink="/leaderboard">Leaderboards</a>
-	  <a mat-menu-item routerLink="/settings">Settings</a>
+	  <a mat-menu-item routerLink="/settings">Profile</a>
 	  <a mat-menu-item (click)="authService.logout()" style="color:red;">Logout</a>
 	</mat-menu>
 </div>

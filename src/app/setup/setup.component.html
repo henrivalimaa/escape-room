@@ -1,0 +1,93 @@
+<div class="setup-container" *ngIf="!creatingUser" [@fade]>
+	<div class="setup-header">
+		<h2>User Setup</h2>
+	</div>
+	<mat-horizontal-stepper>
+		<ng-template matStepperIcon="edit">
+	    <mat-icon>check</mat-icon>
+	  </ng-template>
+	  <mat-step [stepControl]="firstFormGroup">
+	      <ng-template matStepLabel>Privacy Policy</ng-template>
+	      <div class="setup-section">
+					<h2>Information we collect from you</h2>
+					<p>We collect information to provide better services to all our users — from figuring out basic stuff like which language you speak, to more complex things like which ads you’ll find most useful, the people who matter most to you online, or which YouTube videos you might like. The information Google collects, and how that information is used, depends on how you use our services and how you manage your privacy controls.
+
+					When you’re not signed in to a Google Account, we store the information we collect with unique identifiers tied to the browser, application, or device you’re using. This helps us do things like maintain your language preferences across browsing sessions.
+
+					When you’re signed in, we also collect information that we store with your Google Account, which we treat as personal information.</p>
+
+					<p>We collect information to provide better services to all our users — from figuring out basic stuff like which language you speak, to more complex things like which ads you’ll find most useful, the people who matter most to you online, or which YouTube videos you might like. The information Google collects, and how that information is used, depends on how you use our services and how you manage your privacy controls.
+
+					When you’re not signed in to a Google Account, we store the information we collect with unique identifiers tied to the browser, application, or device you’re using. This helps us do things like maintain your language preferences across browsing sessions.
+
+					When you’re signed in, we also collect information that we store with your Google Account, which we treat as personal information.</p>
+
+					<p>We collect information to provide better services to all our users — from figuring out basic stuff like which language you speak, to more complex things like which ads you’ll find most useful, the people who matter most to you online, or which YouTube videos you might like. The information Google collects, and how that information is used, depends on how you use our services and how you manage your privacy controls.
+
+					When you’re not signed in to a Google Account, we store the information we collect with unique identifiers tied to the browser, application, or device you’re using. This helps us do things like maintain your language preferences across browsing sessions.
+
+					When you’re signed in, we also collect information that we store with your Google Account, which we treat as personal information.</p>
+				</div>
+	      <div>
+	        <button mat-raised-button color="primary" class="right" matStepperNext>Next</button>
+	      </div>
+	  </mat-step>
+	  <mat-step [stepControl]="secondFormGroup">
+	      <ng-template matStepperIcon="check" matStepLabel>
+		      Terms of Service
+		    </ng-template>
+	      <div class="setup-section">
+					<h2>Information we collect from you</h2>
+					<p>We collect information to provide better services to all our users — from figuring out basic stuff like which language you speak, to more complex things like which ads you’ll find most useful, the people who matter most to you online, or which YouTube videos you might like. The information Google collects, and how that information is used, depends on how you use our services and how you manage your privacy controls.
+
+					When you’re not signed in to a Google Account, we store the information we collect with unique identifiers tied to the browser, application, or device you’re using. This helps us do things like maintain your language preferences across browsing sessions.
+
+					When you’re signed in, we also collect information that we store with your Google Account, which we treat as personal information.</p>
+				</div>
+	      <div>
+	        <button mat-raised-button color="basic" matStepperPrevious>Back</button>
+	        <button 
+	        	mat-raised-button 
+	        	color="primary" 
+	        	class="right" 
+	        	(click)="user.additionalData.termsAccepted = true" 
+	        	matStepperNext>I Accept</button>
+	      </div>
+	  </mat-step>
+	  <mat-step [stepControl]="userSetup">
+      <ng-template matStepLabel>Setup</ng-template>
+     	<div class="setup-section">
+       	<p class="section-title">Profile picture</p>
+       	<div class="profile-image">
+       		<img [src]="user.photoURL">
+       	</div>
+				<button mat-raised-button>
+					<label for="file">Upload picture <i class="fas fa-cloud-upload-alt ml-05"></i></label>
+				</button>
+				<input type="file" (change)="uploadFile($event)" id="file" style="visibility: hidden" accept=".png,.jpg" />
+
+				<form>
+					<p class="section-title">Gamer tag</p>
+					<mat-form-field>
+	  				<input 
+	  					matInput placeholder="Tag" 
+	  					[(ngModel)]="user.gamerTag" name="gamer-tag">
+			    	<mat-hint>Atleast 3 characters</mat-hint>
+			  	</mat-form-field>
+			  	<span class="error" *ngIf="invalid" [@fade]><div class="arrow-left"></div>required</span>
+		  	</form>
+			</div>
+      <div>
+        <button mat-raised-button class="right" color="primary" (click)="createUser()">Create user</button>
+      </div>
+	  </mat-step>
+	</mat-horizontal-stepper>
+</div>
+
+<div class="user-creation-loader" *ngIf="creatingUser" [@fade]>
+  <h2>Creating user</h2>
+  <p>Please wait..</p>
+  <img class="logo center-x" src="./assets/images/logo.png">
+  <mat-progress-bar class="progress-bar" mode="indeterminate"></mat-progress-bar>
+</div>
+

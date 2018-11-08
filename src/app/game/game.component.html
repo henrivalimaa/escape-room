@@ -42,24 +42,14 @@
 			  <a mat-menu-item (click)="authService.logout()" style="color:red;">Logout</a>
 			</mat-menu>
 		</div>
-		<div class="result-text" *ngIf="resultNamed === true" [@fade]>
+		<div class="result-text">
 			<p>{{ result.score }} points</p>
 			<p style="font-size: 30px;">Time: {{ time.minutes }} min {{ time.seconds }} s</p>
 		</div>
-		<div class="stars" *ngIf="resultNamed === true" [@fade]>
+		<div class="stars">
 			<img [ngClass]="result.score > 0 ? 'filled-star' : 'dimm-star'"  style="width: 2.5em" src="http://purepng.com/public/uploads/large/purepng.com-golden-starstargeometricallydecagonconcavestardomgoldclipart-1421526502612njj9w.png">
 			<img [ngClass]="result.score > 200 ? 'filled-star' : 'dimm-star'" src="http://purepng.com/public/uploads/large/purepng.com-golden-starstargeometricallydecagonconcavestardomgoldclipart-1421526502612njj9w.png">
 			<img [ngClass]="result.score > 325 ? 'filled-star' : 'dimm-star'" style="width: 2.5em" src="http://purepng.com/public/uploads/large/purepng.com-golden-starstargeometricallydecagonconcavestardomgoldclipart-1421526502612njj9w.png">
-		</div>
-		<div class="nickname-dialog" *ngIf="!resultNamed" [@fade]>
-			<p>Save your score as</p>
-			<form class="nickname-input">
-			  <mat-form-field class="center-x">
-			    <input matInput placeholder="Nickname" name="nickname" [(ngModel)]="result.player">
-			    <mat-hint>Don't use your name!</mat-hint>
-			  </mat-form-field>
-			</form>
-			<button class="save-score-btn" (click)="saveScore()">Save<i class="far fa-save"></i></button>
 		</div>
 	</div>
 	<div class="result-leaderboard">
@@ -75,7 +65,7 @@
 					<i class="fas fa-crown" *ngIf="i < 3" [ngClass]="{ 'gold': i == 0, 'silver': i == 1, 'bronze': i == 2 }"></i>
 					<span *ngIf="i > 2">{{ i + 1 }}</span>
 				</span>
-				<span style="width: 45%; text-align: center;">{{ r.player }}</span>
+				<span style="width: 45%; text-align: center;">{{ r.gamerTag }}</span>
 				<span style="width: 20%; text-align: center;">{{ r.score }}</span>
 				<span style="width: 30%; text-align: center;">{{ convertTime(r.time) }}</span>
 			</li>

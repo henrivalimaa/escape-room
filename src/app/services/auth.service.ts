@@ -3,6 +3,8 @@ import { Router } from "@angular/router";
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 
+import { UserService } from "./user.service";
+
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -10,15 +12,29 @@ export class AuthService {
   private user: Observable<firebase.User>;
   private userDetails: firebase.User = null;
   
-  constructor(private _firebaseAuth: AngularFireAuth, private router: Router, private zone: NgZone) { 
+  constructor(
+    private _firebaseAuth: AngularFireAuth, 
+    private router: Router, 
+    private zone: NgZone,
+    private userService: UserService) { 
     this.user = _firebaseAuth.authState;
     this.user.subscribe(
       (user) => {
         if (user) {
           this.userDetails = user;
-          this.zone.run(() => {
-            this.router.navigate(['game-list']);
-          });
+          this.userService.getCurrentUser(user.email)
+            .subscribe(user => {
+              if (user.length === 0) {
+                this.zone.run(() => {
+                  this.router.navigate(['setup']);
+                });  
+              } else {
+                this.userService.setUser(user[0]);
+                this.zone.run(() => {
+                  this.router.navigate(['game-list']);
+                });
+              }
+            });
         }
         else {
           this.userDetails = null;

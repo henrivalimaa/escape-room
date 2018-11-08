@@ -1,7 +1,16 @@
 <div class="settings-view">
 	<h1>
 		<a routerLink="/game-list" class="back-btn"><i class="fas fa-arrow-left"></i></a>
-		Settings
+		Profile
+		<i class="fas fa-user-circle profile-icon"></i>
 	</h1>
-	<p>Coming soon...</p>
+	<div class="settings-view-content">
+		<p class="section-title">Profile info</p>
+		<div class="profile-info">
+			<p class="inline">{{ user.gamerTag }}</p>
+			<div class="profile-picture inline right">
+				<img [src]="user.photoURL">
+			</div>
+		</div>
+	</div>
 </div>

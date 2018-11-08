@@ -6,24 +6,34 @@
 }
 
 .settings-view h1 {
-	font-size: 30px;
-	text-align: center;
-	color: #fff;
-	margin-top: 1em;
-	text-shadow: 0 1px #172926;
-  font-family: 'Luckiest Guy', cursive;
+    font-size: 30px;
+    text-align: center;
+    color: #fff;
+    margin-top: 1em;
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
+    border-bottom: 2px dashed #2f795da8;
+    padding-bottom: 0.5em;
+    box-shadow: 0 1px 4px #000;
+    margin: 0;
+    padding-top: 1em;
+    background: #0069546b;
+}
+
+.settings-view h1 > .profile-icon {
+    -webkit-transform: rotate(25deg);
+    transform: rotate(25deg);
+    color: #4ee8c0;
+    position: absolute;
+    margin-left: 20px;
+    font-size: 0.8em;
 }
 
 .settings-view p {
   font-size: 20px;
-  text-align: center;
   color: #fff;
   text-shadow: 0 1px #172926;
   font-family: 'Luckiest Guy', cursive;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%);
-  left: 50%;
 }
 
 .back-btn {
@@ -32,4 +42,26 @@
 		left: 1em;
     color: #fff;
     font-size: 0.8em;
+}
+
+.profile-picture {
+    width: 3.5em;
+    height: 3.5em;
+    overflow: hidden;
+    border-radius: 50%;
+    transform: translateY(5%);
+}
+
+.profile-picture img {
+    height: 110%;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.section-title {
+    color: #449082 !important;
+    padding-bottom: 0.5em;
+    border-bottom: 1px dashed #449082;
 }
