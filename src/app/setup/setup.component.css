@@ -45,14 +45,14 @@
 }
 
 .setup-section {
-    height: 23em;
+    height: 20em;
     overflow-y: scroll;
     margin-bottom: 2em;
 }
 
 @media only screen and (max-height: 640px) {
     .setup-section {
-        height: 22em !important;
+        height: 20em !important;
     }
 
     .profile-image {
@@ -65,7 +65,7 @@
 }
 
 .profile-image {
-    height: 9.5em;
+    height: 5.5em;
     width: 9.5em;
     overflow: hidden;
     margin-bottom: 1em
@@ -81,6 +81,7 @@
 }
 
 .section-title {
+    margin-top: 0;
     color: #449082 !important;
     padding-bottom: 0.5em;
     border-bottom: 1px dashed #449082;
