@@ -61,7 +61,7 @@
        	<div class="profile-image">
        		<img [src]="user.photoURL">
        	</div>
-				<button mat-raised-button>
+				<button mat-raised-button style="margin-bottom: 1em;">
 					<label for="file">Upload picture <i class="fas fa-cloud-upload-alt ml-05"></i></label>
 				</button>
 				<input type="file" (change)="uploadFile($event)" id="file" style="visibility: hidden" accept=".png,.jpg" />
