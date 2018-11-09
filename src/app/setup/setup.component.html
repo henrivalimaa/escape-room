@@ -6,7 +6,7 @@
 		<ng-template matStepperIcon="edit">
 	    <mat-icon>check</mat-icon>
 	  </ng-template>
-	  <mat-step [stepControl]="firstFormGroup">
+	  <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
 	      <ng-template matStepLabel>Privacy Policy</ng-template>
 	      <div class="setup-section">
 					<h2>Information we collect from you</h2>
@@ -32,7 +32,7 @@
 	        <button mat-raised-button color="primary" class="right" matStepperNext>Next</button>
 	      </div>
 	  </mat-step>
-	  <mat-step [stepControl]="secondFormGroup">
+	  <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
 	      <ng-template matStepperIcon="check" matStepLabel>
 		      Terms of Service
 		    </ng-template>
@@ -50,11 +50,11 @@
 	        	mat-raised-button 
 	        	color="primary" 
 	        	class="right" 
-	        	(click)="user.additionalData.termsAccepted = true" 
+	        	(click)="user.additionalData.termsAccepted = true; isEditable = false" 
 	        	matStepperNext>I Accept</button>
 	      </div>
 	  </mat-step>
-	  <mat-step [stepControl]="userSetup">
+	  <mat-step [stepControl]="userSetup" [editable]="false">
       <ng-template matStepLabel>Setup</ng-template>
      	<div class="setup-section">
        	<p class="section-title">Profile picture</p>
@@ -70,7 +70,7 @@
 					<p class="section-title">Gamer tag</p>
 					<mat-form-field>
 	  				<input 
-	  					matInput placeholder="Tag" 
+	  					matInput placeholder="e.g. PuzzleSolver" 
 	  					[(ngModel)]="user.gamerTag" name="gamer-tag">
 			    	<mat-hint>Atleast 3 characters</mat-hint>
 			  	</mat-form-field>

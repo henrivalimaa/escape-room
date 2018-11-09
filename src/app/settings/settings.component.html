@@ -4,13 +4,63 @@
 		Profile
 		<i class="fas fa-user-circle profile-icon"></i>
 	</h1>
-	<div class="settings-view-content">
+	<div class="settings-content">
 		<p class="section-title">Profile info</p>
 		<div class="profile-info">
-			<p class="inline">{{ user.gamerTag }}</p>
-			<div class="profile-picture inline right">
-				<img [src]="user.photoURL">
+			<div class="profile-content">
+				<mat-form-field>
+					<input 
+						matInput placeholder="Gamer tag" 
+						[(ngModel)]="user.gamerTag" name="gamer-tag">
+		    	<mat-hint>Atleast 3 characters</mat-hint>
+		  	</mat-form-field>
+				<mat-form-field style="padding-top: 1.5em;">
+			    <input matInput placeholder="Name" disabled [(ngModel)]="user.displayName">
+			    <mat-hint>Can't be modified</mat-hint>
+			  </mat-form-field>
+			</div>
+	  	<div class="profile-picture">
+	  		<div style="width: 7.5em">
+	  			<div class="picture-wrapper">
+						<img [src]="user.photoURL">
+					</div>
+					<button mat-raised-button>
+						<label for="file">Upload<i class="fas fa-cloud-upload-alt ml-05"></i></label>
+					</button>
+					<input type="file" (change)="uploadFile($event)" id="file" style="visibility: hidden" accept=".png,.jpg" />
+	  		</div>
+	  	</div>
+		</div>
+		<p class="section-title">
+			Uploads 
+			<button 
+				class="right" 
+				mat-raised-button 
+				*ngIf="this.temp.length > 0" [@fade]
+				(click)="deleteUploads()">Delete <i class="fas fa-trash-alt ml-05"></i></button>
+		</p>
+		<div class="uploads">
+			<div class="upload" *ngFor="let upload of user.uploads; let i = index;">
+				<mat-checkbox class="picture-checked" (click)="toBeRemoved(i)"></mat-checkbox>
+				<img [src]="upload">
 			</div>
 		</div>
+
+		<p class="section-title">Delete account</p>
+		<p>By deleting your account your uploads and all user data will be lost and removed. You can still create new user by registering with google or facebook account again.</p>
+		<button mat-raised-button color="warn" (click)="showConfirmationModal = true">Delete account</button>
 	</div>
+</div>
+
+<div class="confirmation-modal" *ngIf="showConfirmationModal" [@fade]>
+	<p>Are you sure you want to delete your account?</p>
+	<button mat-raised-button color="warn" class="right" (click)="showConfirmationModal = false; deleteAccount()">Delete</button>
+	<button mat-raised-button class="left" (click)="showConfirmationModal = false">Cancel</button>
+</div>
+
+<div class="user-creation-loader" *ngIf="deletingUser" [@fade]>
+  <h2>Deleting user</h2>
+  <p>Please wait..</p>
+  <img class="logo center-x" src="./assets/images/logo.png">
+  <mat-progress-bar class="progress-bar" mode="indeterminate"></mat-progress-bar>
 </div>

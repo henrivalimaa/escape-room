@@ -115,6 +115,19 @@ main {
 }
 */
 
+.profile-info .mat-input-element {
+    color: #fff !important;
+    width: 20em;
+}
+
+.profile-info .mat-focused .mat-form-field-label {
+    color: #005a4a !important;
+}
+
+.profile-info .mat-form-field-label {
+    color: #005a4a !important;
+}
+
 .mat-form-field-label {
     color: #449082 !important;
 }
@@ -134,6 +147,20 @@ main {
 .mat-input-element {
 	color: #777 !important;
 	width: 20em;
+}
+
+.mat-stepper-horizontal {
+    height: 90%;
+}
+
+.mat-horizontal-content-container {
+    overflow: hidden;
+    padding: 0 24px 24px 24px;
+    height: 80%;
+}
+
+.mat-horizontal-stepper-content {
+    height: 100%;
 }
 
 /*

@@ -24,6 +24,8 @@ export class SetupComponent implements OnInit {
   private downloadURL: any;
   private url: string;
 
+  private isEditable: boolean = true;
+
   private user: User = new User();
 
   private creatingUser: boolean = false;
@@ -45,6 +47,7 @@ export class SetupComponent implements OnInit {
           this.user.email = auth.email;
           this.user.additionalData = {};
           this.user.gamerTag = '';
+          this.user.uploads = [];
           this.user.photoURL = auth.photoURL;
         } else {
           this.userService.setUser(user[0]);
@@ -62,7 +65,7 @@ export class SetupComponent implements OnInit {
         const ref = this.storage.ref(filePath);
         this.downloadURL = ref.getDownloadURL().subscribe(url => { 
         this.user.photoURL = url;
-        console.log(url);
+        this.user.uploads.push(url);
       });
     });
   }

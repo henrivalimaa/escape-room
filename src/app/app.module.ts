@@ -17,6 +17,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
@@ -101,6 +102,7 @@ const cookieConfig:NgcCookieConsentConfig = {
     MatIconModule,
     MatProgressBarModule,
     MatTooltipModule,
+    MatCheckboxModule,
     AngularFontAwesomeModule,
     PickerModule,
     AngularFireModule.initializeApp(environment.firebase),

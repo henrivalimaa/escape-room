@@ -12,6 +12,8 @@ export class UserService {
 	currentUser: any = null;
 	users: AngularFireList<User> = null;
 
+  private key: any;
+
 	private basePath: string = '/user';
 
   constructor(private db: AngularFireDatabase) { 
@@ -27,9 +29,11 @@ export class UserService {
   	let user = this.db.list(this.basePath, ref => ref.orderByChild('email').equalTo(email));
   	return user.snapshotChanges().pipe(
         map(changes =>
-          changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
-        )
-      );
+          changes.map(c => { 
+            this.key = c.payload.key;
+            return { key: c.payload.key, ...c.payload.val() }
+           })
+      ));
   }
 
   setUser(user: any): void {
@@ -38,6 +42,10 @@ export class UserService {
 
   get currenUser(): any {
     return this.currentUser;
+  }
+
+  get currentUserKey(): any {
+    return this.key;
   }
  
   updateUser(key: string, value: any): void {

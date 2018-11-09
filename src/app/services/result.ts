@@ -28,6 +28,7 @@ export class User {
   photoURL: string;
   displayName: string;
   createdDate: string;
+  uploads: any;
   gamerTag: string;
   additionalData: any;
 }
