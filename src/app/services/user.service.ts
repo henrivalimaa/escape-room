@@ -9,7 +9,7 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 })
 export class UserService {
 
-	currentUser: any = null;
+	currUser: any = null;
 	users: AngularFireList<User> = null;
 
   private key: any;
@@ -21,7 +21,7 @@ export class UserService {
   }
 
   createUser(user: User): void {
-  	this.currentUser = user;
+  	this.currUser = user;
     this.users.push(user);
   }
 
@@ -37,11 +37,11 @@ export class UserService {
   }
 
   setUser(user: any): void {
-    this.currentUser = user;
+    this.currUser = user;
   }
 
-  get currenUser(): any {
-    return this.currentUser;
+  get currentUser(): any {
+    return this.currUser;
   }
 
   get currentUserKey(): any {

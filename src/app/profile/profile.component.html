@@ -1,0 +1,121 @@
+<div class="settings-view">
+	<h1>
+		<a routerLink="/game-list" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+		Profile
+		<i class="fas fa-user-circle profile-icon"></i>
+	</h1>
+	<div class="settings-content">
+		<mat-progress-bar class="progress-bar" mode="indeterminate" color="accent" *ngIf="loadingImage" [@fade]></mat-progress-bar>
+		<p class="section-title">Profile info</p>
+		<div class="profile-info">
+			<div class="profile-content">
+				<mat-form-field>
+					<input 
+						matInput placeholder="Gamer tag" 
+						[(ngModel)]="user.gamerTag" name="gamer-tag">
+		    	<mat-hint>Atleast 3 characters</mat-hint>
+		  	</mat-form-field>
+				<mat-form-field style="padding-top: 1.5em;">
+			    <input matInput placeholder="Name" disabled [(ngModel)]="user.displayName">
+			    <mat-hint>Can't be modified</mat-hint>
+			  </mat-form-field>
+			</div>
+	  	<div class="profile-picture">
+	  		<div style="width: 7.5em">
+	  			<div class="picture-wrapper">
+						<img [src]="user.photoURL">
+					</div>
+					<button mat-raised-button (click)="choosingProfilePicture = true">
+						Change
+						<!--<label for="file">Upload<i class="fas fa-cloud-upload-alt ml-05"></i></label>-->
+					</button>
+					<input type="file" (change)="uploadFile($event)" id="file" style="visibility: hidden" accept=".png,.jpg" />
+					<button mat-raised-button style="margin-top: -1em;" (click)="choosingProfilePicture = true">
+						<label for="file">Upload<i class="fas fa-cloud-upload-alt ml-05"></i></label>
+					</button>
+					<input type="file" (change)="uploadFile($event)" id="file" style="visibility: hidden" accept=".png,.jpg" />
+	  		</div>
+	  	</div>
+		</div>
+		<p class="section-title">
+			Uploads 
+			<button 
+				class="right" 
+				mat-raised-button 
+				*ngIf="this.temp.selectedUploads.length > 0" [@fade]
+				(click)="toBeDeleted()">Delete <i class="fas fa-trash-alt ml-05"></i></button>
+		</p>
+		<div class="uploads">
+			<div class="upload" *ngFor="let upload of user.uploads; let i = index;">
+				<mat-checkbox class="picture-checked" (click)="toBeRemoved(i)"></mat-checkbox>
+				<img [src]="upload">
+			</div>
+		</div>
+
+		<p class="section-title">Delete account</p>
+		<p>By deleting your account your uploads and all user data will be lost and removed. You can still create new user by registering with google or facebook credentials again.</p>
+		<button mat-raised-button color="warn" (click)="showConfirmationModal = true">Delete account</button>
+	</div>
+</div>
+
+<div class="save" 
+	*ngIf="user.gamerTag != temp.gamerTag || temp.toBeDeleted.length > 0 || temp.uploads.length > 0 || temp.userImage != null" 
+	[@fade]>
+	<div class="info">
+		<div class="info-text" *ngIf="user.gamerTag != temp.gamerTag" [@fade]>
+			<i class="fas fa-user-circle"></i>
+			<span class="ml-05">Gamer tag modified</span>
+		</div>
+		<div class="info-text" *ngIf="temp.userImage != null" [@fade]>
+			<i class="fas fa-image"></i>
+			<span class="ml-05">Profile image changed</span>
+		</div>
+		<div class="info-text" *ngIf="temp.uploads.length > 0" [@fade]>
+			<i class="fas fa-image"></i>
+			<span class="ml-05">{{ temp.uploads.length }} images uploaded</span>
+		</div>
+		<div class="info-text" *ngIf="temp.toBeDeleted.length > 0" [@fade]>
+			<i class="fas fa-image"></i>
+			<span class="ml-05">{{ temp.toBeDeleted.length }} images to be deleted</span>
+		</div>
+	</div>
+	<div class="save-button">
+			<button class="right" (click)="save()" mat-raised-button color="accent">Save<i class="fas fa-save ml-05"></i></button>
+	</div>
+</div>
+
+<div class="confirmation-modal" *ngIf="showConfirmationModal" [@fade]>
+	<p>Are you sure you want to delete your account?</p>
+	<button mat-raised-button color="warn" class="right" (click)="showConfirmationModal = false; deleteAccount()">Delete</button>
+	<button mat-raised-button class="left" (click)="showConfirmationModal = false">Cancel</button>
+</div>
+
+<div class="user-creation-loader" *ngIf="deletingUser" [@fade]>
+  <h2>Deleting user</h2>
+  <p>Please wait..</p>
+  <img class="logo center-x" src="./assets/images/logo.png">
+  <mat-progress-bar class="progress-bar" mode="indeterminate"></mat-progress-bar>
+</div>
+
+<div class="profile-picture-selector" *ngIf="choosingProfilePicture" [@fade]>
+	<h1>
+		<a class="back-btn" (click)="choosingProfilePicture = false"><i class="fas fa-arrow-left"></i></a>
+		Choose picture
+		<!--<i class="fas fa-image ml-05"></i>-->
+	</h1>
+	<mat-progress-bar class="progress-bar" mode="indeterminate" color="accent" *ngIf="loadingImage" [@fade]></mat-progress-bar>
+	<div class="content">
+		<p class="section-title">Uploads</p>
+		<div class="uploads">
+			<div class="upload" *ngFor="let upload of user.uploads; let i = index;" (click)="setProfilePicture(upload)">
+				<img [src]="upload">
+			</div>
+		</div>
+		<p class="section-title">Default images</p>
+		<div class="uploads">
+			<div class="upload" *ngFor="let upload of placeholders; let i = index;" (click)="setProfilePicture(upload)">
+				<img [src]="upload">
+			</div>
+		</div>
+	</div>
+</div>

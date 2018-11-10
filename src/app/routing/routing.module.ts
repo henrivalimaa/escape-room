@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { GameComponent } from '../game/game.component';
 import { GameListComponent } from '../game-list/game-list.component';
 import { LeaderboardComponent } from '../leaderboard/leaderboard.component';
-import { SettingsComponent } from '../settings/settings.component';
+import { ProfileComponent } from '../profile/profile.component';
 import { LoginComponent } from '../login/login.component';
 import { SetupComponent } from '../setup/setup.component';
 
@@ -18,7 +18,7 @@ const routes: Routes = [
 	{ path: 'game-list', component: GameListComponent, canActivate: [AuthGuard] },
   { path: 'game', component: GameComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard] },
   { path: 'leaderboard', component: LeaderboardComponent, canActivate: [AuthGuard] },
-  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] }
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard] }
 ];
 
 @NgModule({

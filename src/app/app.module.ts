@@ -45,6 +45,7 @@ import { SlickModule } from 'ngx-slick';
 import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent';
 import { GameListComponent } from './game-list/game-list.component';
 import { SetupComponent } from './setup/setup.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const cookieConfig:NgcCookieConsentConfig = {
   "cookie": {
@@ -85,7 +86,8 @@ const cookieConfig:NgcCookieConsentConfig = {
     MessengerMediaComponent,
     LoginComponent,
     GameListComponent,
-    SetupComponent
+    SetupComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

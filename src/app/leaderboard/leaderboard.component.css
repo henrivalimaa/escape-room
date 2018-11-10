@@ -97,7 +97,7 @@
 
 .back-btn {
 		float: left;
-		position: relative;
+		position: absolute;
 		left: 1em;
     color: #fff;
     font-size: 0.8em;
