@@ -2,7 +2,8 @@ import { Component, OnInit, HostListener } from '@angular/core';
 
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
-import { User } from '../services/result';
+import { FileUploadService } from '../services/file-upload.service';
+import { User, FileUpload } from '../services/result';
 
 import { fadeAnimation } from '../animations/animations';
 
@@ -22,6 +23,8 @@ export class ProfileComponent implements OnInit {
 
 	private key: any;
 
+	private userFileUploads: Array<any> = [];
+
 	private loadingImage: boolean = false;
 	private deletingUser: boolean = false;
 	private choosingProfilePicture: boolean = false;
@@ -29,6 +32,7 @@ export class ProfileComponent implements OnInit {
   constructor(
   	private userService: UserService, 
   	private authService: AuthService,
+  	private fileUploadService: FileUploadService,
   	private storage: AngularFireStorage) { }
 
   ngOnInit() {
@@ -36,11 +40,8 @@ export class ProfileComponent implements OnInit {
   	this.key = this.userService.currentUserKey;
   	this.temp.gamerTag = this.user.gamerTag;
   	this.temp.selectedUploads = [];
-  	this.temp.toBeDeleted = [];
-  	this.temp.uploads = [];
   	this.temp.userImage = null;
-  	if (!this.user.uploads) this.user.uploads = [];
-  	
+
   	this.placeholders = [
   		'./assets/images/placeholders/pexels-photo-1011334.jpeg',
   		'./assets/images/placeholders/pexels-photo-1245356.jpg',
@@ -54,6 +55,10 @@ export class ProfileComponent implements OnInit {
   		'./assets/images/placeholders/pexels-photo-707837.jpeg',
   		'./assets/images/placeholders/pexels-photo-735911.jpeg'
   	]
+
+  	this.fileUploadService.getUserFileUploads(this.user.email).subscribe(res => {
+  		this.userFileUploads = res;
+  	});
   }
 
   @HostListener('window:beforeunload', ['$event'])
@@ -62,16 +67,7 @@ export class ProfileComponent implements OnInit {
   }
 
   canDeactivate() {
-    if (this.temp.uploads.length > 0 
-    	|| this.temp.gamerTag != this.user.gamerTag 
-    	|| this.temp.toBeDeleted.length > 0
-    	|| this.temp.userImage != null) {
-
-    	if (this.temp.uploads.length > 0) {
-    		for (let upload in this.temp.uploads) {
-    			this.deleteUpload(upload);
-    		}
-    	} 
+    if (this.temp.gamerTag != this.user.gamerTag) {
       return window.confirm('You have unsaved changes. Do you want to discard them?');
     }
 
@@ -90,19 +86,33 @@ export class ProfileComponent implements OnInit {
     const filePath = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     const task = this.storage.upload(filePath, file).then(() => {
       const ref = this.storage.ref(filePath);
+
+      var metadata = {
+			  customMetadata: {
+			    'owner': this.user.email
+			  }
+			}
+
+      ref.updateMetatdata(metadata).subscribe(response => {});
+
       ref.getDownloadURL().subscribe(url => { 
       	this.user.photoURL = url;
-      	this.user.uploads.push(url);
-      	this.temp.uploads.push(url);
-      	this.loadingImage = false;
       	this.temp.userImage = this.user.photoURL;
-      	// this.userService.updateUser(this.key, this.user);
+
+      	let upload = new FileUpload();
+      	upload.name = filePath;
+      	upload.owner = this.user.email;
+      	upload.url = url;
+
+      	this.fileUploadService.saveFileData(upload);
+
+      	this.loadingImage = false;
     	});
     });
   }
 
-  toBeRemoved(index: any): void {
-    let picture = this.user.uploads[index];
+  toBeRemoved(upload): void {
+    let picture = upload;
     if (this.temp.selectedUploads.includes(picture)) {
       for (let i = 0; i < this.temp.selectedUploads.length; i++) {
         if (this.temp.selectedUploads[i] === picture) {
@@ -116,62 +126,27 @@ export class ProfileComponent implements OnInit {
   }
 
   toBeDeleted() {
-  	this.temp.toBeDeleted = this.temp.toBeDeleted.concat(this.temp.selectedUploads);
-  	console.log(this.temp.toBeDeleted)
-  	for (let i in this.temp.toBeDeleted) {
-  		for (let j in this.user.uploads) {
-	  		if (this.user.uploads[j] === this.temp.toBeDeleted[i]) {
-	  			this.user.uploads.splice(j, 1);
-	  		} 	
-		 	}
+  	for (let i in this.temp.selectedUploads) {
+  		this.fileUploadService.deleteUserFileUpload(this.temp.selectedUploads[i]);
   	}
   	this.temp.selectedUploads = [];
   }
 
   save(): void {
-  	this.temp.uploads = [];
   	this.temp.gamerTag = this.user.gamerTag;
   	this.temp.userImage = null;
-  	this.deleteUploads();
-  }
-
-  deleteUploads(): void {
-  	for(let upload of this.temp.toBeDeleted) {
-  		this.removeFromUserUploads(upload);
-  		this.deleteUpload(upload);
-  	}
-
-  	this.temp.toBeDeleted = [];
   	this.userService.updateUser(this.key, this.user);
-  }
-  
-  removeFromUserUploads(upload: string): void {
-    for (let i = 0; i < this.user.uploads.length; i++) {
-      if (this.user.uploads[i] === upload) {
-         this.user.uploads.splice(i, 1);
-         return;
-       }
-    }
-  }
-
-  deleteUpload(url: string): void {
-  	let temp = url.split('/');
-  	let result = temp[temp.length - 1].split('?')[0];
-
-		var uploadRef = this.storage.ref(result);
-
-		// Delete the file
-		uploadRef.delete();
   }
 
   deleteAccount(): void {
-    this.deletingUser = true;
-    for (let upload of this.user.uploads) {
-      this.deleteUpload(upload);
+  	this.deletingUser = true;
+
+    for (let upload in this.userFileUploads) {
+      this.fileUploadService.deleteUserFileUpload(this.userFileUploads[upload]);
     }
 
     setTimeout(() => {
-      this.userService.deleteUser(this.key);
+    	this.userService.deleteUser(this.key);
       this.authService.logout();      
      }, 7000);
   }

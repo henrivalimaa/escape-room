@@ -12,7 +12,7 @@
 			<ngx-slick *ngIf="!loadingLeaderboard" [@fade] class="carousel" #slickModal="slick-modal" [config]="slideConfig">
 		    <div ngxSlickItem *ngFor="let leaderboard of leaderboards" class="slide">
 		    	<h3>{{ leaderboard.name }}</h3>
-		    	<small *ngIf="!leaderboard.results.length" class="center-xy">No results</small>
+		    	<small *ngIf="leaderboard.results.length === 0" class="center-xy">No results</small>
 		    	<ul *ngIf="leaderboard.results.length">
 						<li *ngFor="let r of leaderboard.results; let i = index">
 							<span style="width: 5%">

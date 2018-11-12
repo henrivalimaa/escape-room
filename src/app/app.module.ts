@@ -18,6 +18,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
@@ -46,6 +48,7 @@ import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsen
 import { GameListComponent } from './game-list/game-list.component';
 import { SetupComponent } from './setup/setup.component';
 import { ProfileComponent } from './profile/profile.component';
+import { GameEditorComponent } from './game-editor/game-editor.component';
 
 const cookieConfig:NgcCookieConsentConfig = {
   "cookie": {
@@ -87,7 +90,8 @@ const cookieConfig:NgcCookieConsentConfig = {
     LoginComponent,
     GameListComponent,
     SetupComponent,
-    ProfileComponent
+    ProfileComponent,
+    GameEditorComponent
   ],
   imports: [
     BrowserModule,
@@ -105,6 +109,8 @@ const cookieConfig:NgcCookieConsentConfig = {
     MatProgressBarModule,
     MatTooltipModule,
     MatCheckboxModule,
+    MatSlideToggleModule,
+    MatExpansionModule,
     AngularFontAwesomeModule,
     PickerModule,
     AngularFireModule.initializeApp(environment.firebase),

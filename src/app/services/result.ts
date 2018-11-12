@@ -28,9 +28,15 @@ export class User {
   photoURL: string;
   displayName: string;
   createdDate: string;
-  uploads: any;
   gamerTag: string;
   additionalData: any;
+}
+
+export class FileUpload {
+  key: string;
+  name: string;
+  owner: string;
+  url: string;
 }
 
 import { Injectable } from '@angular/core';

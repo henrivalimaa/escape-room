@@ -128,6 +128,23 @@ main {
     color: #005a4a !important;
 }
 
+.game-editor .mat-focused .mat-form-field-label {
+    color: #005a4a !important;
+}
+
+.game-editor .mat-form-field-label {
+    color: #005a4a !important;
+}
+
+.game-editor .mat-form-field {
+    margin-bottom: 0.5em;
+}
+
+.game-editor .mat-input-element {
+    color: #fff !important;
+    width: 20em;
+}
+
 .mat-form-field-label {
     color: #449082 !important;
 }
@@ -161,6 +178,24 @@ main {
 
 .mat-horizontal-stepper-content {
     height: 100%;
+}
+
+.mat-menu-panel {
+    background: #2b7667 !important;
+}
+
+.mat-menu-item {
+    color: #fff !important;
+}
+
+.mat-expansion-panel {
+    background: #fff;
+    color: rgba(255, 255, 255, 0.87);
+    background: #225e5269;
+}
+
+.mat-expansion-panel-header-title {
+    color: #fff;
 }
 
 /*

@@ -1,10 +1,12 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-
 import { Router } from "@angular/router";
+
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
+import { FileUploadService } from '../services/file-upload.service';
+
 import { fadeAnimation, slideAnimation } from '../animations/animations';
-import { User } from '../services/result';
+import { User, FileUpload } from '../services/result';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -28,11 +30,13 @@ export class SetupComponent implements OnInit {
 
   private user: User = new User();
 
+  private loadingImage: boolean = false;
   private creatingUser: boolean = false;
 
   constructor(
     private authService: AuthService,
-    private userService: UserService, 
+    private userService: UserService,
+    private fileUploadService: FileUploadService, 
     private router: Router,
     private zone: NgZone,
     private storage: AngularFireStorage) { }
@@ -47,7 +51,6 @@ export class SetupComponent implements OnInit {
           this.user.email = auth.email;
           this.user.additionalData = {};
           this.user.gamerTag = '';
-          this.user.uploads = [];
           this.user.photoURL = auth.photoURL;
         } else {
           this.userService.setUser(user[0]);
@@ -59,13 +62,31 @@ export class SetupComponent implements OnInit {
   }
 
   uploadFile(event) {
+    this.loadingImage = true;
     const file = event.target.files[0];
     const filePath = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     const task = this.storage.upload(filePath, file).then(() => {
-        const ref = this.storage.ref(filePath);
-        this.downloadURL = ref.getDownloadURL().subscribe(url => { 
+      const ref = this.storage.ref(filePath);
+
+      var metadata = {
+        customMetadata: {
+          'owner': this.user.email
+        }
+      }
+
+      ref.updateMetatdata(metadata).subscribe(response => {});
+
+      ref.getDownloadURL().subscribe(url => { 
         this.user.photoURL = url;
-        this.user.uploads.push(url);
+
+        const upload = new FileUpload();
+        upload.name = filePath;
+        upload.owner = this.user.email;
+        upload.url = url;
+
+        this.fileUploadService.saveFileData(upload);
+
+        this.loadingImage = false;
       });
     });
   }

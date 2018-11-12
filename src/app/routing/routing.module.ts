@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { GameComponent } from '../game/game.component';
 import { GameListComponent } from '../game-list/game-list.component';
+import { GameEditorComponent } from '../game-editor/game-editor.component';
 import { LeaderboardComponent } from '../leaderboard/leaderboard.component';
 import { ProfileComponent } from '../profile/profile.component';
 import { LoginComponent } from '../login/login.component';
@@ -15,6 +16,7 @@ const routes: Routes = [
 	{ path: 'login', component: LoginComponent },
 	{ path: '', redirectTo: '/login', pathMatch: 'full' },
 	{ path: 'setup', component: SetupComponent, canActivate: [AuthGuard] },
+	{ path: 'game-editor', component: GameEditorComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard] },
 	{ path: 'game-list', component: GameListComponent, canActivate: [AuthGuard] },
   { path: 'game', component: GameComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard] },
   { path: 'leaderboard', component: LeaderboardComponent, canActivate: [AuthGuard] },

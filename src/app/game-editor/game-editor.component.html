@@ -1,0 +1,251 @@
+<div class="messenger-header">
+	<div class="profile-picture inline">
+		<img [src]="user.photoURL">
+	</div>
+	<div class="inline name">
+		<h3>{{ user.gamerTag }}</h3>
+		<p>Online</p>
+	</div>
+	<button class="transparent inline right center-y mr-05" [matMenuTriggerFor]="menu"><i class="fas fa-bars fa-2x"></i></button>
+	<mat-menu #menu="matMenu">
+	  <a mat-menu-item routerLink="/leaderboard">Leaderboards</a>
+	  <a mat-menu-item routerLink="/profile">Profile</a>
+	  <a mat-menu-item routerLink="/game-editor">Create new game</a>
+	  <a mat-menu-item (click)="authService.logout()" style="color:red;">Logout</a>
+	</mat-menu>
+</div>
+
+<mat-progress-bar *ngIf="loadingImage" [@fade] color="accent" class="progress-bar" mode="indeterminate"></mat-progress-bar>
+
+<div class="game-editor-container">
+
+	<div class="game-editor">
+		<h1>Create new game</h1>
+
+		<p class="section-title">Game properties</p>
+		<div class="game-properties-grid">
+			<div class="properties">
+				<mat-form-field>
+					<input 
+						matInput placeholder="Game title" 
+						[(ngModel)]="game.title" name="game-title">
+		    	<mat-hint>Atleast 3 characters</mat-hint>
+		  	</mat-form-field>
+		  	<mat-form-field>
+					<input 
+						type="number" 
+						matInput placeholder="Max time" 
+						[(ngModel)]="game.maxTime" name="max-time">
+		    	<mat-hint>Number in minutes</mat-hint>
+		  	</mat-form-field>
+		  	<mat-form-field>
+					<input
+						type="textg"
+						matInput placeholder="Duration" 
+						[(ngModel)]="game.duration" name="max-time">
+		    	<mat-hint>e.q. "20-40 min"</mat-hint>
+		  	</mat-form-field>
+			</div>
+			<div class="game-background">
+				<div style="width: 7.5em">
+					<p class="background-title">Background</p>
+	  			<div class="picture-wrapper">
+						<img *ngIf="game.images.background" [src]="game.images.background">
+					</div>
+					<!--
+					<button mat-raised-button (click)="choosingProfilePicture = true">
+						Change
+						<i class="fas fa-image ml-05"></i>
+					</button>
+					-->
+					<input type="file" (change)="uploadFile($event, 'background')" id="file" style="visibility: hidden" accept=".png,.jpg" />
+					<button mat-raised-button style="margin-top: -1em;" (click)="choosingProfilePicture = true">
+						<label for="file">Upload<i class="fas fa-cloud-upload-alt ml-05"></i></label>
+					</button>
+	  		</div>
+			</div>
+		</div>
+
+  	<p class="section-title">Sender</p>
+  	<div class="sender-grid">
+  		<div class="sender-name">
+  			<mat-form-field>
+					<input 
+						matInput placeholder="Sender name" 
+						[(ngModel)]="game.sender.name" name="game-title">
+		    	<mat-hint>e.q. Santa</mat-hint>
+		  	</mat-form-field>
+		  	<mat-form-field>
+					<input 
+						type="email"
+						matInput placeholder="Email" 
+						[(ngModel)]="game.sender.email" name="game-title">
+		    	<mat-hint>e.q. santa@example.com</mat-hint>
+		  	</mat-form-field>
+		  	<mat-form-field>
+					<input
+						type="phone"
+						matInput placeholder="Phone" 
+						[(ngModel)]="game.sender.phone" name="game-title">
+		    	<mat-hint>e.q. 040 222 4567</mat-hint>
+		  	</mat-form-field>
+  		</div>
+	  	<div class="sender-picture">
+	  		<div style="width: 7.5em" class="right">
+	  			<p class="background-title">Sender photo</p>
+	  			<div class="picture-wrapper">
+						<img [src]="game.sender.photo">
+					</div>
+					<!--
+					<button mat-raised-button (click)="choosingProfilePicture = true">
+						Change
+						<i class="fas fa-image ml-05"></i>
+					</button>
+					-->
+					<input type="file" (change)="uploadFile($event, 'sender-photo')" id="senderPhoto" style="visibility: hidden" accept=".png,.jpg" />
+					<button mat-raised-button style="margin-top: -1em;" (click)="choosingProfilePicture = true">
+						<label for="senderPhoto">Upload<i class="fas fa-cloud-upload-alt ml-05"></i></label>
+					</button>
+	  		</div>
+			</div>
+  	</div>
+
+  	<p class="section-title">Messages & Questions</p>
+  	<div class="question-toggle">
+  		<mat-slide-toggle
+	        class="left"
+	        [color]="accent"
+	        [checked]="false"
+	        [(ngModel)]="isQuestion" style="color: #fff">
+	        Question
+	    </mat-slide-toggle>
+  	</div>
+  	<div class="sender-grid" *ngIf="!isQuestion" [@fade]>
+  		<div class="sender-name">
+  			<mat-form-field>
+					<input 
+						matInput placeholder="Message" 
+						[(ngModel)]="temp.text" name="game-title">
+		    	<mat-hint>e.q. "10-9 = x?"</mat-hint>
+		  	</mat-form-field>
+		  	<mat-form-field>
+					<input 
+						matInput placeholder="Video URL" 
+						[(ngModel)]="temp.video" name="game-title">
+		    	<mat-hint>youtube.com/12345</mat-hint>
+		  	</mat-form-field>
+  		</div>
+  		<div class="sender-picture">
+	  		<div style="width: 7.5em" class="right">
+	  			<p class="background-title">Image</p>
+	  			<div class="picture-wrapper">
+						<img *ngIf="temp.image" [src]="temp.image">
+					</div>
+					<input type="file" (change)="uploadFile($event, 'sender-photo')" id="messageImage" style="visibility: hidden" accept=".png,.jpg" />
+					<button mat-raised-button style="margin-top: -1em;" (click)="choosingProfilePicture = true">
+						<label for="messageImage">Upload<i class="fas fa-cloud-upload-alt ml-05"></i></label>
+					</button>
+	  		</div>
+			</div>
+  	</div>
+  	<div class="sender-grid" *ngIf="isQuestion" [@fade]>
+  		<div class="sender-name">
+  			<mat-form-field>
+					<input 
+						matInput placeholder="Question" 
+						[(ngModel)]="temp.text" name="game-title">
+		    	<mat-hint>e.q. "10-9 = x?"</mat-hint>
+		  	</mat-form-field>
+		  	<mat-form-field>
+					<input 
+						matInput placeholder="Video URL" 
+						[(ngModel)]="temp.video" name="game-title">
+		    	<mat-hint>youtube.com/12345</mat-hint>
+		  	</mat-form-field>
+		  	<mat-form-field>
+					<input 
+						matInput placeholder="Answer" 
+						[(ngModel)]="temp.answer" name="game-title">
+		  	</mat-form-field>
+		  	<mat-form-field>
+					<input 
+						matInput placeholder="Points" 
+						[(ngModel)]="temp.points" name="game-title">
+		    	<mat-hint>Points as number</mat-hint>
+		  	</mat-form-field>
+		  	<mat-form-field>
+					<input 
+						matInput placeholder="Feedback (required)" 
+						[(ngModel)]="temp.feedback" name="game-title">
+		    	<mat-hint>e.q. "Good job!"</mat-hint>
+		  	</mat-form-field>
+  		</div>
+  		<div class="sender-picture">
+	  		<div style="width: 7.5em" class="right">
+	  			<p class="background-title">Image</p>
+	  			<div class="picture-wrapper">
+						<img *ngIf="temp.image" [src]="temp.image">
+					</div>
+					<input type="file" (change)="uploadFile($event, 'message')" id="messageImage" style="visibility: hidden" accept=".png,.jpg" />
+					<button mat-raised-button style="margin-top: -1em;" (click)="choosingProfilePicture = true">
+						<label for="messageImage">Upload<i class="fas fa-cloud-upload-alt ml-05"></i></label>
+					</button>
+	  		</div>
+			</div>
+  	</div>
+
+  	<div class="messages" *ngIf="game.messages.length > 1" [@fade]>
+  		<p class="section-title">Message list</p>
+  		<div class="message" *ngFor="let message of game.messages">
+  			<mat-expansion-panel *ngIf="message.text != '' || message.text">
+		    <mat-expansion-panel-header>
+			      <mat-panel-title>
+			        {{ message.text }}
+			      </mat-panel-title>
+			      <mat-panel-description *ngIf="message.responseRequired">
+			        Question
+			      </mat-panel-description>
+			      <mat-panel-description *ngIf="!message.responseRequired && !message.points">
+			        Message
+			      </mat-panel-description>
+			      <mat-panel-description *ngIf="message.points">
+			        Feedback
+			      </mat-panel-description>
+			    </mat-expansion-panel-header>
+			    <p style="margin-top: 1em">{{ message.text }}</p>
+			    <p style="margin-top: 0.5em" *ngIf="message.responseRequired">Answer: {{ message.answer }}</p>
+			    <p style="margin-top: 0.5em" *ngIf="message.points">Points: {{ message.points }}</p>
+			  </mat-expansion-panel>
+  		</div>
+	 	</div>
+	</div>
+
+<!--
+<div class="profile-picture-selector" *ngIf="choosingProfilePicture" [@fade]>
+	<h1>
+		<a class="back-btn" (click)="choosingProfilePicture = false"><i class="fas fa-arrow-left"></i></a>
+		Choose a picture
+	</h1>
+	<mat-progress-bar class="progress-bar" mode="indeterminate" color="accent" *ngIf="loadingImage" [@fade]></mat-progress-bar>
+	<div class="content">
+		<p class="section-title">Uploads</p>
+		<div class="uploads">
+			<div class="upload" *ngFor="let upload of userFileUploads" (click)="temp.image = upload.url">
+				<img [src]="upload.url">
+			</div>
+		</div>
+		<p class="section-title">Default images</p>
+		<div class="uploads">
+			<div class="upload" *ngFor="let upload of placeholders; let i = index;" (click)="temp.image = upload">
+				<img [src]="upload">
+			</div>
+		</div>
+	</div>
+</div>
+-->
+
+	<div class="controls" *ngIf="temp.text || game.messages.length > 1" [@fade]>
+		<button mat-raised-button class="save-question-btn" *ngIf="temp.text" [@fade] (click)="saveQuestion()">Save question</button>
+		<button mat-raised-button *ngIf="game.messages.length > 1" [@fade] (click)="save()">Create game</button>
+	</div>
+</div>

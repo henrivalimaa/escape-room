@@ -27,7 +27,7 @@
 					</div>
 					<button mat-raised-button (click)="choosingProfilePicture = true">
 						Change
-						<!--<label for="file">Upload<i class="fas fa-cloud-upload-alt ml-05"></i></label>-->
+						<i class="fas fa-image ml-05"></i>
 					</button>
 					<input type="file" (change)="uploadFile($event)" id="file" style="visibility: hidden" accept=".png,.jpg" />
 					<button mat-raised-button style="margin-top: -1em;" (click)="choosingProfilePicture = true">
@@ -46,9 +46,9 @@
 				(click)="toBeDeleted()">Delete <i class="fas fa-trash-alt ml-05"></i></button>
 		</p>
 		<div class="uploads">
-			<div class="upload" *ngFor="let upload of user.uploads; let i = index;">
-				<mat-checkbox class="picture-checked" (click)="toBeRemoved(i)"></mat-checkbox>
-				<img [src]="upload">
+			<div class="upload" *ngFor="let upload of userFileUploads">
+				<mat-checkbox class="picture-checked" (click)="toBeRemoved(upload)"></mat-checkbox>
+				<img [src]="upload.url">
 			</div>
 		</div>
 
@@ -58,25 +58,11 @@
 	</div>
 </div>
 
-<div class="save" 
-	*ngIf="user.gamerTag != temp.gamerTag || temp.toBeDeleted.length > 0 || temp.uploads.length > 0 || temp.userImage != null" 
-	[@fade]>
+<div class="save" *ngIf="user.gamerTag != temp.gamerTag" [@fade]>
 	<div class="info">
 		<div class="info-text" *ngIf="user.gamerTag != temp.gamerTag" [@fade]>
 			<i class="fas fa-user-circle"></i>
 			<span class="ml-05">Gamer tag modified</span>
-		</div>
-		<div class="info-text" *ngIf="temp.userImage != null" [@fade]>
-			<i class="fas fa-image"></i>
-			<span class="ml-05">Profile image changed</span>
-		</div>
-		<div class="info-text" *ngIf="temp.uploads.length > 0" [@fade]>
-			<i class="fas fa-image"></i>
-			<span class="ml-05">{{ temp.uploads.length }} images uploaded</span>
-		</div>
-		<div class="info-text" *ngIf="temp.toBeDeleted.length > 0" [@fade]>
-			<i class="fas fa-image"></i>
-			<span class="ml-05">{{ temp.toBeDeleted.length }} images to be deleted</span>
 		</div>
 	</div>
 	<div class="save-button">
@@ -100,15 +86,15 @@
 <div class="profile-picture-selector" *ngIf="choosingProfilePicture" [@fade]>
 	<h1>
 		<a class="back-btn" (click)="choosingProfilePicture = false"><i class="fas fa-arrow-left"></i></a>
-		Choose picture
+		Choose a picture
 		<!--<i class="fas fa-image ml-05"></i>-->
 	</h1>
 	<mat-progress-bar class="progress-bar" mode="indeterminate" color="accent" *ngIf="loadingImage" [@fade]></mat-progress-bar>
 	<div class="content">
 		<p class="section-title">Uploads</p>
 		<div class="uploads">
-			<div class="upload" *ngFor="let upload of user.uploads; let i = index;" (click)="setProfilePicture(upload)">
-				<img [src]="upload">
+			<div class="upload" *ngFor="let upload of userFileUploads" (click)="setProfilePicture(upload.url)">
+				<img [src]="upload.url">
 			</div>
 		</div>
 		<p class="section-title">Default images</p>

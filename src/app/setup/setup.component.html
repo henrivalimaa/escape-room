@@ -56,6 +56,7 @@
 	  </mat-step>
 	  <mat-step [stepControl]="userSetup" [editable]="false">
       <ng-template matStepLabel>Setup</ng-template>
+      <mat-progress-bar style="left: 0" *ngIf="loadingImage"  color="accent" class="progress-bar" mode="indeterminate"></mat-progress-bar>
      	<div class="setup-section">
        	<p class="section-title">Profile picture</p>
        	<div class="profile-image">

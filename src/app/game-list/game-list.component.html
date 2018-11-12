@@ -10,12 +10,22 @@
 	<mat-menu #menu="matMenu">
 	  <a mat-menu-item routerLink="/leaderboard">Leaderboards</a>
 	  <a mat-menu-item routerLink="/profile">Profile</a>
-	  <a mat-menu-item (click)="authService.logout()" style="color:red;">Logout</a>
+	  <a mat-menu-item (click)="authService.logout()">Logout</a>
 	</mat-menu>
 </div>
 
 <div class="game-list">
-	<h2>Games available <i class="fas fa-gamepad"></i></h2>
+	<h2>
+		<!--
+		<mat-slide-toggle
+        class="left"
+        [color]="accent"
+        [checked]="false"
+        >
+    </mat-slide-toggle>-->
+		Games available
+		<i class="fas fa-gamepad"></i>
+	</h2>
 	<div class="game-list-carousel">
 		<ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
 	    <div ngxSlickItem *ngFor="let game of games | async" class="slide" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
@@ -32,3 +42,8 @@
 	  </ngx-slick>
 	</div>
 </div>
+
+<a class="create-game-btn" routerLink="/game-editor">
+	<i class="fas fa-plus"></i>
+	<span>Create new game</span>
+</a>
