@@ -20,7 +20,7 @@ export class MessageService {
 	private basePath: string = '/games';
 
   constructor(private db: AngularFireDatabase, private authService: AuthService) { 
-  	this.gamesRef = db.list(this.basePath);
+  	this.gamesRef = db.list(this.basePath, ref => ref.orderByChild('owner').equalTo('default'));
   	this.user = authService.currentUser;
 
     this.games = this.gamesRef.snapshotChanges().pipe(
@@ -29,6 +29,14 @@ export class MessageService {
       )
     );
 
+  }
+
+  getCurrentUserGames(email: string): any {
+    return this.db.list(this.basePath, ref => ref.orderByChild('owner').equalTo(email)).snapshotChanges().pipe(
+      map(changes => 
+        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+      )
+    );
   }
 
   setGame(game: Game): void {

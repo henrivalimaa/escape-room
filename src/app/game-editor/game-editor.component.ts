@@ -28,6 +28,9 @@ export class GameEditorComponent implements OnInit {
 
 	private loadingImage: boolean = false;
 	private isQuestion: boolean = false;
+  private choosingImage: boolean = false;
+
+  private imagePosition: string;
 
   constructor(
   	private zone: NgZone,
@@ -40,13 +43,14 @@ export class GameEditorComponent implements OnInit {
   ngOnInit() {
   	this.user = this.userService.currentUser;
   	this.game = new Game();
+    this.game.owner = this.user.email;
   	this.game.sender = {};
   	this.game.images = {};
   	this.game.sender.name = this.user.displayName;
   	this.game.sender.photo = this.user.photoURL;
   	this.game.questions = 0;
   	this.game.messages = [
-  		{ continous: true, text: '', time: '' }
+  		{ continous: true, start: true, text: '', time: '' }
   	];
 
   	this.temp.points = 100;
@@ -56,6 +60,7 @@ export class GameEditorComponent implements OnInit {
   	});
 
   	this.placeholders = [
+      './assets/images/placeholders/pexels-photo-255379.jpeg',
   		'./assets/images/placeholders/pexels-photo-1011334.jpeg',
   		'./assets/images/placeholders/pexels-photo-1245356.jpg',
   		'./assets/images/placeholders/pexels-photo-1249214.jpeg',
@@ -118,9 +123,11 @@ export class GameEditorComponent implements OnInit {
   saveQuestion(): void {
   	let question = {
   		continous: false,
+      type: 'Question',
   		responseRequired: true,
   		incoming: true,
-  		delay: 3000,
+      hint: this.temp.hint !== undefined ? this.temp.hint : '',
+  		delay: this.temp.delay !== undefined ? this.temp.delay : 3000,
   		text: this.temp.text !== undefined ? this.temp.text : '',
   		image: this.temp.image !== undefined ? this.temp.image : '',
   		answer: this.temp.answer !== undefined ? this.temp.answer : ''
@@ -128,15 +135,17 @@ export class GameEditorComponent implements OnInit {
 
   	let message = {
   		continous: true,
+      type: 'Message',
   		responseRequired: false,
   		incoming: true,
-  		delay: 3000,
+  		delay: this.temp.delay !== undefined ? this.temp.delay : 3000,
   		text: this.temp.text !== undefined ? this.temp.text : '',
   		image: this.temp.image !== undefined ? this.temp.image : '',
   	};
 
   	let feedback = { 
-  		time: '', 
+  		time: '',
+      type: 'Feedback', 
   		text: this.temp.feedback !== undefined ? this.temp.feedback : 'Well done...', 
   		continous: true, 
   		incoming: true, 
@@ -154,6 +163,13 @@ export class GameEditorComponent implements OnInit {
 
   	this.temp = {};
   	this.temp.points = 100;
+  }
+
+  setImage(url: string): void {
+    if (this.imagePosition === 'background') this.game.images.background = url;
+    if (this.imagePosition === 'sender') this.game.sender.photo = url;
+    if (this.imagePosition === 'message') this.temp.image = url;
+    this.choosingImage = false;
   }
 
 }

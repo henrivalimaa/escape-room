@@ -43,6 +43,7 @@ export class ProfileComponent implements OnInit {
   	this.temp.userImage = null;
 
   	this.placeholders = [
+      './assets/images/placeholders/pexels-photo-255379.jpeg',
   		'./assets/images/placeholders/pexels-photo-1011334.jpeg',
   		'./assets/images/placeholders/pexels-photo-1245356.jpg',
   		'./assets/images/placeholders/pexels-photo-1249214.jpeg',

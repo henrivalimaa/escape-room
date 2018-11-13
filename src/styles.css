@@ -158,7 +158,28 @@ main {
 }
 
 .mat-form-field-underline {
-    background-color: #449082 !important;
+    background-color: #225e52 !important;
+}
+
+.messages .mat-focused .mat-form-field-label {
+    color: #ff5 !important;
+}
+
+.messages .mat-form-field-ripple {
+    background-color: #fff5 !important;
+}
+
+.messages .mat-expansion-panel-header-title {
+    display: unset !important;
+    flex-grow: unset !important;
+    margin-right: 16px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 60%;
+    max-width: unset;
 }
 
 .mat-input-element {
@@ -196,6 +217,11 @@ main {
 
 .mat-expansion-panel-header-title {
     color: #fff;
+}
+
+.mat-expansion-panel-header-description {
+    flex: 1;
+    flex-grow: unset !important;
 }
 
 /*

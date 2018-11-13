@@ -56,6 +56,7 @@
 
 .game-editor {
     padding: 1em;
+    padding-bottom: 5em;
 }
 
 .game-editor h1 {
@@ -255,4 +256,55 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+
+.message-grid {
+    padding-top: 1em;
+    display: grid;
+    grid-template-areas: 'properties image';
+}
+
+.message-content {
+    grid-area: properties;
+}
+
+.message-image {
+    grid-area: image;
+}
+
+.message-label {
+    display: block;
+    margin-top: 0.5em;
+    font-size: 10px;
+    color: #005a4a !important;
+}
+
+.edit-btn {
+    position: relative;
+    bottom: 1em;
+    background: transparent;
+    color: #fff;
+}
+
+.create-game-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 70%;
+    background: #225e52bf;
+    padding: 1em;
+    border-radius: 5px;
+    box-shadow: 0 2px 3px #777;
+    color: #fff;
+}
+
+.create-game-modal p {
+    margin-bottom: 1.5em;
+}
+
+.confirm-btn {
+    background: rgb(42, 152, 135);
+    color: #fff;
 }

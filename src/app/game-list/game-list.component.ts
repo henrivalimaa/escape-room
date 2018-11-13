@@ -18,6 +18,7 @@ export class GameListComponent implements OnInit {
 	
 	private player: any = {};
 	private games: Observable<any>;
+  private userGames: any;
 
 	slideConfig = {'slidesToShow': 1, 'dots': true};
 
@@ -32,6 +33,11 @@ export class GameListComponent implements OnInit {
   	this.player = this.userService.currentUser;
   	this.messageService.reset();
     this.games = this.messageService.getGames();
+    this.messageService.getCurrentUserGames(this.player.email).subscribe(response => {
+      this.userGames = response;
+    });
+
+    console.log(this.userGames);
   }
 
   startGame(game: Game): void {

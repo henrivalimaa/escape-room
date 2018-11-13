@@ -10,6 +10,7 @@ export class Game {
 	title: string;
 	key: string;
 	maxTime: 120;
+  owner: string;
   duration: string;
   questions: number;
   sender: any;

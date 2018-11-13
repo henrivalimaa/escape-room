@@ -6,7 +6,7 @@
     left: 0;
     right: 0;
     top: 0;
-    z-index: 100;
+    z-index: 999;
     box-shadow: 0px 3px 12px #777;
 }
 
@@ -47,15 +47,15 @@
 
 .game-list {
     top: 6em;
-    position: fixed;
-    z-index: 1000;
-    height: 100%;
+    position: relative;
+    z-index: 998;
+    height: 30em;
     width: 100%;
-    background-image: url(https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png);
+    overflow-x: hidden;
 }
 
 .game-list-carousel {
-    height: 65%;
+    height: 20em;
     background: #0001;
     box-shadow: 0 4px 10px #909090;
 }
@@ -72,6 +72,13 @@
     margin-left: 0.5em;
     transform: rotate(33deg);
     color: #2eccac;
+}
+
+.my-games-title > i {
+    position: absolute;
+    color: #fff !important;
+    transform: unset !important;
+    right: 1em;
 }
 
 .slide .game-info {
@@ -108,7 +115,7 @@
     display: block;
     background-color: transparent;
     border: none;
-    height: 2.5em;
+    height: 1.5em;
     width: 8em;
     background-position: center;
     background-size: 15em 4em;
@@ -137,7 +144,7 @@
     bottom: 1em;
     right: 1em;
     border-radius: 50%;
-    box-shadow: 0 2px 4px #777;
+    box-shadow: 0 2px 4px #404040;
 }
 
 .create-game-btn i {
@@ -157,6 +164,12 @@
     color: #fff;
     text-shadow: 0 1px 1px #000;
     font-family: 'Luckiest Guy', cursive;
-    top: 50%;
+    top: 55%;
     transform: translateY(-50%);
+}
+
+.edit-btn {
+    position: absolute;
+    right: 1em;
+    top: 1em;
 }
