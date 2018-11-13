@@ -11,6 +11,7 @@ export class Game {
 	key: string;
 	maxTime: 120;
   owner: string;
+  state: string;
   duration: string;
   questions: number;
   sender: any;

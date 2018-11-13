@@ -45,11 +45,65 @@
 	transform: translateY(60%);
 }
 
+.join {
+    position: fixed;
+    top: 4.7em;
+    z-index: 999;
+    display: flex;
+    width: 100%;
+    box-shadow: 0 1px 10px #303030;
+}
+
+.join span {
+    position: absolute;
+    display: block;
+    top: 50%;
+    transform: translateY(-50%);
+    width: -1em;
+    text-align: right;
+    left: 1em;
+    color: #277c64;
+    font-weight: 300;
+}
+
+.join input {
+    width: 70%;
+    padding: 0.3em;
+    font-size: 25px;
+    border-radius: 0px;
+    background: #77bea9;
+    text-align: center;
+    font-family: 'Luckiest Guy', cursive;
+    color: #fff;
+    text-shadow: 0 1px 1px #000;
+    padding-bottom: 0.2em;
+    border: none;
+    padding-left: 3em;
+    border: 5px solid #43aa8d;
+}
+
+.join input:focus {
+    outline: none !important;
+}
+
+.join button {
+    width: 30%;
+    background: #44ab8e;
+    color: #fff;
+    font-family: 'Luckiest Guy', cursive;
+    color: #fff;
+    text-shadow: 0 1px 1px #000;
+    font-size: 20px;
+    padding-top: 5px;
+    border-radius: 0;
+    box-shadow: unset;
+}
+
 .game-list {
-    top: 6em;
+    margin-top: 9.5em;
     position: relative;
     z-index: 998;
-    height: 30em;
+    height: 25em;
     width: 100%;
     overflow-x: hidden;
 }
@@ -172,4 +226,12 @@
     position: absolute;
     right: 1em;
     top: 1em;
+}
+
+.progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1002;
 }

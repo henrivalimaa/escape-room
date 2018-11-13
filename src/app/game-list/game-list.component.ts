@@ -20,6 +20,10 @@ export class GameListComponent implements OnInit {
 	private games: Observable<any>;
   private userGames: any;
 
+  private room: string = '0001';
+
+  private joiningRoom: boolean = false;
+
 	slideConfig = {'slidesToShow': 1, 'dots': true};
 
   constructor(
@@ -36,8 +40,14 @@ export class GameListComponent implements OnInit {
     this.messageService.getCurrentUserGames(this.player.email).subscribe(response => {
       this.userGames = response;
     });
+  }
 
-    console.log(this.userGames);
+  joinRoom(key:string): void {
+    this.joiningRoom = true;
+
+    setTimeout(() => {
+      this.joiningRoom = false;     
+     }, 7000);
   }
 
   startGame(game: Game): void {
