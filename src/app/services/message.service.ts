@@ -47,12 +47,30 @@ export class MessageService {
     return this.db.list(this.basePath, ref => ref.orderByChild('key').equalTo(key))
   }
 
+  getGameWithRoomKey(room): any {
+    return this.db.list(this.basePath, ref => ref.orderByChild('room').equalTo(room)).snapshotChanges().pipe(
+      map(changes => 
+        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+      )
+    );
+  }
+
   createGame(game: Game): void {
     this.gamesRef.push(game);
   }
  
   updateGame(key: string, value: any): void {
     this.gamesRef.update(key, value).catch(error => this.handleError(error));
+  }
+
+  getGameKey(key: string): any {
+    let game = this.db.list(this.basePath, ref => ref.orderByChild('key').equalTo(key));
+    return game.snapshotChanges().pipe(
+        map(changes =>
+          changes.map(c => { 
+            return c.payload.key;
+           })
+      ));
   }
  
   deleteGame(key: string): void {

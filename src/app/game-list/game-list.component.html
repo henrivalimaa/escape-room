@@ -17,17 +17,28 @@
 <mat-progress-bar *ngIf="joiningRoom" color="accent" class="progress-bar" mode="indeterminate"></mat-progress-bar>
 
 <div class="join">
-	<!--<h2>Join room</h2>-->
 	<input [(ngModel)]="room">
 	<button mat-raised-button (click)="joinRoom(room)">Join</button>
 	<span>Room key</span>
 </div>
 
+<div class="active-game" *ngIf="activeGame.game" [@fade]>
+  <h2>{{ activeGame.game.title }}</h2>
+  <p *ngIf="activeGame.game.gameState.state === 'waiting'">Waiting for players..</p>
+  <p *ngIf="activeGame.game.gameState.state === 'running'">Starting game..</p>
+  <p>Players joined: {{ activeGame.game.gameState.users.length - 1 }}</p>
+  <h2>Key: <span class="theme-color">{{ room }}</span></h2>
+  <img class="logo center-x" src="./assets/images/logo.png">
+  <mat-progress-bar class="progress-bar" mode="indeterminate" color="accent"></mat-progress-bar>
+  <button 
+		style="display: block;" 
+		mat-raised-button 
+		(click)="startActiveGame()" 
+		*ngIf="!activeGame.joined">Start game <i class="far fa-play-circle"></i></button>
+</div>
+
 <div class="game-list">
-	<h2>
-		Games available
-		<!--<i class="fas fa-gamepad"></i>-->
-	</h2>
+	<h2>Games available</h2>
 	<div class="game-list-carousel">
 		<ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
 	    <div ngxSlickItem *ngFor="let game of games | async" class="slide" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
@@ -48,9 +59,9 @@
 <div class="game-list" style="margin-top: 2em; margin-bottom: 5em;">
 	<h2 class="my-games-title">
 		My games
-		<i class="fas fa-th right"></i>
+		<i class="fas fa-th right" (click)="carouselView = !carouselView"></i>
 	</h2>
-	<div class="game-list-carousel">
+	<div class="game-list-carousel" *ngIf="carouselView" [@fade]>
 		<ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
 	    <div ngxSlickItem *ngFor="let game of userGames" class="slide" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
 	    	<button class="edit-btn" mat-mini-fab color="accent"><i class="fas fa-pencil-alt"></i></button>
@@ -59,12 +70,25 @@
 					<small>{{ game.questions }} Questions</small>
 					<small>Duration: {{ game.duration }}</small>
 				</div>
-	    	<button class="play-btn" (click)="startGame(game)">
+	    	<button class="play-btn" (click)="setGameReady(game)">
 			  	Start
 			  	<i class="far fa-play-circle"></i>
 			  </button>
 	    </div>
 	  </ngx-slick>
+	</div>
+	<div class="game-list-block" *ngIf="!carouselView" [@fade]>
+		<div class="block" *ngFor="let game of userGames" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
+			<div class="game-info">
+				<p [style.color]="game.themeColor">{{ game.title }}</p>
+				<small>{{ game.questions }} Questions</small>
+				<small>Duration: {{ game.duration }}</small>
+			</div>
+    	<button class="block-play-btn" (click)="setGameReady(game)">
+		  	Start
+		  	<i class="far fa-play-circle"></i>
+		  </button>
+		</div>
 	</div>
 </div>
 

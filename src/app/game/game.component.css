@@ -19,7 +19,7 @@
 }
 
 .profile-picture img {
-	width: 3.8em;
+	height: 110%;
     position: relative;
     left: 50%;
     top: 50%;
@@ -524,8 +524,8 @@ button:focus {
 .result-header .profile-picture img {
     left: 50%;
     top: 50%;
-    width: 4em;
-    height: unset !important;
+    width: unset !important;
+    height: 110%;
     transform: translate(-50%, -50%);
 }
 

@@ -51,6 +51,7 @@
     z-index: 999;
     display: flex;
     width: 100%;
+    background: #44ab8e;
     box-shadow: 0 1px 10px #303030;
 }
 
@@ -80,6 +81,7 @@
     border: none;
     padding-left: 3em;
     border: 5px solid #43aa8d;
+    border-radius: 10px;
 }
 
 .join input:focus {
@@ -103,9 +105,8 @@
     margin-top: 9.5em;
     position: relative;
     z-index: 998;
-    height: 25em;
     width: 100%;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .game-list-carousel {
@@ -234,4 +235,119 @@
     left: 0;
     width: 100%;
     z-index: 1002;
+}
+
+.active-game {
+    text-align: center;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1002;
+    padding-top: 4em;
+    background-image: url(https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png);
+}
+
+.active-game  h2 {
+    color: #fff;
+    font-size: 30px;
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
+}
+
+.active-game button {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 2.5em;
+    font-size: 25px;
+    padding: 0px;
+    color: #fff;
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
+    background: #279d88;
+    padding-top: 7px;
+}
+
+.theme-color {
+    font-weight: 100;
+    color: #fdff84;
+    margin-left: 0.5em;
+}
+
+.active-game  p {
+    color: #949494;
+    margin-bottom: 1em;
+}
+
+.logo {
+    display: block;
+    max-width: 18em;
+}
+
+.game-list-block {
+    width: 100%;
+}
+
+.game-list-block .block {
+    width: 50%;
+    display: inline-block;
+    height: 12em;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+}
+
+.block .game-info {
+    position: relative;
+    top: 45%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-family: 'Luckiest Guy', cursive;
+    color: #fff;
+    text-shadow: 0 1px 1px #000;
+    text-align: center;
+    font-size: 30px;
+}
+
+.game-info small {
+    margin-top: 1em;
+    display: block;
+    font-size: 14px;
+}
+
+.block p {
+    font-size: 20px;
+    color: #f3a936;
+    padding: 0 0.5em;
+    overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.block-play-btn {
+    display: block;
+    background-color: transparent;
+    border: none;
+    height: 1.5em;
+    width: 8em;
+    background-position: center;
+    background-size: 15em 4em;
+    background-repeat: no-repeat;
+    color: #fff;
+    font-size: 25px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    /* background-color: transparent; */
+    /* box-shadow: 0 4px 0 #183e36, inset 1px 32px #41ad98, inset 1px 10px 0 #fff; */
+    border-radius: 5px;
+    text-shadow: 0 1px #172926;
+    /* border: 1px solid #225e52; */
+    position: absolute;
+    font-family: 'Luckiest Guy', cursive;
+    bottom: 0.5em;
 }
