@@ -168,10 +168,12 @@
     position: relative;
     z-index: 998;
     width: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
     background: #44ab8eb3;
     min-height: 100%;
     padding-top: 6.5em;
+    height: 100%;
 }
 
 .game-list-carousel {
@@ -254,6 +256,10 @@
     /* border: 1px solid #225e52; */
     font-family: 'Luckiest Guy', cursive;
     bottom: 0em;
+}
+
+.play-btn:focus {
+    outline: none;
 }
 
 .create-game-btn {
@@ -357,7 +363,7 @@
 
 .game-list-block {
     width: 100%;
-    margin-bottom: 4em;
+    padding-bottom: 10em;
     background: #fff3;
 }
 

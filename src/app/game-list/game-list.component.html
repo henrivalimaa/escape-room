@@ -81,6 +81,7 @@
 	</div>
 	<div class="game-list-block" *ngIf="!carouselView" [@fade]>
 		<div class="block" *ngFor="let game of userGames" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
+			<button class="edit-btn" mat-mini-fab color="accent"><i class="fas fa-pencil-alt"></i></button>
 			<div class="game-info">
 				<p [style.color]="game.themeColor">{{ game.title }}</p>
 				<small>{{ game.questions }} Questions</small>

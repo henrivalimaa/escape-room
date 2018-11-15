@@ -1,6 +1,6 @@
 <div class="settings-view">
 	<h1>
-		<a routerLink="/game-list" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+		<a routerLink="/start" class="back-btn"><i class="fas fa-arrow-left"></i></a>
 		Profile
 		<i class="fas fa-user-circle profile-icon"></i>
 	</h1>
@@ -12,8 +12,10 @@
 				<mat-form-field>
 					<input 
 						matInput placeholder="Gamer tag" 
-						[(ngModel)]="user.gamerTag" name="gamer-tag">
-		    	<mat-hint>Atleast 3 characters</mat-hint>
+						[(ngModel)]="user.gamerTag"
+						name="gamer-tag"
+						disabled>
+		    	<mat-hint>Can't be modified</mat-hint>
 		  	</mat-form-field>
 				<mat-form-field style="padding-top: 1.5em;">
 			    <input matInput placeholder="Name" disabled [(ngModel)]="user.displayName">
@@ -25,12 +27,12 @@
 	  			<div class="picture-wrapper">
 						<img [src]="user.photoURL">
 					</div>
-					<button mat-raised-button (click)="choosingProfilePicture = true">
+					<button mat-raised-button color="accent" (click)="choosingProfilePicture = true">
 						Change
 						<i class="fas fa-image ml-05"></i>
 					</button>
 					<input type="file" (change)="uploadFile($event)" id="file" style="visibility: hidden" accept=".png,.jpg" />
-					<button mat-raised-button style="margin-top: -1em;" (click)="choosingProfilePicture = true">
+					<button mat-raised-button style="margin-top: -1em;" color="accent" (click)="choosingProfilePicture = true">
 						<label for="file">Upload<i class="fas fa-cloud-upload-alt ml-05"></i></label>
 					</button>
 					<input type="file" (change)="uploadFile($event)" id="file" style="visibility: hidden" accept=".png,.jpg" />

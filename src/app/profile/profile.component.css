@@ -1,7 +1,7 @@
 .settings-view {
 	height: 100%;
     width: 100%;
-	background-color: #225e5270;
+	background-color: #44ab8eb3;
     overflow: hidden;
 }
 
@@ -24,7 +24,7 @@
     box-shadow: 0 1px 4px #000;
     margin: 0;
     padding-top: 1em;
-    background: #0069546b;
+    background: #459f86;
 }
 
 .settings-view h1 > .profile-icon {
@@ -70,8 +70,6 @@
 }
 
 .profile-picture button {
-    background-color: transparent !important;
-    color: #fff;
     width: 8.5em;
     margin-top: 1em;
 }
@@ -92,9 +90,17 @@
 }
 
 .section-title {
-    color: #fff !important;
+    color: #fff;
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
     padding-bottom: 0.5em;
     border-bottom: 1px dashed #fff;
+}
+
+button {
+  color: #fff;
+  text-shadow: 0 1px #172926;
+  font-family: 'Luckiest Guy', cursive;
 }
 
 .section-title button {

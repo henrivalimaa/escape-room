@@ -67,7 +67,6 @@
 }
 
 .join input {
-    width: 70%;
     padding: 0.3em;
     font-size: 25px;
     border-radius: 0px;
@@ -79,11 +78,13 @@
     padding-top: 12px;
     padding-bottom: 0.2em;
     border: none;
-    /* padding-left: 5em; */
-    /* border: 5px solid #43aa8d; */
     border-radius: 6px;
     height: 1.25em;
     width: 8em;
+    display: block;
+    left: 50%;
+    position: relative;
+    transform: translateX(-50%);
 }
 
 .join input:focus {
@@ -92,7 +93,7 @@
 
 .join button {
     width: 30%;
-    background: #44ab8e;
+    background: #ff4081;
     color: #fff;
     font-family: 'Luckiest Guy', cursive;
     color: #fff;

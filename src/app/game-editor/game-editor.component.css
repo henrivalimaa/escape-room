@@ -57,7 +57,7 @@
     width: 100%;
     height: 90%;
     background-color: #44ab8eb3;
-    overflow: hidden;
+    overflow-x: scroll; 
 }
 
 .game-editor {
@@ -163,7 +163,7 @@
     bottom: 0;
     width: 100%;
     right: 0;
-    background: #225e52a6;
+    background: #459f86;
     padding: 1em;
     text-align: right;
     z-index: 100;
@@ -171,7 +171,6 @@
 
 .controls button {
     color: #fff;
-    background-color: rgb(42, 152, 135) !important;
 }
 
 .save-question-btn {
@@ -195,7 +194,6 @@
 
 .messages {
     margin-top: 1em;
-    margin-bottom: 5em;
 }
 
 .profile-picture-selector {
@@ -328,7 +326,6 @@
 
 .section {
     overflow-x: hidden;
-    height: 22em;
     overflow-y: scroll;
     margin-bottom: 0.5em;
     padding-bottom: 0.5em;
@@ -358,7 +355,12 @@
 }
 
 .selected {
+    transform: scale(0.8);
     background-color: #fff6;
+}
+
+.selected .game-info {
+    transform: scale(0.8);
 }
 
 .block .game-info {
@@ -372,6 +374,7 @@
     text-shadow: 0 1px 1px #000;
     text-align: center;
     font-size: 30px;
+    transition: all 0.3s ease;
 }
 
 .game-info small {
@@ -396,11 +399,72 @@
     top: 1em;
 }
 
-.controls {
+.template-controls {
     position: fixed;
     bottom: 0;
     right: 0;
     width: 100%;
     height: 2em;
+    padding: 1em;
     background-color: #459f86;
+}
+
+.select-btn {
+    font-family: 'Luckiest Guy', cursive;
+    color: #fff;
+    text-shadow: 0 1px 1px #000;
+}
+
+.template-select {
+    text-align: center;
+}
+
+.template-select button {
+    font-family: 'Luckiest Guy', cursive;
+    color: #fff;
+    text-shadow: 0 1px 1px #000;
+    display: block;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 1em;
+    min-width: 20em;
+    height: 3.5em;
+}
+
+.template-select button i {
+    transform: rotate(20deg);
+    font-size: 20px;
+}
+
+.options {
+    padding: 1em 3em;
+    font-family: 'Luckiest Guy', cursive;
+    color: #fff;
+    text-shadow: 0 1px 1px #000;
+}
+
+.options-title {
+    margin: 1em 0;
+}
+
+.slider {
+    width: 100%;
+    position: relative;
+    height: 2.5em;
+}
+
+.help-btn {
+    position: absolute;
+    right: 1em;
+    top: 6em;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 17px;
+}
+
+button {
+    font-family: 'Luckiest Guy', cursive;
+    color: #fff;
+    text-shadow: 0 1px 1px #000; 
 }

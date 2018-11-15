@@ -245,6 +245,22 @@ main {
     flex-grow: unset !important;
 }
 
+.options .mat-slide-toggle {
+    display: inline-block;
+    height: 24px;
+    max-width: 100%;
+    line-height: 24px;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: 0;
+    right: 0;
+    position: absolute;
+    top: -5px;
+}
+
 /*
 @media only screen and (max-width: 800px) {
     .cdk-overlay-pane {
