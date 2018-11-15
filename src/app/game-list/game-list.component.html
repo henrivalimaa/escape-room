@@ -1,4 +1,5 @@
 <div class="messenger-header">
+	<button class="transparent inline back-btn" routerLink="/start"><fa name="arrow-left" size="2x"></fa></button>
 	<div class="profile-picture inline">
 		<img [src]="player.photoURL">
 	</div>
@@ -8,6 +9,7 @@
 	</div>
 	<button class="transparent inline right center-y mr-05" [matMenuTriggerFor]="menu"><i class="fas fa-bars fa-2x"></i></button>
 	<mat-menu #menu="matMenu">
+		<a mat-menu-item routerLink="/start">Join game</a>
 	  <a mat-menu-item routerLink="/leaderboard">Leaderboards</a>
 	  <a mat-menu-item routerLink="/profile">Profile</a>
 	  <a mat-menu-item (click)="authService.logout()">Logout</a>
@@ -16,27 +18,26 @@
 
 <mat-progress-bar *ngIf="joiningRoom" color="accent" class="progress-bar" mode="indeterminate"></mat-progress-bar>
 
-<div class="join">
-	<input [(ngModel)]="room">
-	<button mat-raised-button (click)="joinRoom(room)">Join</button>
-	<span>Room key</span>
-</div>
+<div class="join search-animation" *ngIf="this.activeGame.game" [@fade]>
+	<div class="join-content">
+		<h2>{{ activeGame.game.title }}</h2>
+		<p class="status" *ngIf="activeGame.game.gameState.state === 'waiting'">Waiting for players..</p>
+  	<p class="status" *ngIf="activeGame.game.gameState.state === 'running'">Starting game..</p>
+  	<h2>Pin: <span class="theme-color">{{ room }}</span></h2>
 
-<div class="active-game" *ngIf="activeGame.game" [@fade]>
-  <h2>{{ activeGame.game.title }}</h2>
-  <p *ngIf="activeGame.game.gameState.state === 'waiting'">Waiting for players..</p>
-  <p *ngIf="activeGame.game.gameState.state === 'running'">Starting game..</p>
-  <p>Players joined: {{ activeGame.game.gameState.users.length - 1 }}</p>
-  <h2>Key: <span class="theme-color">{{ room }}</span></h2>
-  <img class="logo center-x" src="./assets/images/logo.png">
-  <mat-progress-bar class="progress-bar" mode="indeterminate" color="accent"></mat-progress-bar>
-  <button 
+  	<div class="users-joined">
+  		<p class="status mt-05">Players joined: {{ activeGame.game.gameState.users.length - 1 }}</p>
+			<p class="user mt-05" *ngFor="let user of activeGame.game.gameState.users.reverse()">{{ user.gamerTag }}</p>
+  	</div>
+  	<button 
 		style="display: block;" 
 		mat-raised-button 
 		(click)="startActiveGame()" 
 		*ngIf="!activeGame.joined">Start game <i class="far fa-play-circle"></i></button>
+	</div>
 </div>
 
+<!--
 <div class="game-list">
 	<h2>Games available</h2>
 	<div class="game-list-carousel">
@@ -55,8 +56,9 @@
 	  </ngx-slick>
 	</div>
 </div>
+-->
 
-<div class="game-list" style="margin-top: 2em; margin-bottom: 5em;">
+<div class="game-list" *ngIf="!this.activeGame.game" [@fade]>
 	<h2 class="my-games-title">
 		My games
 		<i class="fas fa-th right" (click)="carouselView = !carouselView"></i>
@@ -92,7 +94,9 @@
 	</div>
 </div>
 
-<a class="create-game-btn" routerLink="/game-editor">
-	<i class="fas fa-plus"></i>
-	<span>Create new game</span>
-</a>
+<div class="controls" *ngIf="!this.activeGame.game" [@fade]>
+	<a class="create-game-btn" routerLink="/game-editor">
+		<i class="fas fa-plus"></i>
+		<span>Create new game</span>
+	</a>	
+</div>

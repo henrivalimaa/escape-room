@@ -20,6 +20,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
@@ -49,6 +50,7 @@ import { GameListComponent } from './game-list/game-list.component';
 import { SetupComponent } from './setup/setup.component';
 import { ProfileComponent } from './profile/profile.component';
 import { GameEditorComponent } from './game-editor/game-editor.component';
+import { StartComponent } from './start/start.component';
 
 const cookieConfig:NgcCookieConsentConfig = {
   "cookie": {
@@ -91,7 +93,8 @@ const cookieConfig:NgcCookieConsentConfig = {
     GameListComponent,
     SetupComponent,
     ProfileComponent,
-    GameEditorComponent
+    GameEditorComponent,
+    StartComponent
   ],
   imports: [
     BrowserModule,
@@ -111,6 +114,7 @@ const cookieConfig:NgcCookieConsentConfig = {
     MatCheckboxModule,
     MatSlideToggleModule,
     MatExpansionModule,
+    MatRadioModule,
     AngularFontAwesomeModule,
     PickerModule,
     AngularFireModule.initializeApp(environment.firebase),

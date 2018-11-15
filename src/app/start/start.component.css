@@ -100,12 +100,9 @@
     font-size: 20px;
     padding-top: 5px;
     border-radius: 0;
+    /* box-shadow: unset; */
     width: 11em;
     margin-top: 0.5em;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 3em;
 }
 
 
@@ -127,13 +124,6 @@
 .join .status {
     font-family: 'Luckiest Guy', cursive;
     color: #fff;
-    text-shadow: 0 1px 1px #000;
-    font-weight: 100;
-}
-
-.join .user {
-    font-family: 'Luckiest Guy', cursive;
-    color: #fdff84;
     text-shadow: 0 1px 1px #000;
     font-weight: 100;
 }
@@ -165,20 +155,18 @@
 }
 
 .game-list {
+    margin-top: 9.5em;
     position: relative;
     z-index: 998;
     width: 100%;
     overflow: hidden;
-    background: #44ab8eb3;
-    min-height: 100%;
-    padding-top: 6.5em;
 }
 
 .game-list-carousel {
-    height: 24em;
+    height: 20em;
     margin-bottom: 2em;
     background: #0001;
-    box-shadow: 0 2px 4px #0000007d;
+    box-shadow: 0 4px 10px #909090;
 }
 
 .game-list h2 {
@@ -257,18 +245,15 @@
 }
 
 .create-game-btn {
-    position: relative;
+    position: fixed;
     z-index: 1000;
     height: 3em;
     width: 3em;
     background: #44ab8f;
-    /* bottom: 1em; */
+    bottom: 1em;
     right: 1em;
     border-radius: 50%;
     box-shadow: 0 2px 4px #404040;
-    display: block;
-    float: right;
-    top: 0.5em;
 }
 
 .create-game-btn i {
@@ -357,14 +342,12 @@
 
 .game-list-block {
     width: 100%;
-    margin-bottom: 4em;
-    background: #fff3;
 }
 
 .game-list-block .block {
-    width: 100%;
+    width: 50%;
     display: inline-block;
-    height: 15em;
+    height: 12em;
     position: relative;
     background-size: cover;
     background-position: center;
@@ -423,13 +406,40 @@
     bottom: 0.5em;
 }
 
-.controls {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    left: 0;
-    z-index: 1001;
-    background: #44ab8e;
-    height: 4em;
-    border-top: 1px solid #fff5;
+.shake {
+    -webkit-animation-name: shake;
+    animation-name: shake;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+}
+@-webkit-keyframes shake {
+    0%, 100% {
+        transform: translateX(-50%);
+    }
+
+    10%, 30%, 50%, 70%, 90% {
+        -webkit-transform: translateX(-45%);
+        transform: translateX(-45%);
+    }
+
+    20%, 40%, 60%, 80% {
+        -webkit-transform: translateX(-55%);
+        transform: translateX(-55%);
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(-50%);
+    }
+
+    10%, 30%, 50%, 70%, 90% {
+        -webkit-transform: translateX(-45%);
+        transform: translateX(-45%);
+    }
+
+    20%, 40%, 60%, 80% {
+        -webkit-transform: translateX(-55%);
+        transform: translateX(-55%);
+    }
 }

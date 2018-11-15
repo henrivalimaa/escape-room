@@ -26,9 +26,14 @@ export class GameEditorComponent implements OnInit {
 	private userFileUploads: any;
 	private placeholders: any;
 
+  private templates: any;
+  private template: any;
+  private selected : number;
+
 	private loadingImage: boolean = false;
 	private isQuestion: boolean = false;
   private choosingImage: boolean = false;
+  private choosingTemplate: boolean = true;
 
   private imagePosition: string;
 
@@ -41,19 +46,12 @@ export class GameEditorComponent implements OnInit {
   	private fileUploadService: FileUploadService) { }
 
   ngOnInit() {
-  	this.user = this.userService.currentUser;
-  	this.game = new Game();
-    this.game.owner = this.user.email;
-  	this.game.sender = {};
-  	this.game.images = {};
-  	this.game.sender.name = this.user.displayName;
-  	this.game.sender.photo = this.user.photoURL;
-  	this.game.questions = 0;
-  	this.game.messages = [
-  		{ continous: true, start: true, text: '', time: '' }
-  	];
+    this.choosingTemplate = true;
+    this.messageService.getGames().subscribe(templates => {
+      this.templates = templates;  
+    });
 
-  	this.temp.points = 100;
+  	this.user = this.userService.currentUser;
 
   	this.fileUploadService.getUserFileUploads(this.user.email).subscribe(res => {
   		this.userFileUploads = res;
@@ -73,8 +71,32 @@ export class GameEditorComponent implements OnInit {
   		'./assets/images/placeholders/pexels-photo-707837.jpeg',
   		'./assets/images/placeholders/pexels-photo-735911.jpeg'
   	];
+  }
 
-  	this.game.images.background = this.placeholders[0];
+  pickTemplate(): void {
+    this.choosingTemplate = false;
+    this.game = this.template;
+  }
+
+  setBlankGame(): void {
+    this.choosingTemplate = false;
+    this.game = new Game();
+    this.game.owner = this.user.email;
+    this.game.sender = {};
+    this.game.images = {};
+    this.game.sender.name = this.user.displayName;
+    this.game.sender.photo = this.user.photoURL;
+    this.game.questions = 0;
+    this.game.messages = [
+      { continous: true, start: true, text: '', time: '' }
+    ];
+    this.game.images.background = this.placeholders[0];
+    this.temp.points = 100;
+  }
+
+  setSelected(template: any, i: number) {
+    this.selected = i;
+    this.template = template;
   }
 
   uploadFile(event, property) {

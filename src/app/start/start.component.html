@@ -1,0 +1,43 @@
+<div class="messenger-header">
+	<div class="profile-picture inline">
+		<img [src]="player.photoURL">
+	</div>
+	<div class="inline name">
+		<h3>{{ player.gamerTag }}</h3>
+		<p>Online</p>
+	</div>
+	<button class="transparent inline right center-y mr-05" [matMenuTriggerFor]="menu"><i class="fas fa-bars fa-2x"></i></button>
+	<mat-menu #menu="matMenu">
+		<a mat-menu-item routerLink="/game-list">My games</a>
+	  <a mat-menu-item routerLink="/leaderboard">Leaderboards</a>
+	  <a mat-menu-item routerLink="/profile">Profile</a>
+	  <a mat-menu-item (click)="authService.logout()">Logout</a>
+	</mat-menu>
+</div>
+
+<mat-progress-bar *ngIf="joiningRoom" color="accent" class="progress-bar" mode="indeterminate"></mat-progress-bar>
+
+<div class="join" [ngClass]="{ 'search-animation': joiningRoom }" *ngIf="!this.activeGame.joined" [@fade]>
+	<div class="join-content">
+		<h3>Enter game pin</h3>
+		<input [(ngModel)]="room">
+		<button mat-raised-button (click)="joinRoom(room)">Join</button>
+		<p class="message" *ngIf="joiningRoom">Searching game...</p>
+		<p class="message shake" *ngIf="error.showError">{{ error.errorMessage }}</p>
+	</div>
+</div>
+
+<div class="join search-animation" *ngIf="this.activeGame.joined" [@fade]>
+	<div class="join-content">
+		<h2>{{ activeGame.game.title }}</h2>
+		<p class="status" *ngIf="activeGame.game.gameState.state === 'waiting'">Waiting for players..</p>
+  	<p class="status" *ngIf="activeGame.game.gameState.state === 'running'">Starting game..</p>
+  	<p class="status mt-05">Players joined: {{ activeGame.game.gameState.users.length - 1 }}</p>
+  	<h2>Pin: <span class="theme-color">{{ room }}</span></h2>
+	</div>
+</div>
+
+<a class="create-game-btn" routerLink="/game-editor" *ngIf="!this.activeGame.joined" [@fade]>
+	<i class="fas fa-plus"></i>
+	<span>Create new game</span>
+</a>

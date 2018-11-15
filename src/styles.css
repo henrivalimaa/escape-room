@@ -17,6 +17,7 @@ router-outlet ~ * {
   position: absolute;
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 main {
@@ -84,6 +85,10 @@ main {
     margin-left: 0.5em;
 }
 
+.mt-05 {
+    margin-top: 0.5em !important;
+}
+
 .mat-dialog-container {
     box-shadow: 0 11px 15px -7px rgba(0,0,0,.2), 0 24px 38px 3px rgba(0,0,0,.14), 0 9px 46px 8px rgba(0,0,0,.12);
     display: block;
@@ -143,6 +148,22 @@ main {
 .game-editor .mat-input-element {
     color: #fff !important;
     width: 20em;
+}
+
+.game-editor .mat-stepper-horizontal, .mat-stepper-vertical {
+    background-color: transparent;
+}
+
+.game-editor .mat-step-header .mat-step-icon {
+    background-color: #f13e81;
+    color: #fff;
+    padding-top: 1px;
+}
+
+.mat-step-header .mat-step-icon-not-touched {
+    background-color: rgba(0,0,0,.38);
+    color: #fff;
+    padding-top: 1px;
 }
 
 .mat-form-field-label {

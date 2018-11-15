@@ -27,6 +27,8 @@ export class GameListComponent implements OnInit {
 
   private room: string = '0001';
 
+  private error: any = {};
+
   private carouselView: boolean = true;
   private joiningRoom: boolean = false;
 
@@ -48,62 +50,16 @@ export class GameListComponent implements OnInit {
     });
   }
 
-  joinRoom(key:string): void {
-    this.joiningRoom = true;
-
-    this.messageService.getGameWithRoomKey(this.room).subscribe(game => {
-      if (game[0].gameState.state === 'running') {
-        this.activeGame.game = game[0];
-        setTimeout(() => {
-          this.zone.run(() => {
-            this.router.navigate(['game'], { queryParams: { id: game[0].key } });
-          });
-        }, 4000)
-      }
-
-      if (!this.activeGame.joined) {
-        this.messageService.getGameKey(game[0].key).subscribe(key => {
-          if (game[0].gameState.users.length === 1) {
-            game[0].gameState.users.push(this.player);
-            this.messageService.updateGame(key[0], game[0]);
-            this.activeGame = {}
-            this.activeGame.joined = true;
-            this.activeGame.game = game [0];
-            this.activeGame.key = key[0];
-          } else {
-            if (this.containsPlayer(game[0].gameState.users, this.player)) console.log('Player joined already');
-            else { game[0].gameState.users.push(this.player) }
-          }
-        });
-      }
-    });
-
-    setTimeout(() => {
-      this.joiningRoom = false;     
-     }, 7000);
-  }
-
-  containsPlayer(players, player):boolean {
-    for (let i in players) {
-      if (players[i] === player) return true;
-    }
-    return false;
-  }
-
-  startGame(game: Game): void {
-  	this.zone.run(() => {
-      this.router.navigate(['game'], { queryParams: { id: game.key } });
-    });
-  }
-
   setGameReady(game: Game) {
-    game.gameState = {};
-    game.gameState.state = 'waiting';
-    game.gameState.users = [];
-    game.gameState.users.push({ owner: this.player.displayName });
+    if (!this.activeGame.game) {
+      game.gameState = {};
+      game.gameState.state = 'waiting';
+      game.gameState.users = [];
+      game.gameState.users.push({ owner: this.player.displayName });
 
-    this.room = Math.floor(Math.random() * 100000).toString();
-    game.room = this.room;
+      this.room = Math.floor(Math.random() * 100000).toString();
+      game.room = this.room;
+    }
 
     this.messageService.getGameKey(game.key).subscribe(key => {
       if (!this.activeGame.game) this.messageService.updateGame(key[0], game);
@@ -120,6 +76,18 @@ export class GameListComponent implements OnInit {
   startActiveGame(): void {
     this.activeGame.game.gameState.state = 'running';
     this.messageService.updateGame(this.activeGame.key, this.activeGame.game);
+  }
+
+  containsPlayer(players, player):boolean {
+    for (let i in players) {
+      if (players[i] === player) return true;
+    }
+    return false;
+  }
+
+  displayError(message: string): void {
+    this.error.showError = true;
+    this.error.errorMessage = message;
   }
 
 }

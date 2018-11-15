@@ -31,7 +31,7 @@ export class AuthService {
               } else {
                 this.userService.setUser(user[0]);
                 this.zone.run(() => {
-                  this.router.navigate(['game-list']);
+                  this.router.navigate(['start']);
                 });
               }
             });
