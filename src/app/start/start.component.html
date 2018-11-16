@@ -15,10 +15,9 @@
 	</mat-menu>
 </div>
 
-<mat-progress-bar *ngIf="joiningRoom" color="accent" class="progress-bar" mode="indeterminate"></mat-progress-bar>
-
-<div class="join" [ngClass]="{ 'search-animation': joiningRoom }" *ngIf="!this.activeGame.joined" [@fade]>
+<div class="join pulse" *ngIf="!this.activeGame.joined" [@fade]>
 	<div class="join-content">
+		<h1>Escape</h1>
 		<h3>Enter game pin</h3>
 		<input [(ngModel)]="room">
 		<button mat-raised-button (click)="joinRoom(room)">Join</button>
@@ -27,7 +26,7 @@
 	</div>
 </div>
 
-<div class="join search-animation" *ngIf="this.activeGame.joined" [@fade]>
+<div class="join pulse" *ngIf="this.activeGame.joined" [@fade]>
 	<div class="join-content">
 		<h2>{{ activeGame.game.title }}</h2>
 		<p class="status" *ngIf="activeGame.game.gameState.state === 'waiting'">Waiting for players..</p>

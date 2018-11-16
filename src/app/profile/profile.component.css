@@ -3,6 +3,7 @@
     width: 100%;
 	background-color: #44ab8eb3;
     overflow: hidden;
+    background: linear-gradient(to top, rgba(255,87,144,0.5) 0%, rgba(69,159,134,0.7) 40%, rgba(69,159,134,0.8) 100%);
 }
 
 .settings-content > .progress-bar {

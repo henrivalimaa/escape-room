@@ -18,7 +18,7 @@
 
 <mat-progress-bar *ngIf="joiningRoom" color="accent" class="progress-bar" mode="indeterminate"></mat-progress-bar>
 
-<div class="join search-animation" *ngIf="this.activeGame.game" [@fade]>
+<div class="join pulse" *ngIf="this.activeGame.game" [@fade]>
 	<div class="join-content">
 		<h2>{{ activeGame.game.title }}</h2>
 		<p class="status" *ngIf="activeGame.game.gameState.state === 'waiting'">Waiting for players..</p>

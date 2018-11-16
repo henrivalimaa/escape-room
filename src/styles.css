@@ -155,7 +155,7 @@ main {
 }
 
 .game-editor .mat-step-header .mat-step-icon {
-    background-color: #f13e81;
+    background-color: #35806b;
     color: #fff;
     padding-top: 1px;
 }
@@ -259,6 +259,19 @@ main {
     right: 0;
     position: absolute;
     top: -5px;
+}
+
+
+.mat-fab.mat-accent, .mat-flat-button.mat-accent, .mat-mini-fab.mat-accent, .mat-raised-button.mat-accent {
+    background-color: #ff5790;
+    background: rgba(59,173,227,1);
+    background: linear-gradient(45deg, rgba(69,159,134,1) 0%, rgba(255,87,144,1) 100%);
+}
+
+.mat-fab.mat-accent, .mat-flat-button.mat-accent, .mat-mini-fab.mat-accent, .mat-raised-button.mat-accent {
+    background-color: #ff5790;
+    background: rgba(59,173,227,1);
+    background: linear-gradient(45deg, rgba(152,68,183,1) 0%, rgba(255,53,127,1) 100%);
 }
 
 /*

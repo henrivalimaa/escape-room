@@ -3,35 +3,44 @@
     max-width: 36em;
 }
 
+.container {
+    height: 100%;
+    width: 100%;
+    padding-top: 4em;
+    background-color: #44ab8eb3;
+    background: linear-gradient(45deg, rgba(69,159,134,0.6) 0%, rgba(69,159,134,0.6) 51%, rgba(255,87,144,0.6) 100%);
+}
+
+h1 {
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 70px;
+}
+
 .leaderboard-btn {
     display: block;
-    background-color: transparent;
-    border: none;
     height: 2.5em;
     width: 11em;
-    background-position: center;
-    background-size: 15em 4em;
-    background-repeat: no-repeat;
     color: #fff;
     font-size: 23px;
     position: relative;
     left: 50%;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
-    background-color: #ff9a2e;
-    box-shadow: 0 4px 0 #6d4b24, inset 1px 32px #f1af62, inset 1px 10px 0 #fff;
-    border-radius: 5px;
     text-shadow: 0 1px #172926;
-    border: 1px solid #6d4b25;
     font-family: 'Luckiest Guy', cursive;
+    padding-top: 9px;
 }
 
 .leaderboard-btn i {
     float: right;
     color: yellow;
     text-shadow: 0 1px 1px #000;
+    -webkit-transform: rotate(20deg);
     transform: rotate(20deg);
-    margin-right: 1em;
+    margin-right: 0.2em;
 }
 
 .login-buttons {
@@ -89,167 +98,6 @@
 .login-btn img {
     height: 1.5em;
     padding: 0.5em;
-}
-
-@media only screen and (min-width: 1600px) {
-    .input-area {
-        width: 95% !important;
-    }
-}
-
-
-@media only screen and (max-width: 1280px) {
-    .input-area {
-        width: 92.9% !important;
-    }
-}
-
-@media only screen and (max-width: 1100px) {
-    .input-area {
-        width: 91.9% !important;
-    }
-}
-
-@media only screen and (max-width: 965px) {
-    .input-area {
-        width: 89.9% !important;
-    }
-}
-
-@media only screen and (max-width: 780px) {
-    .input-area {
-        width: 88.9% !important;
-    }
-
-    .input-area input {
-        max-width: 70%;
-    }
-}
-
-@media only screen and (max-width: 710px) {
-    .input-area {
-        width: 86.9% !important;
-    }
-}
-
-@media only screen and (max-width: 600px) {
-    .input-area {
-        width: 84.9% !important;
-    }
-
-    .logo {
-        max-width: 32em !important;
-    }
-}
-
-@media only screen and (max-width: 525px) {
-    .input-area {
-        width: 82.9% !important;
-    }
-
-    .input-area input {
-        max-width: 65%;
-    }
-
-    .logo {
-        max-width: 30em !important;
-    }
-
-    .start-btn {
-        max-width: 65% !important;
-    }
-}
-
-@media only screen and (max-width: 465px) {
-    .input-area {
-        width: 80.9% !important;
-    }
-
-    .input-area input {
-        max-width: 60%;
-    }
-
-    .logo {
-        max-width: 26em !important;
-    }
-
-    .start-btn {
-        max-width: 60% !important;
-    }
-}
-
-@media only screen and (max-width: 420px) {
-    .input-area {
-        width: 78.9% !important;
-    }
-
-    .input-area input {
-        max-width: 55%;
-    }
-
-    .logo {
-        max-width: 24em !important;
-    }
-
-    .name-field {
-        width: 18em !important;
-    }
-
-    .start-btn {
-        max-width: 55% !important;
-    }
-}
-
-@media only screen and (max-width: 376px) {
-    .input-area {
-        width: 76.9% !important;
-    }
-
-    .input-area input {
-        max-width: 50%;
-    }
-
-    .logo {
-        max-width: 22em !important;
-    }
-
-    .name-field {
-        width: 16em !important;
-    }
-
-    .start-btn {
-        max-width: 50% !important;
-    }
-}
-
-@media only screen and (max-width: 321px) {
-    .input-area {
-        width: 74.9% !important;
-    }
-
-    .input-area input {
-        max-width: 45%;
-    }
-
-    .icon-btn {
-        margin-right: 0;
-    }
-
-    .messenger-header button {
-        margin-right: 0 !important;
-    }
-
-    .logo {
-        max-width: 18em !important;
-    }
-
-    .name-field {
-        width: 12em !important;
-    }
-
-    .start-btn {
-        max-width: 45% !important;
-    }
 }
 
 .edition {
@@ -326,4 +174,41 @@
     float: left;
     position: relative;
     left: 1em;
+}
+
+.pulse {
+    animation-name: background-animation;
+    animation-duration: 7s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes background-animation {
+    0%   {background-color:#44ab8eb3}
+    20%  {background-color:#a544abb3}
+    40%  {background-color:#ab444db3}
+    60%  {background-color:#9fab44b3}
+    80% {background-color:#4644abb3}
+    100% {background-color:#44ab8eb3}
+}
+
+.google-play-section {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.google-play-section p {
+    margin-bottom: 0;
+    color: #fff;
+}
+
+.google-play-section button {
+    background: transparent;
+    border: none;
+    height: 3em;
+}
+
+.google-play-section button img {
+    height: 4em;
 }
