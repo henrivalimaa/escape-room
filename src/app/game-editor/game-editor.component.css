@@ -8,6 +8,7 @@
     top: 0;
     z-index: 100;
     box-shadow: 0px 3px 12px #0000008a;
+    background: linear-gradient(-35deg, rgb(78, 183, 153) 0%, rgba(69,159,134,1) 43%, rgb(58, 134, 113) 100%);
 }
 
 .profile-picture {
@@ -58,7 +59,7 @@
     height: 95%;
     background-color: #44ab8eb3;
     overflow-x: scroll;
-    background: linear-gradient(to top, rgba(255,87,144,0.5) 0%, rgba(69,159,134,0.7) 40%, rgba(69,159,134,0.8) 100%);
+    background: linear-gradient(to top, rgba(95, 194, 166, 0.3) 0%, rgba(69,159,134,0.7) 30%, rgba(69,159,134,0.8) 100%)
 }
 
 .game-editor {
@@ -168,6 +169,7 @@
     padding: 1em;
     text-align: right;
     z-index: 100;
+    background: linear-gradient(-35deg, rgb(78, 183, 153) 0%, rgba(69,159,134,1) 43%, rgb(58, 134, 113) 100%);
 }
 
 .controls button {
@@ -408,6 +410,7 @@
     height: 2em;
     padding: 1em;
     background-color: #459f86;
+    background: linear-gradient(-35deg, rgb(78, 183, 153) 0%, rgba(69,159,134,1) 43%, rgb(58, 134, 113) 100%);
 }
 
 .select-btn {

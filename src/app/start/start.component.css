@@ -8,6 +8,7 @@
     top: 0;
     z-index: 999;
     box-shadow: 0px 3px 12px #0000008a;
+    background: linear-gradient(-35deg, rgb(78, 183, 153) 0%, rgba(69,159,134,1) 43%, rgb(58, 134, 113) 100%);
 }
 
 .profile-picture {
@@ -65,12 +66,12 @@
 }
 
 @keyframes background-animation {
-    0%   {background: linear-gradient(-35deg, rgba(255,87,144,0.5) 0%, rgba(69,159,134,0.6) 60%, rgba(69,159,134,0.8) 100%)}
-    20%  {background: linear-gradient(-35deg, rgba(171, 68, 77, 0.6) 0%, rgba(69,159,134,0.6) 60%, rgba(69,159,134,0.8) 100%)}
-    40%  {background: linear-gradient(-35deg, rgba(159, 171, 68, 0.6) 0%, rgba(69,159,134,0.6) 60%, rgba(69,159,134,0.8) 100%)}
-    60%  {background: linear-gradient(-35deg, rgba(68, 171, 70, 0.6) 0%, rgba(69,159,134,0.6) 60%, rgba(69,159,134,0.8) 100%)}
-    80%  {background: linear-gradient(-35deg, rgba(70, 68, 171, 0.6) 0%, rgba(69,159,134,0.6) 60%, rgba(69,159,134,0.8) 100%)}
-    100% {background: linear-gradient(-35deg, rgba(255,87,144,0.5) 0%, rgba(69,159,134,0.6) 60%, rgba(69,159,134,0.8) 100%)}
+    0%   {background-color:#44ab8eb3}
+    20%  {background-color:#a544abb3}
+    40%  {background-color:#ab444db3}
+    60%  {background-color:#9fab44b3}
+    80%  {background-color:#4644abb3}
+    100% {background-color:#44ab8eb3}
 }
 
 .join-content {

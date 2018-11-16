@@ -3,7 +3,7 @@
 	flex-flow: column;
 	height: 100%;
 	background-color: #44ab8eb3;
-	background: linear-gradient(to top, rgba(255,87,144,0.5) 0%, rgba(69,159,134,0.7) 40%, rgba(69,159,134,0.8) 100%);
+	background: linear-gradient(to top, rgba(95, 194, 166, 0.3) 0%, rgba(69,159,134,0.7) 30%, rgba(69,159,134,0.8) 100%)
 }
 
 .leaderboards-view .header h1 {

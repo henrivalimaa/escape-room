@@ -31,6 +31,7 @@ export class GameListComponent implements OnInit {
 
   private carouselView: boolean = true;
   private joiningRoom: boolean = false;
+  private gameStarted: boolean = false;
 
 	slideConfig = {'slidesToShow': 1, 'dots': true};
 
@@ -76,6 +77,10 @@ export class GameListComponent implements OnInit {
   startActiveGame(): void {
     this.activeGame.game.gameState.state = 'running';
     this.messageService.updateGame(this.activeGame.key, this.activeGame.game);
+
+    setTimeout(() => {
+      this.gameStarted = true;
+    }, 4000)
   }
 
   containsPlayer(players, player):boolean {
@@ -88,6 +93,12 @@ export class GameListComponent implements OnInit {
   displayError(message: string): void {
     this.error.showError = true;
     this.error.errorMessage = message;
+  }
+
+  editGame(game: any) {
+    this.zone.run(() => {
+      this.router.navigate(['game-editor'], { queryParams: { id: game.key } });
+    });
   }
 
 }

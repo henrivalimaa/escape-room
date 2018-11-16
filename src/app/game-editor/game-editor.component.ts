@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener, NgZone } from '@angular/core';
 
 import { Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
@@ -20,7 +21,9 @@ import { AngularFireStorage } from 'angularfire2/storage';
 })
 export class GameEditorComponent implements OnInit {
 	private user: User;
-	private game: Game;
+	private game: any;
+
+  private key: string;
 
 	private temp: any = {};
 	private userFileUploads: any;
@@ -33,23 +36,39 @@ export class GameEditorComponent implements OnInit {
 	private loadingImage: boolean = false;
 	private isQuestion: boolean = false;
   private choosingImage: boolean = false;
-  private choosingTemplate: boolean = true;
+  private choosingTemplate: boolean = false;
 
   private imagePosition: string;
 
   constructor(
   	private zone: NgZone,
   	private router: Router,
+    private route: ActivatedRoute,
   	private userService: UserService,
   	private storage: AngularFireStorage,
   	private messageService: MessageService,
   	private fileUploadService: FileUploadService) { }
 
   ngOnInit() {
-    this.choosingTemplate = true;
-    this.messageService.getGames().subscribe(templates => {
-      this.templates = templates;  
-    });
+
+    this.route
+      .queryParams
+      .subscribe(params => {
+        if (params.id) {
+          this.messageService.getGameKey(params.id).subscribe( key => {
+            this.key = key[0];
+          })
+
+          this.messageService.getCurrentGame(params.id).subscribe(game => {
+            this.game = game[0];
+          })
+        } else {
+          this.choosingTemplate = true;
+          this.messageService.getGames().subscribe(templates => {
+            this.templates = templates;  
+          });
+        }
+      });
 
   	this.user = this.userService.currentUser;
 
@@ -140,6 +159,13 @@ export class GameEditorComponent implements OnInit {
   	this.zone.run(() => {
       this.router.navigate(['game-list']);
     });
+  }
+
+  saveChanges(): void {
+    this.messageService.updateGame(this.key, this.game);
+    this.zone.run(() => {
+      this.router.navigate(['game-list']);
+    }); 
   }
 
   saveQuestion(): void {

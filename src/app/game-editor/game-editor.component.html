@@ -449,7 +449,8 @@
 
 	<div class="controls" *ngIf="temp.text || game.messages.length > 1" [@fade]>
 		<button mat-raised-button class="save-question-btn" *ngIf="temp.text" [@fade] (click)="saveQuestion()">Save question</button>
-		<button mat-raised-button *ngIf="game.messages.length > 1" color="accent" [@fade] (click)="showModal = true">Create game</button>
+		<button mat-raised-button *ngIf="game.messages.length > 1 && !key" color="accent" [@fade] (click)="showModal = true">Create game</button>
+		<button mat-raised-button *ngIf="key" color="accent" [@fade] (click)="saveChanges()">Save changes</button>
 	</div>
 
 	<div class="create-game-modal" *ngIf="showModal" [@fade]>

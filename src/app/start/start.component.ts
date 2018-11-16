@@ -64,16 +64,28 @@ export class StartComponent implements OnInit {
       if (!this.activeGame.joined) {
         this.messageService.getGameKey(game[0].key).subscribe(key => {
           if (game[0].gameState.users.length === 1) {
-            game[0].gameState.users.push(this.player);
+
+            let temp = this.player;
+            temp.additionalData.activeGame = {};
+            temp.additionalData.activeGame.points = 0;
+            temp.additionalData.activeGame.correctAnswers = 0;
+            temp.additionalData.activeGame.invalidAnswers = 0;
+            game[0].gameState.users.push(temp);
+
             this.messageService.updateGame(key[0], game[0]);
+
             this.activeGame = {}
             this.activeGame.joined = true;
             this.activeGame.game = game [0];
             this.activeGame.key = key[0];
-            //this.joiningRoom = false;
           } else {
-            if (this.containsPlayer(game[0].gameState.users, this.player)) console.log('Player joined already');
-            else { game[0].gameState.users.push(this.player) }
+            console.log(game[0]);
+            if (this.containsPlayer(game[0].gameState.users, this.player)) {
+              this.activeGame = {}
+              this.activeGame.joined = true;
+              this.activeGame.game = game [0];
+              this.activeGame.key = key[0];
+            } else { game[0].gameState.users.push(this.player) }
           }
         });
       } else {
@@ -83,9 +95,9 @@ export class StartComponent implements OnInit {
     });
   }
 
-  containsPlayer(players, player):boolean {
+  containsPlayer(players, player): boolean {
     for (let i in players) {
-      if (players[i] === player) return true;
+      if (players[i].email === this.player.email) return true;
     }
     return false;
   }

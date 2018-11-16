@@ -14,6 +14,8 @@ export class MessageService {
 	private user: any = {};
 	private game: Game = null;
 
+  private currentKey: string;
+
 	gamesRef: AngularFireList<Game> = null;
 	games: Observable<any>;
 
@@ -44,7 +46,11 @@ export class MessageService {
   }
 
   getCurrentGame(key) {
-    return this.db.list(this.basePath, ref => ref.orderByChild('key').equalTo(key))
+    return this.db.list(this.basePath, ref => ref.orderByChild('key').equalTo(key)).snapshotChanges().pipe(
+        map(changes =>
+          changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+        )
+      )
   }
 
   getGameWithRoomKey(room): any {
@@ -116,6 +122,15 @@ export class MessageService {
 
   getFailureMessage(): any {
   	return { time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'That is a wrong answer...', continous: false, incoming: true, delay: 2000, points: -25 };
+  }
+
+  updateCurrentGameUser(key, user) {
+    for (let gameUser in this.game.gameState.users) {
+      if (user.email === this.game.gameState.users[gameUser].email) {
+        this.game.gameState.users[gameUser] = user;
+        this.updateGame(key, this.game);
+      }
+    }
   }
 }
 

@@ -47,6 +47,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   private showGallery: boolean = false;
 
   private game: any;
+  private key: string;
 
   private result: Result = new Result();
   private results: any;
@@ -119,24 +120,24 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   startGame(key: string): void {
-    this.messageService.getCurrentGame(key).snapshotChanges().pipe(
-        map(changes =>
-          changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
-        )
-      ).subscribe(games => {
-          this.game = games[0];
-          this.messageService.setGame(this.game);
+    this.messageService.getGameKey(key).subscribe(res => {
+      this.key = res[0];
+    });
 
-          this.gameInitialized = true;
+    this.messageService.getCurrentGame(key).subscribe(games => {
+      this.game = games[0];
+      this.messageService.setGame(this.game);
 
-          this.time.start = new Date();
-          this.typing = true;
-          this.result.score = 0;
-          setTimeout(() => {
-            this.typing = false;
-            this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Hello ' + this.player.displayName, incoming: true });
-          }, 2000)
-      });
+      this.gameInitialized = true;
+
+      this.time.start = new Date();
+      this.typing = true;
+      this.result.score = 0;
+      setTimeout(() => {
+        this.typing = false;
+        this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Hello ' + this.player.displayName, incoming: true });
+      }, 2000)
+    });
   }
 
   addEmoji(event): void {
@@ -161,7 +162,20 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.typing = false;
       return;
     }
-    if (this.nextMessage.points) this.displayPoints(this.nextMessage.points);
+
+    if (this.nextMessage.points) {
+      let temp = this.player;
+      if (!temp.additionalData.activeGame) temp.additionalData.activeGame = {};
+      if (!temp.additionalData.activeGame.points) temp.additionalData.activeGame.points = 0;
+      if (!temp.additionalData.activeGame.correctAnswers) temp.additionalData.activeGame.correctAnswers = 0;
+      if (!temp.additionalData.activeGame.invalidAnswers) temp.additionalData.activeGame.invalidAnswers = 0;
+      temp.additionalData.activeGame.points = temp.additionalData.activeGame.points + this.nextMessage.points;
+      if (this.nextMessage.points < 0) temp.additionalData.activeGame.invalidAnswers = temp.additionalData.activeGame.invalidAnswers + 1;
+      if (this.nextMessage.points > 0) temp.additionalData.activeGame.correctAnswers = temp.additionalData.activeGame.correctAnswers + 1;
+      this.messageService.updateCurrentGameUser(this.key, temp);
+      this.displayPoints(this.nextMessage.points);
+    }
+
 		setTimeout(() => {
       this.messages.push(this.nextMessage);
       this.typing = false;

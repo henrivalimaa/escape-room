@@ -8,6 +8,7 @@
     top: 0;
     z-index: 999;
     box-shadow: 0px 3px 12px #0000008a;
+    background: linear-gradient(-35deg, rgb(78, 183, 153) 0%, rgba(69,159,134,1) 43%, rgb(58, 134, 113) 100%);
 }
 
 .profile-picture {
@@ -92,7 +93,6 @@
 
 .join button {
     width: 30%;
-    background: #44ab8e;
     color: #fff;
     font-family: 'Luckiest Guy', cursive;
     color: #fff;
@@ -156,12 +156,12 @@
 }
 
 @keyframes background-animation {
-    0%   {background: linear-gradient(-35deg, rgba(255,87,144,0.5) 0%, rgba(69,159,134,0.6) 60%, rgba(69,159,134,0.8) 100%)}
-    20%  {background: linear-gradient(-35deg, rgba(171, 68, 77, 0.6) 0%, rgba(69,159,134,0.6) 60%, rgba(69,159,134,0.8) 100%)}
-    40%  {background: linear-gradient(-35deg, rgba(159, 171, 68, 0.6) 0%, rgba(69,159,134,0.6) 60%, rgba(69,159,134,0.8) 100%)}
-    60%  {background: linear-gradient(-35deg, rgba(68, 171, 70, 0.6) 0%, rgba(69,159,134,0.6) 60%, rgba(69,159,134,0.8) 100%)}
-    80%  {background: linear-gradient(-35deg, rgba(70, 68, 171, 0.6) 0%, rgba(69,159,134,0.6) 60%, rgba(69,159,134,0.8) 100%)}
-    100% {background: linear-gradient(-35deg, rgba(255,87,144,0.5) 0%, rgba(69,159,134,0.6) 60%, rgba(69,159,134,0.8) 100%)}
+    0%   {background-color:#44ab8eb3}
+    20%  {background-color:#a544abb3}
+    40%  {background-color:#ab444db3}
+    60%  {background-color:#9fab44b3}
+    80%  {background-color:#4644abb3}
+    100% {background-color:#44ab8eb3}
 }
 
 .game-list {
@@ -174,7 +174,7 @@
     min-height: 100%;
     padding-top: 6.5em;
     height: 100%;
-    background: linear-gradient(to top, rgba(255,87,144,0.5) 0%, rgba(69,159,134,0.7) 40%, rgba(69,159,134,0.8) 100%);
+    background: linear-gradient(to top, rgba(95, 194, 166, 0.3) 0%, rgba(69,159,134,0.7) 30%, rgba(69,159,134,0.8) 100%)
 }
 
 .game-list-carousel {
@@ -439,4 +439,81 @@
     background: #459f86;
     height: 4em;
     border-top: 1px solid #fff5;
+    background: linear-gradient(-35deg, rgb(78, 183, 153) 0%, rgba(69,159,134,1) 43%, rgb(58, 134, 113) 100%);
+}
+
+.player-status {
+    display: flex;
+    padding: 0em 1em;
+    text-shadow: 0 1px #000;
+    color: #fff;
+    margin: 0.5em 0;
+    font-family: 'Luckiest Guy', cursive;
+}
+
+.player-image-wrapper {
+    height: 2.5em;
+    overflow: hidden;
+    width: 2.5em;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.player-image-wrapper img {
+    height: 110%;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.player-data {
+    position: relative;
+    width: 100%;
+    display: flex;
+    height: 3em;
+}
+
+.player-data .points {
+    position: absolute;
+    right: 1em;
+    /* top: 50%; */
+    display: inline-block;
+    /* position: relative; */
+    top: 50%;
+    transform: translateY(-50%);
+    height: 1em;
+    margin-left: 1em !important;
+}
+
+.player-data .correct {
+    display: inline-block;
+    position: absolute;
+    top: 44%;
+    transform: translateY(-50%);
+    height: 1em;
+    margin-left: 1em !important;
+    right: 8em;
+}
+
+.player-data .invalid {
+    display: inline-block;
+    position: absolute;
+    top: 44%;
+    transform: translateY(-50%);
+    height: 1em;
+    margin-left: 1em !important;
+    right: 11em;
+}
+
+.player-data .user {
+    display: inline-block;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 1em;
+    margin-left: 1em !important;
+    max-width: 5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
