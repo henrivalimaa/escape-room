@@ -127,16 +127,18 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.messageService.getCurrentGame(key).subscribe(games => {
       this.game = games[0];
       this.messageService.setGame(this.game);
+      
+      if (!this.gameInitialized) {
+        this.gameInitialized = true;
 
-      this.gameInitialized = true;
-
-      this.time.start = new Date();
-      this.typing = true;
-      this.result.score = 0;
-      setTimeout(() => {
-        this.typing = false;
-        this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Hello ' + this.player.displayName, incoming: true });
-      }, 2000)
+        this.time.start = new Date();
+        this.typing = true;
+        this.result.score = 0;
+        setTimeout(() => {
+          this.typing = false;
+          this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Hello ' + this.player.displayName, incoming: true });
+        }, 2000)
+      }
     });
   }
 
@@ -165,10 +167,6 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     if (this.nextMessage.points) {
       let temp = this.player;
-      if (!temp.additionalData.activeGame) temp.additionalData.activeGame = {};
-      if (!temp.additionalData.activeGame.points) temp.additionalData.activeGame.points = 0;
-      if (!temp.additionalData.activeGame.correctAnswers) temp.additionalData.activeGame.correctAnswers = 0;
-      if (!temp.additionalData.activeGame.invalidAnswers) temp.additionalData.activeGame.invalidAnswers = 0;
       temp.additionalData.activeGame.points = temp.additionalData.activeGame.points + this.nextMessage.points;
       if (this.nextMessage.points < 0) temp.additionalData.activeGame.invalidAnswers = temp.additionalData.activeGame.invalidAnswers + 1;
       if (this.nextMessage.points > 0) temp.additionalData.activeGame.correctAnswers = temp.additionalData.activeGame.correctAnswers + 1;
@@ -215,6 +213,13 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.result.game = this.game.key;
     this.result.score = this.result.score + this.getTimePoints(this.result.time);
     this.scoreService.createResult(this.result);
+
+    let temp = this.player;
+    temp.additionalData.activeGame.isFinished = true;
+    temp.additionalData.activeGame.points = this.result.score;
+    temp.additionalData.activeGame.time = this.result.time;
+    this.messageService.updateCurrentGameUser(this.key, temp),
+
     this.refreshLeaderboard();
   }
 

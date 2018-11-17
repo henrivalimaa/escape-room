@@ -32,6 +32,8 @@ export class GameListComponent implements OnInit {
   private carouselView: boolean = true;
   private joiningRoom: boolean = false;
   private gameStarted: boolean = false;
+  private gameFinished: boolean = false;
+  private showResults: boolean = false;
 
 	slideConfig = {'slidesToShow': 1, 'dots': true};
 
@@ -70,8 +72,19 @@ export class GameListComponent implements OnInit {
 
       this.messageService.getGameWithRoomKey(this.room).subscribe(res => {
         this.activeGame.game = res[0];
+
+        if (this.playersFinished(res[0].gameState.users)) this.gameFinished = true;
       });
     });
+  }
+
+  playersFinished(users): boolean {
+    for (let user in users) {
+      if (users[user].isFinished === false) {
+        return false;
+      }
+    } 
+    return true;
   }
 
   startActiveGame(): void {
@@ -81,6 +94,30 @@ export class GameListComponent implements OnInit {
     setTimeout(() => {
       this.gameStarted = true;
     }, 4000)
+  }
+
+  displayGameResults(): void {
+    let temp = this.activeGame.game;
+    temp.gameState.state = 'finished';
+
+    this.messageService.updateGame(this.activeGame.key, temp);
+
+    this.showResults = true;
+    this.sortResults('DESC');
+  }
+
+  sortResults(order: string): void {
+    this.activeGame.game.gameState.users.sort((a, b) => {
+        if (a['points'] < b['points'])
+            return -1;
+        if (a['points'] > b['points'])
+            return 1;
+        return 0;
+    });
+
+    if (order === "DESC") {
+        this.activeGame.game.gameState.users.reverse();
+    }
   }
 
   containsPlayer(players, player):boolean {

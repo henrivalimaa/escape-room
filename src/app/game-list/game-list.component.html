@@ -19,7 +19,7 @@
 <mat-progress-bar *ngIf="joiningRoom" color="accent" class="progress-bar" mode="indeterminate"></mat-progress-bar>
 
 <div class="join pulse" *ngIf="this.activeGame.game" [@fade]>
-	<div class="join-content" *ngIf="!gameStarted">
+	<div class="join-content" *ngIf="!gameStarted" [@fade]>
 		<h2>{{ activeGame.game.title }}</h2>
 		<p class="status" *ngIf="activeGame.game.gameState.state === 'waiting'">Waiting for players..</p>
   	<p class="status" *ngIf="activeGame.game.gameState.state === 'running'">Starting game..</p>
@@ -33,105 +33,75 @@
 		style="display: block;" 
 		mat-raised-button 
 		(click)="startActiveGame()" 
-		*ngIf="!activeGame.joined" color="accent">Start game <i class="far fa-play-circle"></i></button>
+		*ngIf="activeGame.game.gameState.users.length > 1" color="accent">Start game <i class="far fa-play-circle ml-05"></i></button>
 	</div>
 
-	<div class="join-content" *ngIf="gameStarted">
+	<div class="join-content" *ngIf="showResults" [@fade]>
+		<h2>{{ activeGame.game.title }}</h2>
+		
+		<p class="status" style="margin-bottom: 1em;">Session results</p>
+		<div class="session-results">
+			<div class="player-status" *ngFor="let user of activeGame.game.gameState.users; let i = index;">
+  			<div class="player-data finished" *ngIf="user.email">
+  				<span class="position">{{ i }}</span>
+  				<div style="position: relative;">
+  					<i *ngIf="i <= 3" class="fas fa-crown crown"[ngClass]="{ 'gold': i == 1, 'silver': i == 2, 'bronze': i == 3 }"></i>
+	  				<div class="player-image-wrapper">
+		  				<img [src]="user.photoURL">
+		  			</div>
+  				</div>
+	  			<p class="user ml-05" style="display: inline-block;">{{ user.gamerTag }}</p>
+	  			<span class="points">
+	  				Total score: 
+	  				<span class="ml-05">{{ user.additionalData.activeGame.points }}</span>
+	  			</span>
+  			</div>
+  		</div>
+		</div>
+  	<button 
+		style="display: block;" 
+		mat-raised-button 
+		(click)="deactivateGame()" 
+		color="accent">Exit <i class="fas fa-sign-out-alt ml-05"></i></button>
+	</div>
+
+	<div class="join-content" *ngIf="gameStarted && !showResults" [@fade]>
 		<h2>{{ activeGame.game.title }}</h2>
   	<h2>Pin: <span class="theme-color">{{ room }}</span></h2>
 
   	<div class="users-joined">
-  		<p class="status mt-05" style="margin-bottom: 1em;">Players joined: {{ activeGame.game.gameState.users.length - 1 }}</p>
-  		<div class="player-status" *ngFor="let user of activeGame.game.gameState.users.reverse()">
-  			<div class="player-data" *ngIf="user.email">
+  		<p class="status mt-05" style="margin-bottom: 1em;">Players online: {{ activeGame.game.gameState.users.length - 1 }}</p>
+  		<div 
+  			class="player-status" 
+  			*ngFor="let user of activeGame.game.gameState.users.reverse()">
+  			<div class="player-data" *ngIf="user.email" [ngClass]="{ 'finished' : user.additionalData.activeGame.isFinished }">
   				<div class="player-image-wrapper">
 	  				<img [src]="user.photoURL">
 	  			</div>
 	  			<p class="user ml-05" style="display: inline-block;">{{ user.gamerTag }}</p>
-	  			<span class="points">
+	  			<span class="points" *ngIf="!user.additionalData.activeGame.isFinished" [@fade]>
 	  				Points: 
 	  				<span class="ml-05">{{ user.additionalData.activeGame.points }}</span>
 	  			</span>
-	  			<span class="correct">
-	  				<i class="fas fa-check"></i>
-	  				<span class="ml-05">{{ user.additionalData.activeGame.correctAnswers }}</span>
+	  			<span class="correct" *ngIf="!user.additionalData.activeGame.isFinished" [@fade]>
+	  				Phase:
+	  				<span class="ml-05">{{ user.additionalData.activeGame.correctAnswers + 1 }}</span>
 	  			</span>
-	  			<span class="invalid">
-	  				<i class="fas fa-times"></i>
-	  				<span class="ml-05">{{ user.additionalData.activeGame.invalidAnswers }}</span>
-	  			</span>
-  			</div>
-  		</div>
-  		<div class="player-status" *ngFor="let user of activeGame.game.gameState.users.reverse()">
-  			<div class="player-data" *ngIf="user.email">
-  				<div class="player-image-wrapper">
-	  				<img [src]="user.photoURL">
-	  			</div>
-	  			<p class="user ml-05" style="display: inline-block;">{{ user.gamerTag }}</p>
-	  			<span class="points">
-	  				Points: 
-	  				<span class="ml-05">{{ user.additionalData.activeGame.points }}</span>
-	  			</span>
-	  			<span class="correct">
-	  				<i class="fas fa-check"></i>
-	  				<span class="ml-05">{{ user.additionalData.activeGame.correctAnswers }}</span>
-	  			</span>
-	  			<span class="invalid">
-	  				<i class="fas fa-times"></i>
-	  				<span class="ml-05">{{ user.additionalData.activeGame.invalidAnswers }}</span>
-	  			</span>
-  			</div>
-  		</div>
-  		<div class="player-status" *ngFor="let user of activeGame.game.gameState.users.reverse()">
-  			<div class="player-data" *ngIf="user.email">
-  				<div class="player-image-wrapper">
-	  				<img [src]="user.photoURL">
-	  			</div>
-	  			<p class="user ml-05" style="display: inline-block;">{{ user.gamerTag }}</p>
-	  			<span class="points">
-	  				Points: 
-	  				<span class="ml-05">{{ user.additionalData.activeGame.points }}</span>
-	  			</span>
-	  			<span class="correct">
-	  				<i class="fas fa-check"></i>
-	  				<span class="ml-05">{{ user.additionalData.activeGame.correctAnswers }}</span>
-	  			</span>
-	  			<span class="invalid">
-	  				<i class="fas fa-times"></i>
-	  				<span class="ml-05">{{ user.additionalData.activeGame.invalidAnswers }}</span>
+	  			<span class="finish" *ngIf="user.additionalData.activeGame.isFinished" [@fade]>
+	  				Finished
+	  				<i class="fas fa-check-circle ml-05"></i>
 	  			</span>
   			</div>
   		</div>
   	</div>
-  	<button 
+		<button 
 		style="display: block;" 
 		mat-raised-button 
-		(click)="startActiveGame()" 
-		*ngIf="!gameStarted" color="accent">Start game <i class="far fa-play-circle"></i></button>
+		(click)="displayGameResults()" 
+		*ngIf="gameFinished" color="accent">Display results <i class="fas fa-trophy ml-05"></i></button>
 	</div>
 
 </div>
-
-<!--
-<div class="game-list">
-	<h2>Games available</h2>
-	<div class="game-list-carousel">
-		<ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
-	    <div ngxSlickItem *ngFor="let game of games | async" class="slide" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
-	    	<div class="game-info">
-					<p [style.color]="game.themeColor">{{ game.title }}</p>
-					<small>{{ game.questions }} Questions</small>
-					<small>Duration: {{ game.duration }}</small>
-				</div>
-	    	<button class="play-btn" (click)="startGame(game)">
-			  	Play
-			  	<i class="far fa-play-circle"></i>
-			  </button>
-	    </div>
-	  </ngx-slick>
-	</div>
-</div>
--->
 
 <div class="game-list" *ngIf="!this.activeGame.game" [@fade]>
 	<h2 class="my-games-title">

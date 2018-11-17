@@ -48,7 +48,7 @@ export class StartComponent implements OnInit {
     this.messageService.getGameWithRoomKey(this.room).subscribe(game => {
       if (game.length === 0) {
         this.displayError('Check game pin!');
-		    	this.joiningRoom = false;      
+	    	this.joiningRoom = false;      
         return;
       }
 
@@ -70,6 +70,7 @@ export class StartComponent implements OnInit {
             temp.additionalData.activeGame.points = 0;
             temp.additionalData.activeGame.correctAnswers = 0;
             temp.additionalData.activeGame.invalidAnswers = 0;
+            temp.additionalData.activeGame.isFinished = false;
             game[0].gameState.users.push(temp);
 
             this.messageService.updateGame(key[0], game[0]);
@@ -79,13 +80,27 @@ export class StartComponent implements OnInit {
             this.activeGame.game = game [0];
             this.activeGame.key = key[0];
           } else {
-            console.log(game[0]);
             if (this.containsPlayer(game[0].gameState.users, this.player)) {
               this.activeGame = {}
               this.activeGame.joined = true;
               this.activeGame.game = game [0];
               this.activeGame.key = key[0];
-            } else { game[0].gameState.users.push(this.player) }
+            } else { 
+              let temp = this.player;
+              temp.additionalData.activeGame = {};
+              temp.additionalData.activeGame.points = 0;
+              temp.additionalData.activeGame.correctAnswers = 0;
+              temp.additionalData.activeGame.invalidAnswers = 0;
+              temp.additionalData.activeGame.isFinished = false;
+              game[0].gameState.users.push(temp);
+
+              this.messageService.updateGame(key[0], game[0]);
+
+              this.activeGame = {}
+              this.activeGame.joined = true;
+              this.activeGame.game = game [0];
+              this.activeGame.key = key[0];
+            }
           }
         });
       } else {

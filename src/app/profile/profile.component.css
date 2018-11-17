@@ -3,7 +3,7 @@
     width: 100%;
 	background-color: #44ab8eb3;
     overflow: hidden;
-    background: linear-gradient(to top, rgba(95, 194, 166, 0.3) 0%, rgba(69,159,134,0.7) 30%, rgba(69,159,134,0.8) 100%)
+    background: linear-gradient(to top, rgba(231, 53, 133, 0.39) 0%, rgba(69,159,134,0.7) 30%, rgba(69,159,134,0.8) 100%);
 }
 
 .settings-content > .progress-bar {
@@ -25,7 +25,7 @@
     box-shadow: 0 1px 4px #000;
     margin: 0;
     padding-top: 1em;
-    background: #459f86;
+    background: linear-gradient(-35deg, rgb(97, 218, 183) 0%, rgba(69,159,134,1) 46%, rgb(58, 134, 113) 100%);
 }
 
 .settings-view h1 > .profile-icon {

@@ -8,7 +8,7 @@
     top: 0;
     z-index: 999;
     box-shadow: 0px 3px 12px #0000008a;
-    background: linear-gradient(-35deg, rgb(78, 183, 153) 0%, rgba(69,159,134,1) 43%, rgb(58, 134, 113) 100%);
+    background: linear-gradient(-35deg, rgb(97, 218, 183) 0%, rgba(69,159,134,1) 46%, rgb(58, 134, 113) 100%);
 }
 
 .profile-picture {
@@ -57,6 +57,7 @@
     background: #44ab8eb3;
     box-shadow: 0 1px 10px #303030;
     height: 90%;
+    background: linear-gradient(-35deg, rgba(255,87,144,0.5) 0%, rgba(69,159,134,0.6) 60%, rgba(69,159,134,0.8) 100%)
 }
 
 .join-content {
@@ -174,7 +175,7 @@
     min-height: 100%;
     padding-top: 6.5em;
     height: 100%;
-    background: linear-gradient(to top, rgba(95, 194, 166, 0.3) 0%, rgba(69,159,134,0.7) 30%, rgba(69,159,134,0.8) 100%)
+    background: linear-gradient(to top, rgba(231, 53, 133, 0.39) 0%, rgba(69,159,134,0.7) 30%, rgba(69,159,134,0.8) 100%);
 }
 
 .game-list-carousel {
@@ -444,10 +445,8 @@
 
 .player-status {
     display: flex;
-    padding: 0em 1em;
     text-shadow: 0 1px #000;
     color: #fff;
-    margin: 0.5em 0;
     font-family: 'Luckiest Guy', cursive;
 }
 
@@ -457,6 +456,8 @@
     width: 2.5em;
     display: inline-block;
     border-radius: 50%;
+    box-shadow: 0 1px 2px #000;
+    border: 1px solid #6abaa3;
 }
 
 .player-image-wrapper img {
@@ -472,15 +473,17 @@
     width: 100%;
     display: flex;
     height: 3em;
+    padding: 0.6em 1em 0.2em;
+    transition: all 0.4s ease;
 }
 
 .player-data .points {
     position: absolute;
-    right: 1em;
+    right: 2em;
     /* top: 50%; */
     display: inline-block;
     /* position: relative; */
-    top: 50%;
+    top: 55%;
     transform: translateY(-50%);
     height: 1em;
     margin-left: 1em !important;
@@ -489,24 +492,15 @@
 .player-data .correct {
     display: inline-block;
     position: absolute;
-    top: 44%;
+    top: 55%;
     transform: translateY(-50%);
     height: 1em;
     margin-left: 1em !important;
-    right: 8em;
-}
-
-.player-data .invalid {
-    display: inline-block;
-    position: absolute;
-    top: 44%;
-    transform: translateY(-50%);
-    height: 1em;
-    margin-left: 1em !important;
-    right: 11em;
+    right: 9em;
 }
 
 .player-data .user {
+    color: #fff !important;
     display: inline-block;
     position: relative;
     top: 50%;
@@ -516,4 +510,54 @@
     max-width: 5em;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.player-data .finish {
+    position: absolute;
+    right: 2em;
+    /* top: 50%; */
+    display: inline-block;
+    /* position: relative; */
+    top: 50%;
+    transform: translateY(-50%);
+    height: 1em;
+    margin-left: 1em !important;
+}
+
+.finish i {
+    color: #5ce9c0;
+}
+
+.finished {
+    background-color: #ffffff4d;
+}
+
+.crown {
+    position: absolute;
+    bottom: 1.5em;
+    left: 0.2em;
+    font-size: 1.6em;
+}
+
+.gold {
+    color: #ffe829;
+    text-shadow: 0 1px 1px #000;
+}
+
+.silver {
+    color: #cccccc;
+    text-shadow: 0 1px 1px #000;
+}
+
+.bronze {
+    color: #ec9d34;
+    text-shadow: 0 1px 1px #000;
+}
+
+.position {
+    position: relative;
+    top: 55%;
+    transform: translateY(-50%);
+    height: 1em;
+    margin-right: 1em !important;
 }
