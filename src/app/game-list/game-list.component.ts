@@ -54,6 +54,8 @@ export class GameListComponent implements OnInit {
   }
 
   setGameReady(game: Game) {
+    this.activeGame = {};
+
     if (!this.activeGame.game) {
       game.gameState = {};
       game.gameState.state = 'waiting';
@@ -68,12 +70,14 @@ export class GameListComponent implements OnInit {
       if (!this.activeGame.game) this.messageService.updateGame(key[0], game);
 
       this.activeGame.key = key[0];
-      this.activeGame.game = game;
+      //this.activeGame.game = game;
 
       this.messageService.getGameWithRoomKey(this.room).subscribe(res => {
         this.activeGame.game = res[0];
 
-        if (this.playersFinished(res[0].gameState.users)) this.gameFinished = true;
+        if (res[0].gameState) {
+          if (this.playersFinished(res[0].gameState.users)) this.gameFinished = true;
+        }
       });
     });
   }
