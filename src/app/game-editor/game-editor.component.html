@@ -105,7 +105,8 @@
 </div>
 
 <div class="game-editor-container" *ngIf="!choosingTemplate" [@fade]>
-	<h1>Create new game</h1>
+	<h1 *ngIf="!editMode">Create new game</h1>
+	<h1 *ngIf="editMode">Edit game</h1>
 	<div class="game-editor">
 		<mat-horizontal-stepper labelPosition="bottom" #stepper>
     <mat-step>
@@ -326,7 +327,7 @@
 		  			Message list ({{ game.messages.length - 1 }})
 		  			<button mat-raised-button (click)="editing=!editing" class="right edit-btn">Edit <i class="far fa-edit ml-05"></i></button>
 		  		</p>
-		  		<div class="message" *ngFor="let message of game.messages">
+		  		<div class="message" *ngFor="let message of game.messages; let i = index;">
 		  			<mat-expansion-panel *ngIf="!message.start">
 				    <mat-expansion-panel-header>
 					      <mat-panel-title>
@@ -335,6 +336,7 @@
 					      <mat-panel-description>
 					        {{ message.type }}
 					      </mat-panel-description>
+					      <i class="fas fa-times" (click)="game.messages.splice(i, 1)"></i>
 					    </mat-expansion-panel-header>
 					    <div class="message-grid">
 					    	<div class="message-content" *ngIf="!editing" [@fade]>
@@ -448,7 +450,7 @@
 	</div>
 
 	<div class="controls" *ngIf="temp.text || game.messages.length > 1" [@fade]>
-		<button mat-raised-button class="save-question-btn" *ngIf="temp.text" [@fade] (click)="saveQuestion()">Save question</button>
+		<button mat-raised-button color="accent" class="save-question-btn" *ngIf="temp.text" [@fade] (click)="saveQuestion()">Save question</button>
 		<button mat-raised-button *ngIf="game.messages.length > 1 && !key" color="accent" [@fade] (click)="showModal = true">Create game</button>
 		<button mat-raised-button *ngIf="key" color="accent" [@fade] (click)="saveChanges()">Save changes</button>
 	</div>

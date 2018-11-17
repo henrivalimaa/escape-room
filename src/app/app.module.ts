@@ -25,7 +25,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
-import { SettingsComponent } from './settings/settings.component';
 import { MessengerContactComponent } from './messenger-contact/messenger-contact.component';
 import { MessengerMediaComponent } from './messenger-media/messenger-media.component';
 import { LoginComponent } from './login/login.component';
@@ -86,7 +85,6 @@ const cookieConfig:NgcCookieConsentConfig = {
     AppComponent,
     GameComponent,
     LeaderboardComponent,
-    SettingsComponent,
     MessengerContactComponent,
     MessengerMediaComponent,
     LoginComponent,

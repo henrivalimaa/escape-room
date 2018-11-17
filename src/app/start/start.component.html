@@ -17,11 +17,11 @@
 
 <div class="join pulse" *ngIf="!this.activeGame.joined" [@fade]>
 	<div class="join-content">
-		<h1>Escape</h1>
+		<h1>Webscape</h1>
 		<h3>Enter game pin</h3>
 		<input [(ngModel)]="room">
 		<button mat-raised-button (click)="joinRoom(room)">Join</button>
-		<p class="message" *ngIf="joiningRoom">Searching game...</p>
+		<p class="message" *ngIf="joiningRoom && !error.showError">Searching game...</p>
 		<p class="message shake" *ngIf="error.showError">{{ error.errorMessage }}</p>
 	</div>
 </div>

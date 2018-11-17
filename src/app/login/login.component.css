@@ -17,6 +17,7 @@ h1 {
     text-shadow: 0 1px #172926;
     font-family: 'Luckiest Guy', cursive;
     font-size: 70px;
+    transform: scale(0.8);
 }
 
 .leaderboard-btn {
@@ -199,8 +200,12 @@ h1 {
 }
 
 .google-play-section p {
-    margin-bottom: 0;
+    margin-bottom: 1em;
     color: #fff;
+    width: 14em;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .google-play-section button {

@@ -96,6 +96,10 @@ export class GameListComponent implements OnInit {
     }, 4000)
   }
 
+  deactivateGame() {
+    this.activeGame = {};
+  }
+
   displayGameResults(): void {
     let temp = this.activeGame.game;
     temp.gameState.state = 'finished';

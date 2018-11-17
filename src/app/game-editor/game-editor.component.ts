@@ -38,6 +38,8 @@ export class GameEditorComponent implements OnInit {
   private choosingImage: boolean = false;
   private choosingTemplate: boolean = false;
 
+  private editMode: boolean = false;
+
   private imagePosition: string;
 
   constructor(
@@ -55,12 +57,14 @@ export class GameEditorComponent implements OnInit {
       .queryParams
       .subscribe(params => {
         if (params.id) {
+          this.editMode = true;
           this.messageService.getGameKey(params.id).subscribe( key => {
             this.key = key[0];
           })
 
           this.messageService.getCurrentGame(params.id).subscribe(game => {
             this.game = game[0];
+            this.game.messages.splice(this.game.messages.length - 1, 1);
           })
         } else {
           this.choosingTemplate = true;
@@ -162,6 +166,7 @@ export class GameEditorComponent implements OnInit {
   }
 
   saveChanges(): void {
+    this.game.messages.push({ continous: false, text: 'Bye...', time: '', final: true, delay: 7000 });
     this.messageService.updateGame(this.key, this.game);
     this.zone.run(() => {
       this.router.navigate(['game-list']);
