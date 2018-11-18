@@ -74,7 +74,9 @@ export class MessageService {
     return game.snapshotChanges().pipe(
         map(changes =>
           changes.map(c => { 
-            return c.payload.key;
+              const $key = c.payload.key;
+              const data = { $key, ...c.payload.val() };
+              return data;
            })
       ));
   }

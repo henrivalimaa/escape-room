@@ -55,7 +55,6 @@ export class GameListComponent implements OnInit {
 
   setGameReady(game: Game) {
     this.activeGame = {};
-
     if (!this.activeGame.game) {
       game.gameState = {};
       game.gameState.state = 'waiting';
@@ -66,19 +65,14 @@ export class GameListComponent implements OnInit {
       game.room = this.room;
     }
 
-    this.messageService.getGameKey(game.key).subscribe(key => {
-      if (!this.activeGame.game) this.messageService.updateGame(key[0], game);
+    this.messageService.getGameKey(game.key).subscribe(response => {
+      if (!this.activeGame.game) this.messageService.updateGame(response[0].$key, game);
+      this.activeGame.key = response[0].$key;
+      this.activeGame.game = response[0];
 
-      this.activeGame.key = key[0];
-      //this.activeGame.game = game;
-
-      this.messageService.getGameWithRoomKey(this.room).subscribe(res => {
-        this.activeGame.game = res[0];
-
-        if (res[0].gameState) {
-          if (this.playersFinished(res[0].gameState.users)) this.gameFinished = true;
-        }
-      });
+      if (response[0].gameState) {
+        if (this.playersFinished(response[0].gameState.users)) this.gameFinished = true;
+      }
     });
   }
 
@@ -93,6 +87,7 @@ export class GameListComponent implements OnInit {
 
   startActiveGame(): void {
     this.activeGame.game.gameState.state = 'running';
+    delete this.activeGame.game.$key;
     this.messageService.updateGame(this.activeGame.key, this.activeGame.game);
 
     setTimeout(() => {
@@ -108,6 +103,7 @@ export class GameListComponent implements OnInit {
     let temp = this.activeGame.game;
     temp.gameState.state = 'finished';
 
+    delete temp.$key;
     this.messageService.updateGame(this.activeGame.key, temp);
 
     this.showResults = true;
@@ -143,6 +139,12 @@ export class GameListComponent implements OnInit {
   editGame(game: any) {
     this.zone.run(() => {
       this.router.navigate(['game-editor'], { queryParams: { id: game.key } });
+    });
+  }
+
+  removeGame(game: any): void {
+    this.messageService.getGameKey(game.key).subscribe(key => {
+      this.messageService.deleteGame(key[0]);
     });
   }
 

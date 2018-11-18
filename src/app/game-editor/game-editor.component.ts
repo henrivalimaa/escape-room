@@ -99,6 +99,7 @@ export class GameEditorComponent implements OnInit {
   pickTemplate(): void {
     this.choosingTemplate = false;
     this.game = this.template;
+    this.game.owner = this.user.email;
   }
 
   setBlankGame(): void {

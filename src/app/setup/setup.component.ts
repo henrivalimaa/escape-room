@@ -55,7 +55,7 @@ export class SetupComponent implements OnInit {
         } else {
           this.userService.setUser(user[0]);
           this.zone.run(() => {
-            this.router.navigate(['game-list']);
+            this.router.navigate(['start']);
           });
         }
       });
@@ -101,7 +101,7 @@ export class SetupComponent implements OnInit {
     setTimeout(() => {
       this.userService.createUser(this.user);
       this.zone.run(() => {
-        this.router.navigate(['game-list']);
+        this.router.navigate(['start']);
       });
     }, 7000)
   }

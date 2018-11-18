@@ -21,11 +21,11 @@ export const fadeAnimation =
 export const slideAnimation =
   trigger('slide', [
       transition(':enter', [
-      style({ opacity: 0, top: '60%' }),
-      animate(500, style({ opacity: 1, top: '50%' }))
+      style({ opacity: 0, bottom: '-4em' }),
+      animate(300, style({ opacity: 1, bottom: '1em' }))
     ]),
     transition(':leave', [
-      animate(500, style({ opacity: 0 }))
+      animate(500, style({ opacity: 1, bottom: '-4em' }))
     ]),
   ]);
 

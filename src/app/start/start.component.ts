@@ -53,6 +53,13 @@ export class StartComponent implements OnInit {
         return;
       }
 
+      console.log(game[0]);
+      if (game[0].room != this.room) {
+        this.activeGame = {};
+        this.displayError('Game was closed by admin!');
+        return;
+      }
+
       if (game[0].gameState.state === 'running' && this.activeGame.joined) {
         this.activeGame.game = game[0];
         setTimeout(() => {
@@ -82,13 +89,13 @@ export class StartComponent implements OnInit {
       }
 
       if (!this.activeGame.joined && game[0].gameState.state === 'waiting') {
-        this.messageService.getGameKey(game[0].key).subscribe(key => {
+        this.messageService.getGameKey(game[0].key).subscribe(response => {
 
           if (this.containsPlayer(game[0].gameState.users, this.player)) {
             this.activeGame = {}
             this.activeGame.joined = true;
-            this.activeGame.game = game [0];
-            this.activeGame.key = key[0];
+            this.activeGame.game = response[0];
+            this.activeGame.key = response[0].$key;
           } else {
             let temp = this.player;
             temp.additionalData.activeGame = {};
@@ -98,12 +105,12 @@ export class StartComponent implements OnInit {
             temp.additionalData.activeGame.isFinished = false;
             game[0].gameState.users.push(temp);
 
-            this.messageService.updateGame(key[0], game[0]);
+            this.messageService.updateGame(response[0].$key, game[0]);
 
             this.activeGame = {}
             this.activeGame.joined = true;
             this.activeGame.game = game [0];
-            this.activeGame.key = key[0];
+            this.activeGame.key = response[0].$key;
           }
         });
       }

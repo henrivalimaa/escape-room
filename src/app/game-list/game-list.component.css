@@ -302,8 +302,17 @@
 
 .edit-btn {
     position: absolute;
+    right: 4em;
+    top: 1em;
+    background: #44ab8e;
+    box-shadow: 0 1px 2px #0000008a;
+}
+
+.remove-btn {
+    position: absolute;
     right: 1em;
     top: 1em;
+    box-shadow: 0 1px 2px #0000008a;
 }
 
 .progress-bar {

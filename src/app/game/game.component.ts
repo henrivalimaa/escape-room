@@ -55,6 +55,8 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   private points: number;
   private showPoints: boolean = false;
   private loadingLeaderboard: boolean = false;
+  private hint: any = {};
+  private showHint: boolean = false;
 
   slideConfig = {'slidesToShow': 1, 'dots': true};
 
@@ -92,7 +94,6 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngAfterViewChecked() {
-  	window.scrollTo(0, document.body.scrollHeight);    
   }
 
   handleImageLoad() {
@@ -121,7 +122,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   startGame(key: string): void {
     this.messageService.getGameKey(key).subscribe(res => {
-      this.key = res[0];
+      this.key = res[0].$key;
     });
 
     this.messageService.getCurrentGame(key).subscribe(games => {
@@ -176,6 +177,10 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
 
 		setTimeout(() => {
       this.messages.push(this.nextMessage);
+      if (this.nextMessage.hint) {
+        this.hint.isActive = true;
+        this.hint.text = this.nextMessage.hint;
+      }
       this.typing = false;
       if (this.nextMessage.final === true) this.endGame();
       if (this.nextMessage.continous) this.continueDialog(message);
@@ -239,13 +244,14 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
           this.sortResults('score', 'DESC');
           this.loadingLeaderboard = false;
       });
-     }, 3000); 
+     }, 3000);
   }
 
   displayPoints(points: number): void {
     this.result.score = this.result.score + points;
     this.showPoints = true;
     this.points = points;
+    if (this.points > 0) this.hint.isActive = false;
     setTimeout(() => {
       this.showPoints = false;
      }, 1500);
