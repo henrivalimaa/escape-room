@@ -42,6 +42,33 @@
     width: 100%;
     top: 0;
     padding-top: 4em;
+    background: linear-gradient(-35deg, rgba(255,87,144,0.5) 0%, rgba(69,159,134,0.6) 60%, rgba(69,159,134,0.8) 100%);
+}
+
+.pulse {
+    animation-name: background-animation;
+    animation-duration: 12s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes background-animation {
+    0%   {background-color:#44ab8eb3}
+    20%  {background-color:#a544abb3}
+    40%  {background-color:#ab444db3}
+    60%  {background-color:#9fab44b3}
+    80%  {background-color:#4644abb3}
+    100% {background-color:#44ab8eb3}
+}
+
+.user-creation-loader h1 {
+    text-align: center;
+    color: #fff;
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 70px;
+    -webkit-transform: scale(0.6);
+    transform: scale(0.75);
+    margin: 0;
 }
 
 .user-creation-loader  h2 {
@@ -51,7 +78,7 @@
 }
 
 .user-creation-loader  p {
-    color: #949494;
+    color: #fff;
 }
 
 .setup-section {

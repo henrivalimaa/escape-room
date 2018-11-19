@@ -79,6 +79,7 @@ export class ProfileComponent implements OnInit {
   	this.user.photoURL = url;
   	this.choosingProfilePicture = false;
   	this.temp.userImage = this.user.photoURL;
+    this.save();
   }
 
   uploadFile(event) {

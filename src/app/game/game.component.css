@@ -288,10 +288,10 @@
 .message-area {
     position: relative;
 	padding-top: 6em;
-	margin-bottom: 4em;
+	padding-bottom: 4em;
     background: linear-gradient(-35deg, rgba(255,87,144,0.5) 0%, rgba(69,159,134,0.6) 60%, rgba(69,159,134,0.8) 100%);
-    height: 100%;
-    overflow-y: scroll;
+    min-height: 78%;
+    background-attachment: fixed;
 }
 
 .message-row {
@@ -516,6 +516,7 @@ button:focus {
 }
 
 .hint-content {
+    z-index: 100;
     position: fixed;
     color: #fff;
     font-size: 13px;
@@ -528,6 +529,7 @@ button:focus {
 }
 
 .hint-content .tip {
+    z-index: 100;
     position: absolute;
     right: -1em;
     display: block;
@@ -537,6 +539,7 @@ button:focus {
 }
 
 .hint {
+    z-index: 100;
     position: fixed;
     right: 1em;
     bottom: 3.4em;

@@ -85,10 +85,10 @@
 	</mat-horizontal-stepper>
 </div>
 
-<div class="user-creation-loader" *ngIf="creatingUser" [@fade]>
+<div class="user-creation-loader pulse" *ngIf="creatingUser" [@fade]>
+	<h1>Webscape</h1>
   <h2>Creating user</h2>
   <p>Please wait..</p>
-  <img class="logo center-x" src="./assets/images/logo.png">
-  <mat-progress-bar class="progress-bar" mode="indeterminate"></mat-progress-bar>
+  <mat-progress-bar class="progress-bar" color="accent" mode="indeterminate"></mat-progress-bar>
 </div>
 

@@ -45,7 +45,7 @@ export class MessageService {
   	this.game = game;
   }
 
-  getCurrentGame(key) {
+  getCurrentGame(key): any {
     return this.db.list(this.basePath, ref => ref.orderByChild('key').equalTo(key)).snapshotChanges().pipe(
         map(changes =>
           changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))

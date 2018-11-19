@@ -59,7 +59,7 @@ export class GameEditorComponent implements OnInit {
         if (params.id) {
           this.editMode = true;
           this.messageService.getGameKey(params.id).subscribe( key => {
-            this.key = key[0];
+            this.key = key[0].$key;
           })
 
           this.messageService.getCurrentGame(params.id).subscribe(game => {
@@ -108,6 +108,7 @@ export class GameEditorComponent implements OnInit {
     this.game.owner = this.user.email;
     this.game.sender = {};
     this.game.images = {};
+    this.game.themeColor = '#fff';
     this.game.sender.name = this.user.displayName;
     this.game.sender.photo = this.user.photoURL;
     this.game.questions = 0;
@@ -167,6 +168,7 @@ export class GameEditorComponent implements OnInit {
   }
 
   saveChanges(): void {
+    delete this.game.$key;
     this.game.messages.push({ continous: false, text: 'Bye...', time: '', final: true, delay: 7000 });
     this.messageService.updateGame(this.key, this.game);
     this.zone.run(() => {

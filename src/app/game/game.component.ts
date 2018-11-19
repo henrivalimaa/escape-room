@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewChecked, OnDestroy, ElementRef, ViewChild, HostListener } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { Component, OnInit, AfterViewChecked, OnDestroy, ElementRef, ViewChild, HostListener, NgZone } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MessengerContactComponent } from '../messenger-contact/messenger-contact.component';
 
@@ -67,7 +67,9 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     private scoreService: ScoreService,
     private sessionService: SessionService,
     private route: ActivatedRoute,
-  	public dialog: MatDialog
+  	public dialog: MatDialog,
+    private zone: NgZone,
+    private router: Router
 	) {}
 
   ngOnInit() {
@@ -94,6 +96,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   ngAfterViewChecked() {
+    window.scrollTo(0, document.body.scrollHeight);
   }
 
   handleImageLoad() {
@@ -126,6 +129,12 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     });
 
     this.messageService.getCurrentGame(key).subscribe(games => {
+      if (games[0].gameState.state === 'inactive') {
+        this.zone.run(() => {
+          this.router.navigate(['start']);
+        });
+      }
+      
       this.game = games[0];
       this.messageService.setGame(this.game);
       

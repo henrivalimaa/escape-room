@@ -17,13 +17,16 @@ router-outlet ~ * {
   position: absolute;
   height: 100%;
   width: 100%;
-  overflow: hidden;
 }
 
 main {
   position: relative;
   width: 100%;
   height: 100%;
+}
+
+button:focus {
+    outline: none !important;
 }
 
 .left {
@@ -296,7 +299,7 @@ main {
     position: fixed !important;
 }
 
-.slick-slider, .slick-list, .slick-track {
+.slick-slider, .slick-list, .slick-track, .slide {
   height: 100%;
 }
 

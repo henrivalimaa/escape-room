@@ -62,7 +62,7 @@
 		style="display: block;" 
 		mat-raised-button 
 		(click)="deactivateGame()" 
-		color="accent">Exit <i class="fas fa-sign-out-alt ml-05"></i></button>
+		color="accent">Exit game <i class="fas fa-sign-out-alt ml-05"></i></button>
 	</div>
 
 	<div class="join-content" *ngIf="gameStarted && !showResults" [@fade]>
@@ -108,9 +108,18 @@
 		My games
 		<i class="fas fa-th right" (click)="carouselView = !carouselView"></i>
 	</h2>
+	<div class="game-search">
+		<input type="" name="" placeholder="Search"><i class="fas fa-search"></i>
+	</div>
 	<div class="game-list-carousel" *ngIf="carouselView" [@fade]>
 		<ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
-	    <div ngxSlickItem *ngFor="let game of userGames" class="slide" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
+			<div ngxSlickItem *ngIf="userGames.length === 0" class="slide empty-games">
+				<div class="default-content">
+					<p>No games</p>
+					<button mat-raised-button color="accent" routerLink="/game-editor">Create new game</button>
+				</div>
+	    </div>
+	    <div ngxSlickItem *ngFor="let game of userGames.reverse()" class="slide" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
 	    	<button class="edit-btn" (click)="editGame(game)" mat-mini-fab><i class="fas fa-pencil-alt"></i></button>
 	    	<button class="remove-btn" (click)="removeGame(game)" mat-mini-fab color="accent"><i class="fas fa-trash-alt"></i></button>
 	    	<div class="game-info">
@@ -126,8 +135,9 @@
 	  </ngx-slick>
 	</div>
 	<div class="game-list-block" *ngIf="!carouselView" [@fade]>
-		<div class="block" *ngFor="let game of userGames" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
+		<div class="block" *ngFor="let game of userGames.reverse()" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
 			<button class="edit-btn" (click)="editGame(game)" mat-mini-fab color="accent"><i class="fas fa-pencil-alt"></i></button>
+			<button class="remove-btn" (click)="removeGame(game)" mat-mini-fab color="accent"><i class="fas fa-trash-alt"></i></button>
 			<div class="game-info">
 				<p [style.color]="game.themeColor">{{ game.title }}</p>
 				<small>{{ game.questions }} Questions</small>

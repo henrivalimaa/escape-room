@@ -10,6 +10,7 @@ import { Game, User } from '../services/result';
 
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { Subscription }   from 'rxjs';
 
 @Component({
   selector: 'app-game-list',
@@ -35,6 +36,8 @@ export class GameListComponent implements OnInit {
   private gameFinished: boolean = false;
   private showResults: boolean = false;
 
+  private gameSubscription: Subscription;
+
 	slideConfig = {'slidesToShow': 1, 'dots': true};
 
   constructor(
@@ -54,6 +57,9 @@ export class GameListComponent implements OnInit {
   }
 
   setGameReady(game: Game) {
+    this.showResults = false;
+    this.gameStarted = false;
+    
     this.activeGame = {};
     if (!this.activeGame.game) {
       game.gameState = {};
@@ -65,23 +71,31 @@ export class GameListComponent implements OnInit {
       game.room = this.room;
     }
 
-    this.messageService.getGameKey(game.key).subscribe(response => {
-      if (!this.activeGame.game) this.messageService.updateGame(response[0].$key, game);
-      this.activeGame.key = response[0].$key;
-      this.activeGame.game = response[0];
+    this.gameSubscription = this.messageService.getGameKey(game.key).subscribe(response => {
+      if (!this.activeGame.game) {
+        this.messageService.updateGame(response[0].$key, game);
+      }
 
-      if (response[0].gameState) {
+      if (response[0].gameState.state != 'inactive') {
+        this.activeGame.key = response[0].$key;
+        this.activeGame.game = response[0];
+      }
+
+      if (response[0].gameState.users) {
         if (this.playersFinished(response[0].gameState.users)) this.gameFinished = true;
       }
     });
   }
 
-  playersFinished(users): boolean {
+  playersFinished(users: any): boolean {
+    if (users.length === 1) return false;
     for (let user in users) {
-      if (users[user].isFinished === false) {
+      if (users[user].owner) continue;
+      if (users[user].additionalData.activeGame.isFinished === false) {
         return false;
       }
-    } 
+    }
+
     return true;
   }
 
@@ -96,6 +110,14 @@ export class GameListComponent implements OnInit {
   }
 
   deactivateGame() {
+    let temp = this.activeGame.game;
+    delete temp.$key;
+    temp.gameState = {};
+    temp.gameState.state = 'inactive';
+
+    this.gameSubscription.unsubscribe();
+    this.messageService.updateGame(this.activeGame.key, temp);
+    
     this.activeGame = {};
   }
 
@@ -144,7 +166,7 @@ export class GameListComponent implements OnInit {
 
   removeGame(game: any): void {
     this.messageService.getGameKey(game.key).subscribe(key => {
-      this.messageService.deleteGame(key[0]);
+      this.messageService.deleteGame(key[0].$key);
     });
   }
 
