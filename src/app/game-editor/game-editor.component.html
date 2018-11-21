@@ -17,10 +17,48 @@
 </div>
 
 <mat-progress-bar *ngIf="loadingImage" [@fade] color="accent" class="progress-bar" mode="indeterminate"></mat-progress-bar>
-<button class="help-btn"><i class="far fa-question-circle"></i></button>
+
+<button class="help-btn" (click)="showHelp = true"><i class="far fa-question-circle"></i></button>
+<div class="view-help" *ngIf="showHelp" [@fade]>
+	<h1>
+		<a (click)="showHelp = false" class="help-back-btn"><i class="fas fa-arrow-left"></i></a>
+		Help & FAQ
+		<i class="fas fa-question-circle help-icon"></i>
+	</h1>
+	<div class="iframe-wrapper">
+		<iframe width="100%" height="100%" src="https://www.youtube.com/embed/ScMzIvxBSi4" allowfullscreen></iframe>
+	</div>
+	<div class="help-content">
+		<p class="section-title">What is a Wescape game?</p>
+		<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+		<p class="section-title">How to create a Wescape game</p>
+		<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+		<p class="section-title">Frequently asked question (FAQ)</p>
+		<mat-accordion>
+		  <mat-expansion-panel>
+		    <mat-expansion-panel-header>
+		      <mat-panel-title>
+		        What is a template?
+		      </mat-panel-title>
+		    </mat-expansion-panel-header>
+		    <p>Example text</p>
+		  </mat-expansion-panel>
+		  <mat-expansion-panel (opened)="panelOpenState = true"
+		                       (closed)="panelOpenState = false">
+		    <mat-expansion-panel-header>
+		      <mat-panel-title>
+		        Who is a sender?
+		      </mat-panel-title>
+		    </mat-expansion-panel-header>
+		    <p>Example text</p>
+		  </mat-expansion-panel>
+		</mat-accordion>
+	</div>
+</div>
 
 <div class="template-container" *ngIf="choosingTemplate" [@fade]>
 	<div class="template-select" *ngIf="!showTemplates" [@fade]>
+		<h1>Webscape</h1>
 		<h2>Create game</h2>
 		<button
 			color="accent"
@@ -78,13 +116,55 @@
 		</div>
 	</div>
 	<div class="templates" *ngIf="showTemplates" [@fade]>
-		<h2>Choose a template</h2>
-		<div class="block-list">
-			<div class="block" 
-				*ngFor="let template of templates; let i = index;"
-				(click)="setSelected(template, i)"
-				[ngStyle]="{'background-image': 'url(' + template.images.background + ')'}">
-				<div class="block-content" [ngClass]="{'selected': i === selected }">
+		<h2 class="template-title">
+			Choose a template
+		</h2>
+		<div class="game-search">
+			<input type="" name="" [(ngModel)]="queryString" placeholder="Search"><i class="fas fa-search"></i>
+		</div>
+		<div *ngIf="!queryString.length" [@fade]>
+			<div class="template-carousel">
+				<h2 class="category">Holidays</h2>
+				<ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
+			    <div 
+			    	ngxSlickItem 
+			    	*ngFor="let template of templates.reverse()" 
+			    	class="slide" 
+			    	[ngStyle]="{'background-image': 'url(' + template.images.background + ')'}"
+			    	(click)="previewTemplate(template)">
+			    	<div class="template-info">
+							<p [style.color]="template.themeColor">{{ template.title }}</p>
+							<small>{{ template.questions }} Questions</small>
+							<small>Duration: {{ template.duration }}</small>
+						</div>
+			    </div>
+			  </ngx-slick>
+			</div>
+			<div class="template-carousel" style="margin-top: 4em;">
+				<h2 class="category">Cities</h2>
+				<ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
+			    <div 
+			    	ngxSlickItem 
+			    	*ngFor="let template of templates.reverse()" 
+			    	class="slide" 
+			    	[ngStyle]="{'background-image': 'url(' + template.images.background + ')'}"
+			    	(click)="previewTemplate(template)">
+			    	<div class="template-info">
+							<p [style.color]="template.themeColor">{{ template.title }}</p>
+							<small>{{ template.questions }} Questions</small>
+							<small>Duration: {{ template.duration }}</small>
+						</div>
+			    </div>
+			  </ngx-slick>
+			</div>
+		</div>
+		<div class="block-view" *ngIf="queryString.length">
+			<div class="block-list">
+				<div 
+					class="block" 
+					[ngStyle]="{'background-image': 'url(' + template.images.background + ')'}"
+					*ngFor="let template of templates.reverse() | search: queryString : 'title'"
+					(click)="previewTemplate(template)">
 					<div class="game-info">
 						<p [style.color]="template.themeColor">{{ template.title }}</p>
 						<small>{{ template.questions }} Questions</small>
@@ -94,17 +174,31 @@
 			</div>
 		</div>
 	</div>
-	<div class="template-controls" *ngIf="template" [@fade]>
-		<!--<button mat-raised-button (click)="setBlankGame()" class="right ml-05">Create blank</button>-->
-		<button 
-			mat-raised-button  
-			class="right select-btn" 
-			color="accent" 
-			(click)="pickTemplate()">Select template <i class="fas fa-angle-right ml-05"></i></button>
+	<div class="template-preview-container" *ngIf="showTemplate" [@fade]>
+		<div class="template-info" [ngStyle]="{'background-image': 'url(' + template.images.background + ')'}">
+			<h2 [style.color]="template.themeColor" style="margin-top: 0;">{{ template.title }}</h2>
+			<small>{{ template.questions }} Questions</small>
+			<small>Duration: {{ template.duration }}</small>
+		</div>
+		<p class="template-description">Description</p>
+  	<p style="padding: 0 1em; color: #fff;">{{ template.description }}</p>
+		<div class="template-controls">
+			<button 
+				style="margin-left: 2em;"
+				mat-raised-button  
+				class="left" 
+				color="accent" 
+				(click)="showTemplate = false">Close</button>
+			<button 
+				mat-raised-button  
+				class="right select-btn" 
+				color="accent" 
+				(click)="pickTemplate()">Select template <i class="fas fa-angle-right ml-05"></i></button>
+		</div>
 	</div>
 </div>
 
-<div class="game-editor-container" *ngIf="!choosingTemplate" [@fade]>
+<div class="game-editor-container" *ngIf="choosingTemplate === false" [@fade]>
 	<h1 *ngIf="!editMode">Create new game</h1>
 	<h1 *ngIf="editMode">Edit game</h1>
 	<div class="game-editor">

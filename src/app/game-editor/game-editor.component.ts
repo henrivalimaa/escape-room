@@ -25,22 +25,26 @@ export class GameEditorComponent implements OnInit {
 
   private key: string;
 
+  private queryString: string = '';
+
 	private temp: any = {};
 	private userFileUploads: any;
 	private placeholders: any;
 
   private templates: any;
   private template: any;
-  private selected : number;
 
 	private loadingImage: boolean = false;
 	private isQuestion: boolean = false;
   private choosingImage: boolean = false;
   private choosingTemplate: boolean = false;
+  private showTemplate: boolean = false;
 
   private editMode: boolean = false;
 
   private imagePosition: string;
+
+  slideConfig = {'slidesToShow': 3, 'dots': true};
 
   constructor(
   	private zone: NgZone,
@@ -98,6 +102,7 @@ export class GameEditorComponent implements OnInit {
 
   pickTemplate(): void {
     this.choosingTemplate = false;
+    this.showTemplate = false;
     this.game = this.template;
     this.game.owner = this.user.email;
   }
@@ -119,11 +124,6 @@ export class GameEditorComponent implements OnInit {
     this.temp.points = 100;
   }
 
-  setSelected(template: any, i: number) {
-    this.selected = i;
-    this.template = template;
-  }
-
   uploadFile(event, property) {
   	this.loadingImage = true;
     const file = event.target.files[0];
@@ -140,7 +140,6 @@ export class GameEditorComponent implements OnInit {
       ref.updateMetatdata(metadata).subscribe(response => {});
 
       ref.getDownloadURL().subscribe(url => { 
-      	console.log(property);
       	if (property === 'background') this.game.images.background = url;
       	else if (property === 'sender-photo') this.game.sender.photo = url;
       	else if (property === 'message') this.temp.image = url;
@@ -226,6 +225,11 @@ export class GameEditorComponent implements OnInit {
     if (this.imagePosition === 'sender') this.game.sender.photo = url;
     if (this.imagePosition === 'message') this.temp.image = url;
     this.choosingImage = false;
+  }
+
+  previewTemplate(template: any): void {
+    this.showTemplate = true;
+    this.template = template;
   }
 
 }

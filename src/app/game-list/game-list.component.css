@@ -611,3 +611,14 @@
     color: #fff;
     right: 2.8em;
 }
+
+.deactivate-btn {
+    top: 4em !important;
+    width: 2em !important;
+    height: 2em !important;
+    background: transparent !important;
+    border: none !important;
+    right: 0.5em !important;
+    color: #fff7 !important;
+    text-shadow: none !important;
+}

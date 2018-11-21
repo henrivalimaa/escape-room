@@ -22,13 +22,15 @@ export class GameListComponent implements OnInit {
 	
 	private player: any = {};
 	private games: Observable<any>;
-  private userGames: any;
+  private userGames: any = [];
 
   private activeGame: any = {};
 
   private room: string = '0001';
 
   private error: any = {};
+
+  private queryString: string = '';
 
   private carouselView: boolean = true;
   private joiningRoom: boolean = false;

@@ -151,13 +151,18 @@ button {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 15em;
-    background-color: #fff;
-    box-shadow: 0 2px 3px #777;
+    width: 70%;
     text-align: justify;
     padding: 1em;
     z-index: 10;
     border-radius: 5px;
+    background: linear-gradient(-35deg, rgb(97, 218, 183) 0%, rgba(69,159,134,1) 46%, rgb(58, 134, 113) 100%);
+    padding: 1em;
+    border-radius: 5px;
+    box-shadow: 0 2px 3px #0000007d;
+    color: #fff;
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
 }
 
 .progress-bar {
@@ -213,6 +218,7 @@ button {
 }
 
 .info-text {
+    margin-top: 0.5em;
     margin-bottom: 5px;
 }
 

@@ -50,6 +50,7 @@ import { SetupComponent } from './setup/setup.component';
 import { ProfileComponent } from './profile/profile.component';
 import { GameEditorComponent } from './game-editor/game-editor.component';
 import { StartComponent } from './start/start.component';
+import { SearchPipe } from './pipes/search.pipe';
 
 const cookieConfig:NgcCookieConsentConfig = {
   "cookie": {
@@ -92,7 +93,8 @@ const cookieConfig:NgcCookieConsentConfig = {
     SetupComponent,
     ProfileComponent,
     GameEditorComponent,
-    StartComponent
+    StartComponent,
+    SearchPipe
   ],
   imports: [
     BrowserModule,

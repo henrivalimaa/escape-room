@@ -19,6 +19,7 @@
 <mat-progress-bar *ngIf="joiningRoom" color="accent" class="progress-bar" mode="indeterminate"></mat-progress-bar>
 
 <div class="join pulse" *ngIf="this.activeGame.game" [@fade]>
+	<button class="deactivate-btn" (click)="deactivateGame()"><i class="fas fa-times"></i></button>
 	<div class="join-content" *ngIf="!gameStarted" [@fade]>
 		<h2>{{ activeGame.game.title }}</h2>
 		<p class="status" *ngIf="activeGame.game.gameState.state === 'waiting'">Waiting for players..</p>
@@ -109,17 +110,17 @@
 		<i class="fas fa-th right" (click)="carouselView = !carouselView"></i>
 	</h2>
 	<div class="game-search">
-		<input type="" name="" placeholder="Search"><i class="fas fa-search"></i>
+		<input type="" name="" [(ngModel)]="queryString" placeholder="Search"><i class="fas fa-search"></i>
 	</div>
-	<div class="game-list-carousel" *ngIf="carouselView" [@fade]>
+	<div class="game-list-carousel" *ngIf="carouselView && !queryString.length" [@fade]>
 		<ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
-			<div ngxSlickItem *ngIf="userGames.length === 0" class="slide empty-games">
+			<div ngxSlickItem *ngIf="!userGames.length" class="slide empty-games">
 				<div class="default-content">
 					<p>No games</p>
 					<button mat-raised-button color="accent" routerLink="/game-editor">Create new game</button>
 				</div>
 	    </div>
-	    <div ngxSlickItem *ngFor="let game of userGames.reverse()" class="slide" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
+	    <div ngxSlickItem *ngFor="let game of userGames.reverse() | search: queryString : 'title'" class="slide" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
 	    	<button class="edit-btn" (click)="editGame(game)" mat-mini-fab><i class="fas fa-pencil-alt"></i></button>
 	    	<button class="remove-btn" (click)="removeGame(game)" mat-mini-fab color="accent"><i class="fas fa-trash-alt"></i></button>
 	    	<div class="game-info">
@@ -134,8 +135,11 @@
 	    </div>
 	  </ngx-slick>
 	</div>
-	<div class="game-list-block" *ngIf="!carouselView" [@fade]>
-		<div class="block" *ngFor="let game of userGames.reverse()" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
+	<div class="game-list-block" *ngIf="!carouselView || queryString.length" [@fade]>
+		<div 
+			class="block" 
+			*ngFor="let game of userGames.reverse() | search: queryString : 'title'" 
+			[ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
 			<button class="edit-btn" (click)="editGame(game)" mat-mini-fab color="accent"><i class="fas fa-pencil-alt"></i></button>
 			<button class="remove-btn" (click)="removeGame(game)" mat-mini-fab color="accent"><i class="fas fa-trash-alt"></i></button>
 			<div class="game-info">

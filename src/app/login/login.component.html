@@ -9,37 +9,9 @@
 	  	<img src="https://en.facebookbrand.com/wp-content/uploads/2016/05/flogo_rgb_hex-brc-site-250.png">
 	  </button>
 	</div>
-	<button mat-raised-button color="accent" class="leaderboard-btn" (click)="displayLeaderboard()">
-  	Leaderboard
-  	<i class="fas fa-crown"></i>
-  </button>
 
   <div class="google-play-section">
   	<button><img src="./assets/images/google-play-badge.png"></button>
   	<p>This project will be soon available on google play store</p>
   </div>
 </div>
-
-<div class="leaderboard-container" *ngIf="showLeaderboard === true" [@fade]>
-	<div class="leaderboard">
-		<h3>
-			<i class="fas fa-arrow-left back-btn" (click)="showLeaderboard = false"></i>
-			Leaderboard
-			<fa name="trophy" class="trophy"></fa>
-			<i class="fas fa-redo-alt refresh-btn" (click)="refreshLeaderboard()"></i>
-		</h3>
-		<h3 *ngIf="loadingLeaderboard" [@fade] class="center-xy">Loading leaderboard...</h3>
-		<ul *ngIf="!loadingLeaderboard" [@fade]>
-			<li *ngFor="let r of results; let i = index">
-				<span style="width: 5%">
-					<i class="fas fa-crown" *ngIf="i < 3" [ngClass]="{ 'gold': i == 0, 'silver': i == 1, 'bronze': i == 2 }"></i>
-					<span *ngIf="i > 2">{{ i + 1 }}</span>
-				</span>
-				<span style="width: 45%; text-align: center;">{{ r.player }}</span>
-				<span style="width: 20%; text-align: center;">{{ r.score }}</span>
-				<span style="width: 30%; text-align: center;">{{ convertTime(r.time) }}</span>
-			</li>
-		</ul>
-	</div>
-</div>
-
