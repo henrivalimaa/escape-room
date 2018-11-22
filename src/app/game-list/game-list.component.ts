@@ -25,6 +25,7 @@ export class GameListComponent implements OnInit {
 	private games: Observable<any>;
   private userGames: any = [];
 
+  private temp: any = undefined;
   private activeGame: any = {};
 
   private room: string = '0001';
@@ -70,23 +71,29 @@ export class GameListComponent implements OnInit {
     this.room = Math.floor(Math.random() * 100000).toString();
     game.room = this.room;
 
+    this.temp = game;
+
     this.gameSubscription = this.messageService.getGameKey(game.key).subscribe(response => {
+      this.messageService.updateGame(response[0].$key, game);
+      this.gameSubscription.unsubscribe();
+      return;
+    });
+  }
+
+  setGamePublic(): void {
+    this.gameSubscription = this.messageService.getGameKey(this.temp.key).subscribe(response => {
+      this.temp = undefined;
       if (this.session.state === undefined) return;
 
-      if (this.session.state === 'inactive') {
-        this.session.state = 'waiting';
-        this.messageService.updateGame(response[0].$key, game);
+      this.activeGame.key = response[0].$key;
+      this.activeGame.game = response[0];
+      
+      if (this.session.count) {
+        this.session.count = 0;
+        this.session.count++;
       } else {
-        this.activeGame.key = response[0].$key;
-        this.activeGame.game = response[0];
-        
-        if (this.session.count) {
-          this.session.count = 0;
-          this.session.count++;
-        } else {
-          this.session.count++;
-          this.room = response[0].room;
-        }
+        this.session.count++;
+        this.room = response[0].room;
       }
 
       if (response[0].gameState.users) {

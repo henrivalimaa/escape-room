@@ -18,6 +18,20 @@
 
 <mat-progress-bar *ngIf="joiningRoom" color="accent" class="progress-bar" mode="indeterminate"></mat-progress-bar>
 
+<div class="join pulse" *ngIf="temp !== undefined" [@fade]>
+	<button class="deactivate-btn" (click)="deactivateGame()"><i class="fas fa-times"></i></button>
+	<div class="join-content" [@fade]>
+		<h2>{{ temp.title }}</h2>
+  	<p class="status">Game is ready!</p>
+
+		<button 
+		style="display: block;" 
+		mat-raised-button 
+		(click)="setGamePublic()" 
+		color="accent">Set game public <i class="far fa-play-circle ml-05"></i></button>
+	</div>
+</div>
+
 <div class="join pulse" *ngIf="this.activeGame.game" [@fade]>
 	<button class="deactivate-btn" (click)="deactivateGame()"><i class="fas fa-times"></i></button>
 	<div class="join-content" *ngIf="!session.started" [@fade]>
@@ -34,7 +48,8 @@
 		style="display: block;" 
 		mat-raised-button 
 		(click)="startActiveGame()" 
-		*ngIf="activeGame.game.gameState.users.length > 1" color="accent">Start game <i class="far fa-play-circle ml-05"></i></button>
+		*ngIf="activeGame.game.gameState.users.length > 1" 
+		color="accent">Start game <i class="far fa-play-circle ml-05"></i></button>
 	</div>
 
 	<div class="join-content" *ngIf="showResults" [@fade]>
@@ -104,7 +119,7 @@
 
 </div>
 
-<div class="game-list" *ngIf="!this.activeGame.game" [@fade]>
+<div class="game-list" *ngIf="!this.activeGame.game && temp === undefined" [@fade]>
 	<h2 class="my-games-title">
 		My games
 		<i class="fas fa-th right" (click)="carouselView = !carouselView"></i>
@@ -155,7 +170,7 @@
 	</div>
 </div>
 
-<div class="controls" *ngIf="!this.activeGame.game" [@fade]>
+<div class="controls" *ngIf="!this.activeGame.game && temp === undefined" [@fade]>
 	<a class="create-game-btn" routerLink="/game-editor">
 		<i class="fas fa-plus"></i>
 		<span>Create new game</span>
