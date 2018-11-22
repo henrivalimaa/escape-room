@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { Router } from "@angular/router";
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
@@ -11,13 +11,15 @@ import { Game, User } from '../services/result';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
+import { Subscription }   from 'rxjs';
+
 @Component({
   selector: 'app-start',
   templateUrl: './start.component.html',
   styleUrls: ['./start.component.css'],
   animations: [fadeAnimation]
 })
-export class StartComponent implements OnInit {
+export class StartComponent implements OnInit, OnDestroy {
 	private player: any = {};
   private activeGame: any = {};
 
@@ -26,6 +28,9 @@ export class StartComponent implements OnInit {
   private error: any = {};
 
   private joiningRoom: boolean = false;
+
+  private gameSubscription: Subscription;
+  private keySubscription: Subscription;
 
 	slideConfig = {'slidesToShow': 1, 'dots': true};
 
@@ -41,19 +46,23 @@ export class StartComponent implements OnInit {
   	this.messageService.reset();
   }
 
+  ngOnDestroy() {
+    //this.gameSubscription.unsubscribe();
+    //this.keySubscription.unsubscribe();
+  }
+
   joinRoom(key:string): void {
     this.joiningRoom = true;
     this.error.showError = false;
     this.activeGame = {};
 
-    this.messageService.getGameWithRoomKey(this.room).subscribe(game => {
+    this.gameSubscription = this.messageService.getGameWithRoomKey(this.room).subscribe(game => {
       if (game.length === 0) {
         this.displayError('Check game pin!');
 	    	this.joiningRoom = false;      
         return;
       }
 
-      console.log(game[0]);
       if (game[0].room != this.room) {
         this.activeGame = {};
         this.displayError('Game was closed by admin!');
@@ -63,6 +72,8 @@ export class StartComponent implements OnInit {
       if (game[0].gameState.state === 'running' && this.activeGame.joined) {
         this.activeGame.game = game[0];
         setTimeout(() => {
+          this.gameSubscription.unsubscribe();
+          this.keySubscription.unsubscribe();
           this.zone.run(() => {
             this.router.navigate(['game'], { queryParams: { id: game[0].key } });
           });
@@ -89,7 +100,7 @@ export class StartComponent implements OnInit {
       }
 
       if (!this.activeGame.joined && game[0].gameState.state === 'waiting') {
-        this.messageService.getGameKey(game[0].key).subscribe(response => {
+        this.keySubscription = this.messageService.getGameKey(game[0].key).subscribe(response => {
 
           if (this.containsPlayer(game[0].gameState.users, this.player)) {
             this.activeGame = {}

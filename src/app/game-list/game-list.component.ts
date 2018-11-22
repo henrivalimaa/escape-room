@@ -19,7 +19,8 @@ import { Subscription }   from 'rxjs';
   animations: [fadeAnimation]
 })
 export class GameListComponent implements OnInit {
-	
+	private session: any = {};
+
 	private player: any = {};
 	private games: Observable<any>;
   private userGames: any = [];
@@ -27,15 +28,11 @@ export class GameListComponent implements OnInit {
   private activeGame: any = {};
 
   private room: string = '0001';
-
   private error: any = {};
-
   private queryString: string = '';
 
   private carouselView: boolean = true;
   private joiningRoom: boolean = false;
-  private gameStarted: boolean = false;
-  private gameFinished: boolean = false;
   private showResults: boolean = false;
 
   private gameSubscription: Subscription;
@@ -60,31 +57,40 @@ export class GameListComponent implements OnInit {
 
   setGameReady(game: Game) {
     this.showResults = false;
-    this.gameStarted = false;
+    
+    this.session.started = false;
+    this.session.state = 'inactive';
     
     this.activeGame = {};
-    if (!this.activeGame.game) {
-      game.gameState = {};
-      game.gameState.state = 'waiting';
-      game.gameState.users = [];
-      game.gameState.users.push({ owner: this.player.displayName });
+    game.gameState = {};
+    game.gameState.state = 'waiting';
+    game.gameState.users = [];
+    game.gameState.users.push({ owner: this.player.displayName });
 
-      this.room = Math.floor(Math.random() * 100000).toString();
-      game.room = this.room;
-    }
+    this.room = Math.floor(Math.random() * 100000).toString();
+    game.room = this.room;
 
     this.gameSubscription = this.messageService.getGameKey(game.key).subscribe(response => {
-      if (!this.activeGame.game) {
-        this.messageService.updateGame(response[0].$key, game);
-      }
+      if (this.session.state === undefined) return;
 
-      if (response[0].gameState.state != 'inactive') {
+      if (this.session.state === 'inactive') {
+        this.session.state = 'waiting';
+        this.messageService.updateGame(response[0].$key, game);
+      } else {
         this.activeGame.key = response[0].$key;
         this.activeGame.game = response[0];
+        
+        if (this.session.count) {
+          this.session.count = 0;
+          this.session.count++;
+        } else {
+          this.session.count++;
+          this.room = response[0].room;
+        }
       }
 
       if (response[0].gameState.users) {
-        if (this.playersFinished(response[0].gameState.users)) this.gameFinished = true;
+        if (this.playersFinished(response[0].gameState.users)) this.session.finished = true;
       }
     });
   }
@@ -93,34 +99,35 @@ export class GameListComponent implements OnInit {
     if (users.length === 1) return false;
     for (let user in users) {
       if (users[user].owner) continue;
-      if (users[user].additionalData.activeGame.isFinished === false) {
-        return false;
-      }
+      if (users[user].additionalData.activeGame.isFinished === false) return false;
     }
 
     return true;
   }
 
   startActiveGame(): void {
-    this.activeGame.game.gameState.state = 'running';
+    this.session.state = 'running';
+    this.activeGame.game.gameState.state = this.session.state;
     delete this.activeGame.game.$key;
     this.messageService.updateGame(this.activeGame.key, this.activeGame.game);
 
-    setTimeout(() => {
-      this.gameStarted = true;
-    }, 4000)
+    setTimeout(() => { this.session.started = true; }, 4000)
   }
 
   deactivateGame() {
     let temp = this.activeGame.game;
+    let key = this.activeGame.key;
+    
+    this.session.state = undefined;
+    this.activeGame = {};
+
     delete temp.$key;
     temp.gameState = {};
     temp.gameState.state = 'inactive';
 
     this.gameSubscription.unsubscribe();
-    this.messageService.updateGame(this.activeGame.key, temp);
-    
-    this.activeGame = {};
+
+    setTimeout(() => { this.messageService.updateGame(key, temp); }, 1000)
   }
 
   displayGameResults(): void {
@@ -128,10 +135,10 @@ export class GameListComponent implements OnInit {
     temp.gameState.state = 'finished';
 
     delete temp.$key;
+    this.sortResults('DESC');
     this.messageService.updateGame(this.activeGame.key, temp);
 
     this.showResults = true;
-    this.sortResults('DESC');
   }
 
   sortResults(order: string): void {

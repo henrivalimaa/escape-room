@@ -20,7 +20,7 @@
 
 <div class="join pulse" *ngIf="this.activeGame.game" [@fade]>
 	<button class="deactivate-btn" (click)="deactivateGame()"><i class="fas fa-times"></i></button>
-	<div class="join-content" *ngIf="!gameStarted" [@fade]>
+	<div class="join-content" *ngIf="!session.started" [@fade]>
 		<h2>{{ activeGame.game.title }}</h2>
 		<p class="status" *ngIf="activeGame.game.gameState.state === 'waiting'">Waiting for players..</p>
   	<p class="status" *ngIf="activeGame.game.gameState.state === 'running'">Starting game..</p>
@@ -44,9 +44,9 @@
 		<div class="session-results">
 			<div class="player-status" *ngFor="let user of activeGame.game.gameState.users; let i = index;">
   			<div class="player-data finished" *ngIf="user.email">
-  				<span class="position">{{ i }}</span>
+  				<span class="position">{{ i + 1 }}</span>
   				<div style="position: relative;">
-  					<i *ngIf="i <= 3" class="fas fa-crown crown"[ngClass]="{ 'gold': i == 1, 'silver': i == 2, 'bronze': i == 3 }"></i>
+  					<i *ngIf="i < 3" class="fas fa-crown crown"[ngClass]="{ 'gold': i == 0, 'silver': i == 1, 'bronze': i == 2 }"></i>
 	  				<div class="player-image-wrapper">
 		  				<img [src]="user.photoURL">
 		  			</div>
@@ -66,7 +66,7 @@
 		color="accent">Exit game <i class="fas fa-sign-out-alt ml-05"></i></button>
 	</div>
 
-	<div class="join-content" *ngIf="gameStarted && !showResults" [@fade]>
+	<div class="join-content" *ngIf="session.started && !showResults" [@fade]>
 		<h2>{{ activeGame.game.title }}</h2>
   	<h2>Pin: <span class="theme-color">{{ room }}</span></h2>
 
@@ -99,7 +99,7 @@
 		style="display: block;" 
 		mat-raised-button 
 		(click)="displayGameResults()" 
-		*ngIf="gameFinished" color="accent">Display results <i class="fas fa-trophy ml-05"></i></button>
+		*ngIf="session.finished" color="accent">Display results <i class="fas fa-trophy ml-05"></i></button>
 	</div>
 
 </div>

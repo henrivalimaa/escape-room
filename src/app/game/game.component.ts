@@ -73,7 +73,6 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
 	) {}
 
   ngOnInit() {
-  	this.loadGalleryImages();
     this.player = this.userService.currentUser;
 
     this.result = new Result();
@@ -133,6 +132,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.zone.run(() => {
           this.router.navigate(['start']);
         });
+        return;
       }
       
       this.game = games[0];
@@ -190,7 +190,9 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.hint.isActive = true;
         this.hint.text = this.nextMessage.hint;
       }
+
       this.typing = false;
+
       if (this.nextMessage.final === true) this.endGame();
       if (this.nextMessage.continous) this.continueDialog(message);
  		}, this.nextMessage.delay);
@@ -210,11 +212,24 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
   }
 
+  sortPlayers(order: string): void {
+    this.game.gameState.users.sort((a, b) => {
+        if (a['points'] < b['points'])
+            return -1;
+        if (a['points'] > b['points'])
+            return 1;
+        return 0;
+    });
+
+    if (order === "DESC") {
+        this.game.gameState.users.reverse();
+    }
+  }
+
   endGame(): void {
     if (this.showResult === true) return;
     this.showResult = true;
     this.saveScore();
-    this.refreshLeaderboard();
   }
 
   saveScore() {
@@ -232,28 +247,13 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     temp.additionalData.activeGame.isFinished = true;
     temp.additionalData.activeGame.points = this.result.score;
     temp.additionalData.activeGame.time = this.result.time;
-    this.messageService.updateCurrentGameUser(this.key, temp),
+    this.messageService.updateCurrentGameUser(this.key, temp);
 
-    this.refreshLeaderboard();
+    this.sortPlayers('DESC');
   }
 
   getTimePoints(seconds:number): number {
     return Math.floor((120 - seconds/60) * 50);
-  }
-
-  refreshLeaderboard(): void {
-    this.loadingLeaderboard = true;
-    setTimeout(() => {
-      this.scoreService.getGameResultList(this.game.key).snapshotChanges().pipe(
-        map(changes =>
-          changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
-        )
-      ).subscribe(results => {
-          this.results = results;
-          this.sortResults('score', 'DESC');
-          this.loadingLeaderboard = false;
-      });
-     }, 3000);
   }
 
   displayPoints(points: number): void {
@@ -275,14 +275,6 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The contact was closed');
     });
-  }
-
-  loadGalleryImages(): void {
-  	this.galleryImages = [
-  		{ src: 'https://images.unsplash.com/photo-1506361797048-46a149213205?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=493e200df17b54d1ef10eb61e1df148a&w=1000&q=80' },
-  		{ src: 'https://images.unsplash.com/photo-1506361797048-46a149213205?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=493e200df17b54d1ef10eb61e1df148a&w=1000&q=80' },
-  		{ src: 'https://images.unsplash.com/photo-1506361797048-46a149213205?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=493e200df17b54d1ef10eb61e1df148a&w=1000&q=80' }
-  	];
   }
 
   canDeactivate() {
