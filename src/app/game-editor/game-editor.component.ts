@@ -34,6 +34,8 @@ export class GameEditorComponent implements OnInit {
   private templates: any;
   private template: any;
 
+  private miniGame: any;
+
 	private loadingImage: boolean = false;
 	private isQuestion: boolean = false;
   private choosingImage: boolean = false;
@@ -209,16 +211,29 @@ export class GameEditorComponent implements OnInit {
   		points: this.temp.points
   	};
 
-  	if (this.isQuestion) {
-  		this.game.messages.push(question);
-  		this.game.messages.push(feedback);
-  		this.game.questions = this.game.questions + 1;
-  	} else {
-  		this.game.messages.push(message);
-  	}
+    let game = {
+      continous: false,
+      type: 'Game',
+      game: this.miniGame,
+      responseRequired: false,
+      incoming: true,
+      delay: this.temp.delay !== undefined ? this.temp.delay : 3000
+    }
 
-  	this.temp = {};
-  	this.temp.points = 100;
+    if (this.miniGame != undefined) {
+      this.game.messages.push(game);
+    } else {
+      if (this.isQuestion) {
+        this.game.messages.push(question);
+        this.game.messages.push(feedback);
+        this.game.questions = this.game.questions + 1;
+      } else {
+        this.game.messages.push(message);
+      }
+
+      this.temp = {};
+      this.temp.points = 100;
+    }
   }
 
   setImage(url: string): void {

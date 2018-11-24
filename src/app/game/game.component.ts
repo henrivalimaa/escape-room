@@ -307,7 +307,10 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.result.score = this.result.score + points;
     this.showPoints = true;
     this.points = points;
-    if (this.points > 0) this.hint.isActive = false;
+    if (this.points > 0) {
+      this.hint.text = undefined;
+      this.hint.isActive = false;
+    }
     setTimeout(() => {
       this.showPoints = false;
      }, 1500);

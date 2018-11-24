@@ -72,7 +72,7 @@ export class LightPattern implements OnInit {
 
   showInstructions() {
   	this.resultText = 'Please wait..'
-  	let delay = this.gameState === 0 ? 1000 : 3000;
+  	let delay = this.gameState === 0 ? 1000 : 1000;
 
   	setTimeout(() => {
   		for (let i = 0; i < this.games[this.gameState].length; i++) {
@@ -84,7 +84,7 @@ export class LightPattern implements OnInit {
 	  					this.showingInstructions = false;
 	  				}, 2000)
 	  			}
-	  		}, 2000 * i)
+	  		}, 900 * i)
   		}
   	}, delay)
   }
