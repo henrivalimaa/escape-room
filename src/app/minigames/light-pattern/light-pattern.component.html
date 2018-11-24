@@ -1,0 +1,20 @@
+<div class="light-pattern" *ngIf="show" [@fade]>
+	<h2>Follow the same pattern after instruction</h2>
+	<small>Please wait until the instruction is done!</small>
+	<p *ngIf="state === 'inactive' || state === 'started'">{{ resultText }}</p>
+	<button mat-raised-button color="accent" *ngIf="state === 'inactive'" (click)="startGame()">Start</button>
+	<div class="light-grid" *ngIf="state === 'started'" [@fade]>
+		<div *ngFor="let block of grid; let i = index;" class="light">
+			<div *ngIf="showingInstructions" style="height: 100%">
+				<div class="light-off" [ngClass]="{ 'lighted' : block.isLighted }"></div>
+			</div>
+			<div *ngIf="!showingInstructions" style="height: 100%" (click)="lightSelected(i)">
+				<div class="light-off" [ngClass]="{ 'lighted' : block.isLighted }"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="points-text" *ngIf="visiblePoints != undefined" [@slide]>
+	<span>{{ visiblePoints }}</span>
+</div>

@@ -51,6 +51,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { GameEditorComponent } from './game-editor/game-editor.component';
 import { StartComponent } from './start/start.component';
 import { SearchPipe } from './pipes/search.pipe';
+import { ButtonClicker } from './minigames/button-clicker/button-clicker.component';
+import { LightPattern } from './minigames/light-pattern/light-pattern.component';
 
 const cookieConfig:NgcCookieConsentConfig = {
   "cookie": {
@@ -94,7 +96,9 @@ const cookieConfig:NgcCookieConsentConfig = {
     ProfileComponent,
     GameEditorComponent,
     StartComponent,
-    SearchPipe
+    SearchPipe,
+    ButtonClicker,
+    LightPattern
   ],
   imports: [
     BrowserModule,

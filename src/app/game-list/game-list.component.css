@@ -56,7 +56,7 @@
     width: 100%;
     background: #44ab8eb3;
     box-shadow: 0 1px 10px #303030;
-    height: 90%;
+    height: 100%;
     background: linear-gradient(-35deg, rgba(255,87,144,0.5) 0%, rgba(69,159,134,0.6) 60%, rgba(69,159,134,0.8) 100%)
 }
 
@@ -150,6 +150,13 @@
     transform: translateX(-50%);
 }
 
+.users-joined, .session-results {
+    max-width: 27em;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .pulse {
     animation-name: background-animation;
     animation-duration: 12s;
@@ -171,11 +178,11 @@
     width: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
-    background: #44ab8eb3;
+    /*background: #44ab8eb3;*/
     min-height: 100%;
     padding-top: 6.5em;
     height: 100%;
-    background: linear-gradient(to top, rgba(231, 53, 133, 0.39) 0%, rgba(69,159,134,0.7) 30%, rgba(69,159,134,0.8) 100%);
+    /*background: linear-gradient(to top, rgba(231, 53, 133, 0.39) 0%, rgba(69,159,134,0.7) 30%, rgba(69,159,134,0.8) 100%);*/
 }
 
 .game-list-carousel {

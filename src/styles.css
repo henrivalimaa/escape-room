@@ -29,6 +29,20 @@ button:focus {
     outline: none !important;
 }
 
+.view-container {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    background: linear-gradient(to top, rgba(231, 53, 133, 0.39) 0%, rgba(69,159,134,0.7) 30%, rgba(69,159,134,0.8) 100%);
+}
+
+.view-container .view {
+    max-width: 27em;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .left {
     float: left;
 }
@@ -123,6 +137,14 @@ button:focus {
     width: 100% !important;
 }
 */
+
+.cc-window.cc-floating {
+    padding: 2em;
+    max-width: unset !important;
+    flex-direction: column;
+    width: 100%;
+    bottom: 0 !important;
+}
 
 .profile-info .mat-input-element {
     color: #fff !important;

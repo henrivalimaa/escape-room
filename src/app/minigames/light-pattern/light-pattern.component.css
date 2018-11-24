@@ -1,0 +1,96 @@
+.light-pattern {
+    color: #fff;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
+    background: linear-gradient(-35deg, rgba(255,87,144, 1) 0%, rgba(69,159,134, 1) 60%, rgba(69,159,134, 1) 100%);
+    z-index: 2000;
+    top: 0;
+    padding-top: 5em;
+}
+
+.light-pattern h2 {
+    color: #fdff84;
+    font-size: 18px;
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
+}
+
+.light-pattern p {
+    font-size: 18px;
+    margin-top: 1em;
+    font-weight: bold;
+}
+
+.light-pattern button {
+    margin-top: 1em;
+    height: 8em;
+    width: 8em;
+    border-radius: 50%;
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
+}
+
+.light-grid {
+    position: relative;
+    width: 100%;
+}
+
+.light {
+    height: 6em;
+    width: 33%;
+    display: inline-block;
+}
+
+.lighted {
+    background: #e4e4e4bd !important;
+    box-shadow: 0 0 40px #fff;
+}
+
+.light-off {
+    height: 1em;
+    width: 1em;
+    background: #45454582;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.4s ease;
+}
+
+.points-text {
+    position: fixed;
+    bottom: 1em;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: 100%;
+    width: 5em;
+    height: 2em;
+    background: linear-gradient(45deg, rgba(152,68,183,1) 0%, rgba(255,53,127,1) 100%);
+    left: 50%;
+    color: #fff;
+    padding: 0.5em;
+    box-shadow: 0 1px 2px #00000078;
+    border-radius: 3px;
+    font-size: 20px;
+    z-index: 2001;
+    font-family: 'Luckiest Guy', cursive;
+    text-shadow: 0 1px 2px #000;
+}
+
+.points-text span {
+    display: block;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    display: block;
+    position: relative;
+    width: fit-content;
+}

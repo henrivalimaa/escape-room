@@ -50,6 +50,7 @@ export class GameEditorComponent implements OnInit {
   	private zone: NgZone,
   	private router: Router,
     private route: ActivatedRoute,
+    private authService: AuthService,
   	private userService: UserService,
   	private storage: AngularFireStorage,
   	private messageService: MessageService,

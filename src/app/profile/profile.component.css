@@ -2,6 +2,7 @@
 	height: 100%;
     width: 100%;
 	background-color: #44ab8eb3;
+    overflow-y: scroll;
     overflow: hidden;
     background: linear-gradient(to top, rgba(231, 53, 133, 0.39) 0%, rgba(69,159,134,0.7) 30%, rgba(69,159,134,0.8) 100%);
 }
@@ -25,6 +26,7 @@
     box-shadow: 0 1px 4px #000;
     margin: 0;
     padding-top: 1em;
+    position: relative;
     background: linear-gradient(-35deg, rgb(97, 218, 183) 0%, rgba(69,159,134,1) 46%, rgb(58, 134, 113) 100%);
 }
 
@@ -55,11 +57,12 @@
 
 .settings-content {
     padding: 1em;
-    position: absolute;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    height: 80%;
+    height: 100%;
     padding-bottom: 3em;
+    max-width: 27em;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .profile-picture {
@@ -118,6 +121,10 @@ button {
 }
 
 .uploads {
+    max-width: 27em;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .upload {

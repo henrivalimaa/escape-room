@@ -119,53 +119,55 @@
 
 </div>
 
-<div class="game-list" *ngIf="!this.activeGame.game && temp === undefined" [@fade]>
-	<h2 class="my-games-title">
-		My games
-		<i class="fas fa-th right" (click)="carouselView = !carouselView"></i>
-	</h2>
-	<div class="game-search">
-		<input type="" name="" [(ngModel)]="queryString" placeholder="Search"><i class="fas fa-search"></i>
-	</div>
-	<div class="game-list-carousel" *ngIf="carouselView && !queryString.length" [@fade]>
-		<ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
-			<div ngxSlickItem *ngIf="!userGames.length" class="slide empty-games">
-				<div class="default-content">
-					<p>No games</p>
-					<button mat-raised-button color="accent" routerLink="/game-editor">Create new game</button>
-				</div>
-	    </div>
-	    <div ngxSlickItem *ngFor="let game of userGames.reverse() | search: queryString : 'title'" class="slide" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
-	    	<button class="edit-btn" (click)="editGame(game)" mat-mini-fab><i class="fas fa-pencil-alt"></i></button>
-	    	<button class="remove-btn" (click)="removeGame(game)" mat-mini-fab color="accent"><i class="fas fa-trash-alt"></i></button>
-	    	<div class="game-info">
+<div class="view-container">
+	<div class="game-list view" *ngIf="!this.activeGame.game && temp === undefined" [@fade]>
+		<h2 class="my-games-title">
+			My games
+			<i class="fas fa-th right" (click)="carouselView = !carouselView"></i>
+		</h2>
+		<div class="game-search">
+			<input type="" name="" [(ngModel)]="queryString" placeholder="Search"><i class="fas fa-search"></i>
+		</div>
+		<div class="game-list-carousel" *ngIf="carouselView && !queryString.length" [@fade]>
+			<ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
+				<div ngxSlickItem *ngIf="!userGames.length" class="slide empty-games">
+					<div class="default-content">
+						<p>No games</p>
+						<button mat-raised-button color="accent" routerLink="/game-editor">Create new game</button>
+					</div>
+		    </div>
+		    <div ngxSlickItem *ngFor="let game of userGames.reverse() | search: queryString : 'title'" class="slide" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
+		    	<button class="edit-btn" (click)="editGame(game)" mat-mini-fab><i class="fas fa-pencil-alt"></i></button>
+		    	<button class="remove-btn" (click)="removeGame(game)" mat-mini-fab color="accent"><i class="fas fa-trash-alt"></i></button>
+		    	<div class="game-info">
+						<p [style.color]="game.themeColor">{{ game.title }}</p>
+						<small>{{ game.questions }} Questions</small>
+						<small>Duration: {{ game.duration }}</small>
+					</div>
+		    	<button class="play-btn" (click)="setGameReady(game)">
+				  	Start
+				  	<i class="far fa-play-circle"></i>
+				  </button>
+		    </div>
+		  </ngx-slick>
+		</div>
+		<div class="game-list-block" *ngIf="!carouselView || queryString.length" [@fade]>
+			<div 
+				class="block" 
+				*ngFor="let game of userGames.reverse() | search: queryString : 'title'" 
+				[ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
+				<button class="edit-btn" (click)="editGame(game)" mat-mini-fab color="accent"><i class="fas fa-pencil-alt"></i></button>
+				<button class="remove-btn" (click)="removeGame(game)" mat-mini-fab color="accent"><i class="fas fa-trash-alt"></i></button>
+				<div class="game-info">
 					<p [style.color]="game.themeColor">{{ game.title }}</p>
 					<small>{{ game.questions }} Questions</small>
 					<small>Duration: {{ game.duration }}</small>
 				</div>
-	    	<button class="play-btn" (click)="setGameReady(game)">
+	    	<button class="block-play-btn" (click)="setGameReady(game)">
 			  	Start
 			  	<i class="far fa-play-circle"></i>
 			  </button>
-	    </div>
-	  </ngx-slick>
-	</div>
-	<div class="game-list-block" *ngIf="!carouselView || queryString.length" [@fade]>
-		<div 
-			class="block" 
-			*ngFor="let game of userGames.reverse() | search: queryString : 'title'" 
-			[ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
-			<button class="edit-btn" (click)="editGame(game)" mat-mini-fab color="accent"><i class="fas fa-pencil-alt"></i></button>
-			<button class="remove-btn" (click)="removeGame(game)" mat-mini-fab color="accent"><i class="fas fa-trash-alt"></i></button>
-			<div class="game-info">
-				<p [style.color]="game.themeColor">{{ game.title }}</p>
-				<small>{{ game.questions }} Questions</small>
-				<small>Duration: {{ game.duration }}</small>
 			</div>
-    	<button class="block-play-btn" (click)="setGameReady(game)">
-		  	Start
-		  	<i class="far fa-play-circle"></i>
-		  </button>
 		</div>
 	</div>
 </div>

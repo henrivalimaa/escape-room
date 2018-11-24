@@ -12,7 +12,7 @@
 	<button class="transparent inline right center-y mr-05"><fa name="phone" size="2x"></fa></button>
 	<button class="transparent inline right center-y mr-05"><fa name="video-camera" size="2x"></fa></button>
 	<mat-menu #menu="matMenu">
-	  <a mat-menu-item (click)="openContact();">View contact</a>
+	  <a mat-menu-item (click)="showContact = true">View contact</a>
 	  <a mat-menu-item routerLink="/start">Exit game</a>
 	  <a mat-menu-item (click)="authService.logout()" style="color:red;">Logout</a>
 	</mat-menu>
@@ -67,7 +67,9 @@
 		{{ hint.text }}
 	</div>
 	<div *ngFor='let message of messages' class="message-row" [@fade]>
-	  <div class="row" [ngClass]="{ 'message-right': !message.incoming, 'message-left': message.incoming }">
+		<button-clicker #buttonClicker></button-clicker>
+		<light-pattern #lightPattern></light-pattern>
+	  <div class="row" *ngIf="message.type !== 'button-clicker'" [ngClass]="{ 'message-right': !message.incoming, 'message-left': message.incoming }">
 	  	<div class="tip"></div>
 	  	<div class="message-content">
 	  		<div class="image-wrapper" *ngIf="message.image">
@@ -94,7 +96,6 @@
 		  <button class="icon-btn right mr-05 btn-file-input"><fa name="camera" size="2x"></fa></button>
 		  <input type="file" name="file" accept="image/*;capture=camera" (change)="handleInputChange($event)">
 		</div>
-		<!--<button (click)="showGallery=true" class="icon-btn right mr-1"><fa name="paperclip" size="2x"></fa></button>-->
 	</div>
 	<div class="inline microphone">
 		<button class="microphone-btn" (click)="sendMessage()">
@@ -112,14 +113,35 @@
 	[style]="{ position: 'absolute', bottom: '0px', left: '0px'}">
 </emoji-mart>
 
-<div class="gallery" *ngIf="showGallery" [@fade]>
-	<div class="gallery-header">
-		<button class="transparent inline back-btn" (click)="showGallery=false"><fa name="arrow-left" size="2x"></fa></button>
-		<h3 class="inline">All images</h3>
-		<button class="transparent inline right menu-btn"><fa name="ellipsis-v" size="2x"></fa></button>
+<div class="contact" *ngIf="showContact" [@fade]>
+	<div class="header" [ngStyle]="{'background-image': 'url(' + game.sender.photo + ')'}">
+		<button style="top: 1.5em;" class="transparent back-btn" (click)="showContact = false"><fa name="arrow-left" size="2x"></fa></button>
+		<button class="transparent contact-menu-btn"><fa name="ellipsis-v" size="2x"></fa></button>
+		<div class="contact-name">
+			<h3>{{ game.sender.name }}</h3>
+			<p>Online</p>
+		</div>
 	</div>
-	<div class="gallery-image-wrapper" *ngFor='let image of game.sender.gallery'>
-		<img [src]="image.url" (click)="attachImage(image.url)">
+
+	<div class="contact-media">
+		<h4 class="container-header">Media</h4>
+		<ul>
+			<li (click)="fullscreen = true" [ngStyle]="{'background-image': 'url(' + game.sender.photo + ')'}"></li>
+		</ul>
+		<div class="fullscreen-media" [ngStyle]="{'background-image': 'url(' + game.sender.photo + ')'}" *ngIf="fullscreen">
+			<div class="fullscreen-header">
+				<button class="transparent mb-1" (click)="fullscreen = false"><fa name="arrow-left" size="2x"></fa></button>
+				<div class="fullscreen-contact-name inline">
+					<h3>{{ game.sender.name }}</h3>
+					<p>1 hour ago.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="contact-about">
+		<h4 class="container-header">About and phone number</h4>
+		<p>{{ game.sender.phone }}</p>
 	</div>
 </div>
 

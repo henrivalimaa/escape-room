@@ -64,6 +64,10 @@
 
 .game-editor {
     padding-bottom: 5em;
+    max-width: 27em;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .game-editor-container h1 {
@@ -256,6 +260,10 @@
 }
 
 .uploads {
+    max-width: 27em;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .upload {
@@ -421,6 +429,13 @@
     text-shadow: 0 1px 1px #000;
 }
 
+.templates {
+    max-width: 27em;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .template-select {
     text-align: center;
 }
@@ -458,6 +473,10 @@
     font-family: 'Luckiest Guy', cursive;
     color: #fff;
     text-shadow: 0 1px 1px #000;
+    max-width: 27em;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .options-title {
@@ -622,6 +641,13 @@ button {
     margin-left: 1em;
 }
 
+.template-content {
+    max-width: 27em;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .view-help {
     overflow-x: hidden;
     position: fixed;
@@ -678,4 +704,8 @@ iframe {
 .help-content {
     padding: 1em;
     color: #fff;
+    max-width: 27em;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }

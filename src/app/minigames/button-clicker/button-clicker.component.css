@@ -1,0 +1,35 @@
+.button-clicker {
+    color: #fff;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
+    background: linear-gradient(-35deg, rgba(255,87,144, 1) 0%, rgba(69,159,134, 1) 60%, rgba(69,159,134, 1) 100%);
+    z-index: 2000;
+    top: 0;
+    padding-top: 5em;
+}
+
+.button-clicker h2 {
+    color: #fdff84;
+    font-size: 18px;
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
+}
+
+.button-clicker p {
+    font-size: 28px;
+    margin-top: 1em;
+    font-weight: bold;
+}
+
+.button-clicker button {
+    margin-top: 1em;
+    height: 8em;
+    width: 8em;
+    border-radius: 50%;
+    text-shadow: 0 1px #172926;
+    font-family: 'Luckiest Guy', cursive;
+}

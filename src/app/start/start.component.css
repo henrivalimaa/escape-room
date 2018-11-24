@@ -545,6 +545,10 @@ iframe {
 .help-content {
     padding: 1em;
     color: #fff;
+    max-width: 27em;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .section-title {

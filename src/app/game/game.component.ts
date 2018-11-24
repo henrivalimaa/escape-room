@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, OnDestroy, ElementRef, ViewChild, HostListener, NgZone } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, OnDestroy, ElementRef, ViewChild, HostListener, NgZone, Input } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MessengerContactComponent } from '../messenger-contact/messenger-contact.component';
@@ -11,10 +11,13 @@ import { Result, Game } from '../services/result';
 import { ScoreService } from '../services/score.service';
 import { SessionService } from '../services/session.service';
 
+import { ButtonClicker } from '../minigames/button-clicker/button-clicker.component';
+import { LightPattern } from '../minigames/light-pattern/light-pattern.component';
+
 import { fadeAnimation, slideAnimation, darkenAnimation } from '../animations/animations';
 
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Subject, Observable, SubscriptionLike, timer } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'game',
@@ -57,6 +60,9 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   private loadingLeaderboard: boolean = false;
   private hint: any = {};
   private showHint: boolean = false;
+
+  @ViewChild('buttonClicker') buttonClicker: ButtonClicker;
+  @ViewChild('lightPattern') lightPattern: LightPattern;
 
   slideConfig = {'slidesToShow': 1, 'dots': true};
 
@@ -144,6 +150,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.time.start = new Date();
         this.typing = true;
         this.result.score = 0;
+
         setTimeout(() => {
           this.typing = false;
           this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Hello ' + this.player.displayName, incoming: true });
@@ -175,6 +182,44 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
       return;
     }
 
+    if (this.nextMessage.type === 'Game') {
+      if(this.nextMessage.game === 'button-clicker') {
+        setTimeout(() => { this.buttonClicker.display(); }, this.nextMessage.delay)
+
+        this.buttonClicker.result.subscribe(result => {
+          if (result !== undefined) {
+            let temp = this.player;
+            temp.additionalData.activeGame.points = temp.additionalData.activeGame.points + result;
+            temp.additionalData.activeGame.correctAnswers = temp.additionalData.activeGame.correctAnswers + 1;
+            this.messageService.updateCurrentGameUser(this.key, temp);
+            setTimeout(() => {
+              setTimeout(() => {this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Button clicker score = ' + result + '!', incoming: true })});
+              this.displayPoints(result);
+              this.continueDialog(message);
+            }, 6000);
+          }
+        });
+      }
+
+      if(this.nextMessage.game === 'light-pattern') {
+        setTimeout(() => { this.lightPattern.display(); }, this.nextMessage.delay)
+
+        this.lightPattern.result.subscribe(result => {
+          if (result !== undefined) {
+            let temp = this.player;
+            temp.additionalData.activeGame.points = temp.additionalData.activeGame.points + result;
+            temp.additionalData.activeGame.correctAnswers = temp.additionalData.activeGame.correctAnswers + 1;
+            this.messageService.updateCurrentGameUser(this.key, temp);
+            setTimeout(() => {
+              setTimeout(() => {this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Light pattern game score = ' + result + '!', incoming: true })});
+              this.displayPoints(result);
+              this.continueDialog(message);
+            }, 6000);
+          }
+        });
+      }
+    }
+
     if (this.nextMessage.points) {
       let temp = this.player;
       temp.additionalData.activeGame.points = temp.additionalData.activeGame.points + this.nextMessage.points;
@@ -184,18 +229,20 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
       this.displayPoints(this.nextMessage.points);
     }
 
-		setTimeout(() => {
-      this.messages.push(this.nextMessage);
-      if (this.nextMessage.hint) {
-        this.hint.isActive = true;
-        this.hint.text = this.nextMessage.hint;
-      }
+    if (this.nextMessage.type !== 'Game') {
+      setTimeout(() => {
+        this.messages.push(this.nextMessage);
+        if (this.nextMessage.hint) {
+          this.hint.isActive = true;
+          this.hint.text = this.nextMessage.hint;
+        }
 
-      this.typing = false;
+        this.typing = false;
 
-      if (this.nextMessage.final === true) this.endGame();
-      if (this.nextMessage.continous) this.continueDialog(message);
- 		}, this.nextMessage.delay);
+        if (this.nextMessage.final === true) this.endGame();
+        if (this.nextMessage.continous) this.continueDialog(message);
+       }, this.nextMessage.delay);
+    }
 	}
 
   sortResults<T>(propName: keyof Result, order: "ASC" | "DESC"): void {

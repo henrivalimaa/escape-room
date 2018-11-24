@@ -1,0 +1,9 @@
+<div class="button-clicker" *ngIf="show" [@fade]>
+	<h2>Click the button as fast as you can</h2>
+	<p *ngIf="state === 'inactive' || state === 'started'">Time: {{ timeLeft }} s</p>
+	<p *ngIf="state === 'finished'">Time: 0 s</p>
+	<button mat-raised-button color="accent" *ngIf="state === 'inactive'" (click)="startGame()">Start</button>
+	<button mat-raised-button color="accent" *ngIf="state === 'started'" (click)="clicks = clicks + 1">Click me!!</button>
+	<button mat-raised-button color="accent" *ngIf="state === 'finished'" disabled>Click me!!</button>
+	<p>Clicks: {{ clicks }}</p>
+</div>
