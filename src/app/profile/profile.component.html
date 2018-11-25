@@ -75,11 +75,11 @@
 	<button mat-raised-button class="left" color="accent" (click)="showConfirmationModal = false">Cancel</button>
 </div>
 
-<div class="user-creation-loader" *ngIf="deletingUser" [@fade]>
-  <h2>Deleting user</h2>
+<div class="user-creation-loader pulse" *ngIf="deletingUser" [@fade]>
+	<h1>Webscape</h1>
+  <h2>Deleting user data</h2>
   <p>Please wait..</p>
-  <img class="logo center-x" src="./assets/images/logo.png">
-  <mat-progress-bar class="progress-bar" mode="indeterminate"></mat-progress-bar>
+  <mat-progress-bar class="progress-bar" color="accent" mode="indeterminate"></mat-progress-bar>
 </div>
 
 <div class="profile-picture-selector" *ngIf="choosingProfilePicture" [@fade]>

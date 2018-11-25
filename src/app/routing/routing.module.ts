@@ -5,7 +5,6 @@ import { GameComponent } from '../game/game.component';
 import { GameListComponent } from '../game-list/game-list.component';
 import { GameEditorComponent } from '../game-editor/game-editor.component';
 import { StartComponent } from '../start/start.component';
-import { LeaderboardComponent } from '../leaderboard/leaderboard.component';
 import { ProfileComponent } from '../profile/profile.component';
 import { LoginComponent } from '../login/login.component';
 import { SetupComponent } from '../setup/setup.component';
@@ -21,7 +20,6 @@ const routes: Routes = [
 	{ path: 'game-editor', component: GameEditorComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard] },
 	{ path: 'game-list', component: GameListComponent, canActivate: [AuthGuard] },
   { path: 'game', component: GameComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard] },
-  { path: 'leaderboard', component: LeaderboardComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], canDeactivate: [CanDeactivateGuard] }
 ];
 

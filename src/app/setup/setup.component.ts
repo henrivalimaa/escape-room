@@ -45,13 +45,14 @@ export class SetupComponent implements OnInit {
   	const auth = this.authService.currentUser;
   	this.userService.getCurrentUser(auth.email)
       .subscribe(user => {
-        if (user.length === 0) {
+        if (user.length === 0 || user.additionalData.provider != auth.providerData[0].providerId) {
           this.user = new User();
           this.user.displayName = auth.displayName;
           this.user.email = auth.email;
           this.user.additionalData = {};
           this.user.gamerTag = '';
           this.user.photoURL = auth.photoURL;
+          this.user.additionalData.provider = auth.providerData[0].providerId;
         } else {
           this.userService.setUser(user[0]);
           this.zone.run(() => {

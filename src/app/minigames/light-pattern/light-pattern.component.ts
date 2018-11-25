@@ -66,8 +66,8 @@ export class LightPattern implements OnInit {
   		this.grid[index].isLighted = true;
   		setTimeout(() => { 
   			this.grid[index].isLighted = false;
-  		}, 1000)
-  	}, 1000);
+  		}, 500)
+  	}, 500);
   }
 
   showInstructions() {
@@ -84,7 +84,7 @@ export class LightPattern implements OnInit {
 	  					this.showingInstructions = false;
 	  				}, 2000)
 	  			}
-	  		}, 900 * i)
+	  		}, 700 * i)
   		}
   	}, delay)
   }

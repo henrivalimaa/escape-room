@@ -1,7 +1,5 @@
 import { Component, OnInit, AfterViewChecked, OnDestroy, ElementRef, ViewChild, HostListener, NgZone, Input } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MessengerContactComponent } from '../messenger-contact/messenger-contact.component';
 
 import { MessageService } from '../services/message.service';
 import { AuthService } from '../services/auth.service';
@@ -73,7 +71,6 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     private scoreService: ScoreService,
     private sessionService: SessionService,
     private route: ActivatedRoute,
-  	public dialog: MatDialog,
     private zone: NgZone,
     private router: Router
 	) {}
@@ -309,22 +306,12 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.points = points;
     if (this.points > 0) {
       this.hint.text = undefined;
+      this.showHint = false;
       this.hint.isActive = false;
     }
     setTimeout(() => {
       this.showPoints = false;
      }, 1500);
-  }
-
-	openContact(): void {
-    let dialogRef = this.dialog.open(MessengerContactComponent, {
-      width: '60em',
-      data: this.player.displayName
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The contact was closed');
-    });
   }
 
   canDeactivate() {

@@ -29,7 +29,7 @@
 					When you’re signed in, we also collect information that we store with your Google Account, which we treat as personal information.</p>
 				</div>
 	      <div>
-	        <button mat-raised-button color="primary" class="right" matStepperNext>Next</button>
+	        <button mat-raised-button color="accent" class="right" matStepperNext>Next</button>
 	      </div>
 	  </mat-step>
 	  <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
@@ -45,10 +45,10 @@
 					When you’re signed in, we also collect information that we store with your Google Account, which we treat as personal information.</p>
 				</div>
 	      <div>
-	        <button mat-raised-button color="basic" matStepperPrevious>Back</button>
+	        <button mat-raised-button color="accent" matStepperPrevious>Back</button>
 	        <button 
 	        	mat-raised-button 
-	        	color="primary" 
+	        	color="accent" 
 	        	class="right" 
 	        	(click)="user.additionalData.termsAccepted = true; isEditable = false" 
 	        	matStepperNext>I Accept</button>
@@ -58,28 +58,39 @@
       <ng-template matStepLabel>Setup</ng-template>
       <mat-progress-bar style="left: 0" *ngIf="loadingImage"  color="accent" class="progress-bar" mode="indeterminate"></mat-progress-bar>
      	<div class="setup-section">
-       	<p class="section-title">Profile picture</p>
-       	<div class="profile-image">
-       		<img [src]="user.photoURL">
+       	<p class="section-title">Gamer tag & picture</p>
+       	<div class="grid-area">
+       		<div class="profile-picture">
+       			<div class="profile-image">
+		       		<img [src]="user.photoURL">
+		       	</div>
+						<button mat-raised-button color="accent" style="margin-bottom: 1em;">
+							<label for="file">Upload <i class="fas fa-cloud-upload-alt ml-05"></i></label>
+						</button>
+						<input type="file" (change)="uploadFile($event)" id="file" style="visibility: hidden; width: 1px;" accept=".png,.jpg" />
+       		</div>
+       		<div class="gamer-tag">
+       			<mat-form-field class="gamer-tag">
+		  				<input 
+		  					autofocus 
+		  					matInput placeholder="e.g. PuzzleSolver" 
+		  					[(ngModel)]="user.gamerTag" name="gamer-tag">
+				    	<mat-hint>Atleast 3 characters</mat-hint>
+				  	</mat-form-field>
+				  	<mat-form-field style="margin-top: 1.5em;">	
+				  		<mat-select [(value)]="user.additionalData.language" placeholder="Language">
+						    <mat-option value="en-US">English (US)</mat-option>
+						    <mat-option value="en-GB">English (GB)</mat-option>
+						    <mat-option value="fi-FI">Suomi (Finnish)</mat-option>
+						  </mat-select>
+						  <mat-hint>Default: English</mat-hint>
+						</mat-form-field>
+				  	<span class="error" *ngIf="invalid" [@fade]><div class="arrow-left"></div>required</span>
+       		</div>
        	</div>
-				<button mat-raised-button style="margin-bottom: 1em;">
-					<label for="file">Upload picture <i class="fas fa-cloud-upload-alt ml-05"></i></label>
-				</button>
-				<input type="file" (change)="uploadFile($event)" id="file" style="visibility: hidden" accept=".png,.jpg" />
-
-				<form>
-					<p class="section-title">Gamer tag</p>
-					<mat-form-field>
-	  				<input 
-	  					matInput placeholder="e.g. PuzzleSolver" 
-	  					[(ngModel)]="user.gamerTag" name="gamer-tag">
-			    	<mat-hint>Atleast 3 characters</mat-hint>
-			  	</mat-form-field>
-			  	<span class="error" *ngIf="invalid" [@fade]><div class="arrow-left"></div>required</span>
-		  	</form>
 			</div>
       <div>
-        <button mat-raised-button class="right" color="primary" (click)="createUser()">Create user</button>
+        <button mat-raised-button class="right" color="accent" (click)="createUser()">Create user</button>
       </div>
 	  </mat-step>
 	</mat-horizontal-stepper>

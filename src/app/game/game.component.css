@@ -535,7 +535,8 @@ button:focus {
     display: block;
     border-top: 17px solid #4db092;
     border-right: 15px solid transparent;
-    top: 2em;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .hint {

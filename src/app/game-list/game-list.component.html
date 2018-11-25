@@ -136,7 +136,7 @@
 						<button mat-raised-button color="accent" routerLink="/game-editor">Create new game</button>
 					</div>
 		    </div>
-		    <div ngxSlickItem *ngFor="let game of userGames.reverse() | search: queryString : 'title'" class="slide" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
+		    <div ngxSlickItem *ngFor="let game of userGames.reverse() | search: queryString.toLowerCase() : 'title'" class="slide" [ngStyle]="{'background-image': 'url(' + game.images.background + ')'}">
 		    	<button class="edit-btn" (click)="editGame(game)" mat-mini-fab><i class="fas fa-pencil-alt"></i></button>
 		    	<button class="remove-btn" (click)="removeGame(game)" mat-mini-fab color="accent"><i class="fas fa-trash-alt"></i></button>
 		    	<div class="game-info">

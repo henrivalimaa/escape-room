@@ -186,9 +186,10 @@
 }
 
 .question-toggle {
-    width: 100%;
-    display: flex;
-    margin-bottom: 1em;
+    width: 40%;
+    display: inline-block;
+    top: 0.5em;
+    position: relative;
 }
 
 .progress-bar {

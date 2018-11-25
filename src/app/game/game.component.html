@@ -61,8 +61,8 @@
 </div>
 
 <div class="message-area" *ngIf="!showResult" [@fade]>
-	<i class="far fa-lightbulb hint" *ngIf="hint.isActive" (click)="showHint = !showHint" [@fade]></i>
-	<div *ngIf="showHint && hint.isActive" class="hint-content" [@fade]>
+	<i class="far fa-lightbulb hint" *ngIf="hint.isActive == true" (click)="showHint = !showHint" [@fade]></i>
+	<div *ngIf="showHint && hint.isActive == true" class="hint-content" [@fade]>
 		<div class="tip"></div>
 		{{ hint.text }}
 	</div>

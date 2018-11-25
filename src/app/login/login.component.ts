@@ -1,7 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from "@angular/router";
 import { AuthService } from '../services/auth.service';
-import { ScoreService } from '../services/score.service';
 import { UserService } from '../services/user.service';
 import { fadeAnimation, slideAnimation } from '../animations/animations';
 import { Result, User } from '../services/result';
@@ -28,7 +27,6 @@ export class LoginComponent implements OnInit {
     private userService: UserService, 
     private router: Router,
     private zone: NgZone,
-    private scoreService: ScoreService,
     private storage: AngularFireStorage) { }
 
   ngOnInit() {
@@ -51,7 +49,7 @@ export class LoginComponent implements OnInit {
     let player = this.authService.currentUser;
     this.userService.getCurrentUser(player.email)
       .subscribe(user => {
-        if (user.length === 0) {
+        if (user.length === 0 || user.additionalData.provider != player.providerData[0].providerId) {
           this.zone.run(() => {
             this.router.navigate(['setup']);
           });

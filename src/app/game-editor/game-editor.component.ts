@@ -221,9 +221,11 @@ export class GameEditorComponent implements OnInit {
     }
 
     if (this.miniGame != undefined) {
+      this.miniGame = undefined;
       this.game.messages.push(game);
     } else {
       if (this.isQuestion) {
+        this.isQuestion = false;
         this.game.messages.push(question);
         this.game.messages.push(feedback);
         this.game.questions = this.game.questions + 1;

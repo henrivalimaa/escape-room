@@ -159,11 +159,11 @@ button:focus {
     color: #005a4a !important;
 }
 
-.game-editor .mat-focused .mat-form-field-label {
+.mat-focused .mat-form-field-label {
     color: #005a4a !important;
 }
 
-.game-editor .mat-form-field-label {
+.mat-form-field-label {
     color: #005a4a !important;
 }
 
@@ -171,16 +171,16 @@ button:focus {
     margin-bottom: 0.5em;
 }
 
-.game-editor .mat-input-element {
+.mat-input-element {
     color: #fff !important;
     width: 20em;
 }
 
-.game-editor .mat-stepper-horizontal, .mat-stepper-vertical {
+.mat-stepper-horizontal, .mat-stepper-vertical {
     background-color: transparent;
 }
 
-.game-editor .mat-step-header .mat-step-icon {
+.mat-step-header .mat-step-icon {
     background-color: #35806b;
     color: #fff;
     padding-top: 1px;
@@ -192,12 +192,8 @@ button:focus {
     padding-top: 1px;
 }
 
-.mat-form-field-label {
-    color: #449082 !important;
-}
-
-.mat-focused .mat-form-field-label {
-    color: #449082 !important;
+.mat-select-value {
+    color: rgba(255, 255, 255, 0.87);
 }
 
 .mat-form-field-ripple {
@@ -229,11 +225,12 @@ button:focus {
     max-width: unset;
 }
 
+/*
 .mat-input-element {
 	color: #777 !important;
 	width: 20em;
 }
-
+*/
 .mat-stepper-horizontal {
     height: 90%;
 }

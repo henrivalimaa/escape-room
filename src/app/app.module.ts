@@ -24,9 +24,6 @@ import { MatRadioModule } from '@angular/material/radio';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
-import { LeaderboardComponent } from './leaderboard/leaderboard.component';
-import { MessengerContactComponent } from './messenger-contact/messenger-contact.component';
-import { MessengerMediaComponent } from './messenger-media/messenger-media.component';
 import { LoginComponent } from './login/login.component';
 
 import { MessageService } from './services/message.service';
@@ -87,9 +84,6 @@ const cookieConfig:NgcCookieConsentConfig = {
   declarations: [
     AppComponent,
     GameComponent,
-    LeaderboardComponent,
-    MessengerContactComponent,
-    MessengerMediaComponent,
     LoginComponent,
     GameListComponent,
     SetupComponent,
@@ -130,6 +124,6 @@ const cookieConfig:NgcCookieConsentConfig = {
   ],
   providers: [MessageService, AuthService, AuthGuard, WindowRefService, CanDeactivateGuard],
   bootstrap: [AppComponent],
-  entryComponents: [MessengerContactComponent]
+  entryComponents: []
 })
 export class AppModule { }
