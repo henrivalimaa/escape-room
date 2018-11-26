@@ -1,5 +1,7 @@
 import { Component, OnInit, HostListener, NgZone } from '@angular/core';
 
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+
 import { Router } from "@angular/router";
 import { ActivatedRoute } from "@angular/router";
 
@@ -22,6 +24,7 @@ import { AngularFireStorage } from 'angularfire2/storage';
 export class GameEditorComponent implements OnInit {
 	private user: User;
 	private game: any;
+  private options: any;
 
   private key: string;
 
@@ -59,6 +62,17 @@ export class GameEditorComponent implements OnInit {
   	private fileUploadService: FileUploadService) { }
 
   ngOnInit() {
+
+    this.options = {
+      turnBasedGame: false,
+      singlePlayerMode: true,
+      teamMode: false,
+      displayLeaderboard: false,
+      displayDefaultInstructions: false,
+      startWithInterval: false,
+      randomizeQuestions: false,
+      displayName: false
+    };
 
     this.route
       .queryParams
@@ -107,6 +121,7 @@ export class GameEditorComponent implements OnInit {
     this.choosingTemplate = false;
     this.showTemplate = false;
     this.game = this.template;
+    this.game.options = this.options;
     this.game.owner = this.user.email;
   }
 
@@ -120,6 +135,7 @@ export class GameEditorComponent implements OnInit {
     this.game.sender.name = this.user.displayName;
     this.game.sender.photo = this.user.photoURL;
     this.game.questions = 0;
+    this.game.options = this.options;
     this.game.messages = [
       { continous: true, start: true, text: '', time: '' }
     ];
@@ -248,6 +264,10 @@ export class GameEditorComponent implements OnInit {
   previewTemplate(template: any): void {
     this.showTemplate = true;
     this.template = template;
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.game.messages, event.previousIndex, event.currentIndex);
   }
 
 }

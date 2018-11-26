@@ -3,7 +3,7 @@
     width: 100%;
 	background-color: #44ab8eb3;
     overflow-y: scroll;
-    overflow: hidden;
+    overflow-x: hidden;
     background: linear-gradient(to top, rgba(231, 53, 133, 0.39) 0%, rgba(69,159,134,0.7) 30%, rgba(69,159,134,0.8) 100%);
 }
 
@@ -57,7 +57,7 @@
 
 .settings-content {
     padding: 1em;
-    height: 100%;
+    height: auto;
     padding-bottom: 3em;
     max-width: 27em;
     position: relative;

@@ -15,6 +15,7 @@ export class Game {
   room: string;
   duration: string;
   questions: number;
+  options: any;
   sender: any;
 	images: any;
 	messages: Array<any>;

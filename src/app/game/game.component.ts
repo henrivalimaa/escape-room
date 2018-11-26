@@ -7,7 +7,6 @@ import { UserService } from '../services/user.service';
 
 import { Result, Game } from '../services/result';
 import { ScoreService } from '../services/score.service';
-import { SessionService } from '../services/session.service';
 
 import { ButtonClicker } from '../minigames/button-clicker/button-clicker.component';
 import { LightPattern } from '../minigames/light-pattern/light-pattern.component';
@@ -69,7 +68,6 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     private authService: AuthService,
     private userService: UserService,
     private scoreService: ScoreService,
-    private sessionService: SessionService,
     private route: ActivatedRoute,
     private zone: NgZone,
     private router: Router

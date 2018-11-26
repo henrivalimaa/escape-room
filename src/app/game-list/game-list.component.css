@@ -177,7 +177,6 @@
     z-index: 998;
     width: 100%;
     overflow-x: hidden;
-    overflow-y: scroll;
     /*background: #44ab8eb3;*/
     min-height: 100%;
     padding-top: 6.5em;

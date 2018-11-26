@@ -56,10 +56,12 @@
 .game-editor-container, .template-container {
     padding-top: 4.6em;
     width: 100%;
-    height: 95%;
+    height: 100%;
     background-color: #44ab8eb3;
-    overflow-x: scroll;
+    overflow-x: hidden;
     background: linear-gradient(to top, rgba(231, 53, 133, 0.39) 0%, rgba(69,159,134,0.7) 30%, rgba(69,159,134,0.8) 100%);
+    overflow-y: hidden;
+    padding-bottom: 3em;
 }
 
 .game-editor {
@@ -311,6 +313,7 @@
     bottom: 1em;
     background: transparent;
     color: #fff;
+    box-shadow: none !important;
 }
 
 .create-game-modal {
@@ -341,7 +344,7 @@
 
 .section {
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: hidden;
     margin-bottom: 0.5em;
     padding-bottom: 0.5em;
 }
@@ -500,7 +503,7 @@
     font-size: 17px;
 }
 
-button {
+.fancy-btn {
     font-family: 'Luckiest Guy', cursive;
     color: #fff;
     text-shadow: 0 1px 1px #000; 
@@ -709,4 +712,69 @@ iframe {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.drag-list {
+  max-width: 100%;
+  min-height: 60px;
+  display: block;
+  overflow: hidden;
+}
+
+.drag-box {
+  color: rgba(0, 0, 0, 0.87);
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: move;
+  font-size: 14px;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.drag-box:last-child {
+  border: none;
+}
+
+.drag-list.cdk-drop-list-dragging .drag-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.message-checked {
+    position: absolute;
+    right: 1em;
+}
+
+.question-menu-trigger {
+    font-family: unset;
+    border-bottom: 1px solid #35806b;
+    padding: 0;
+    text-shadow: none;
+    margin-bottom: 1em;
+    font-weight: 700;
+    color: #fff;
+}
+
+.question-menu-trigger i {
+    margin-left: 2em;
+    color: #35806b;
+}
+
+.question-menu button {
+    font-family: unset;
+    text-shadow: none;
 }

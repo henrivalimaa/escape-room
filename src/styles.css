@@ -171,6 +171,10 @@ button:focus {
     margin-bottom: 0.5em;
 }
 
+.game-editor .mat-expansion-indicator {
+    display: none !important;
+}
+
 .mat-input-element {
     color: #fff !important;
     width: 20em;
@@ -260,7 +264,7 @@ button:focus {
 }
 
 .mat-expansion-panel-header-title {
-    color: #fff;
+    color: #204139;
 }
 
 .mat-expansion-panel-header-description {
@@ -284,6 +288,13 @@ button:focus {
     top: -5px;
 }
 
+.mat-expansion-panel-header {
+    position: relative;
+}
+
+.mat-expansion-panel-header:hover {
+    background: #558e80 !important;
+}
 
 .mat-fab.mat-accent, .mat-flat-button.mat-accent, .mat-mini-fab.mat-accent, .mat-raised-button.mat-accent {
     background-color: #ff5790;

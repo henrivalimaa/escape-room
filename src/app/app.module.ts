@@ -22,6 +22,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
 
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { LoginComponent } from './login/login.component';
@@ -72,7 +74,7 @@ const cookieConfig:NgcCookieConsentConfig = {
   "type": "info",
   "content": {
     "message": "This website uses cookies to ensure you get the best experience on our website.",
-    "dismiss": "I Accept",
+    "dismiss": "Accept",
     "deny": "Refuse cookies",
     "link": "Learn more",
     "href": "https://cookiesandyou.com"
@@ -113,6 +115,7 @@ const cookieConfig:NgcCookieConsentConfig = {
     MatSlideToggleModule,
     MatExpansionModule,
     MatRadioModule,
+    DragDropModule,
     AngularFontAwesomeModule,
     PickerModule,
     AngularFireModule.initializeApp(environment.firebase),

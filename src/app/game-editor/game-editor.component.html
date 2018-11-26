@@ -62,55 +62,71 @@
 		<h2>Create game</h2>
 		<button
 			color="accent"
+			class="fancy-btn"
 			mat-raised-button 
 			(click)="setBlankGame()">Create from scratch <i class="fas fa-file icon ml-05"></i></button>
 		<button
 			color="accent"
+			class="fancy-btn"
 			mat-raised-button
 			(click)="showTemplates = true">Create from template <i class="fas fa-file-contract icon ml-05"></i></button>
 
 		<div class="options">
 			<p class="options-title">Game options</p>
 			<div class="slider">
-				<p class="left">Single player</p>
+				<p class="left">Turn based game</p>
 				<mat-slide-toggle
 		        [color]="accent"
-		        [checked]="true">
+		        [checked]="options.turnBasedGame">
+		    </mat-slide-toggle>
+			</div>
+			<div class="slider">
+				<p class="left">Single player mode</p>
+				<mat-slide-toggle
+		        [color]="accent"
+		        [checked]="options.singlePlayerMode">
+		    </mat-slide-toggle>
+			</div>
+			<div class="slider">
+				<p class="left">Team mode</p>
+				<mat-slide-toggle
+		        [color]="accent"
+		        [checked]="options.teamMode">
 		    </mat-slide-toggle>
 			</div>
 			<div class="slider">
 				<p class="left">Leaderboard</p>
 				<mat-slide-toggle
 		        [color]="accent"
-		        [checked]="true">
+		        [checked]="options.displayLeaderboard">
 		    </mat-slide-toggle>
 			</div>
 			<div class="slider">
 				<p class="left">Show game instructions</p>
 				<mat-slide-toggle
 		        [color]="accent"
-		        [checked]="false">
+		        [checked]="options.displayDefaultInstructions">
 		    </mat-slide-toggle>
 			</div>
 			<div class="slider">
 				<p class="left">Start with interval</p>
 				<mat-slide-toggle
 		        [color]="accent"
-		        [checked]="false">
+		        [checked]="options.startWithInterval">
 		    </mat-slide-toggle>
 			</div>
 			<div class="slider">
 				<p class="left">Randomize question order</p>
 				<mat-slide-toggle
 		        [color]="accent"
-		        [checked]="false">
+		        [checked]="options.randomizeQuestions">
 		    </mat-slide-toggle>
 			</div>
 			<div class="slider">
-				<p class="left">Display usernames</p>
+				<p class="left">Display user's name</p>
 				<mat-slide-toggle
 		        [color]="accent"
-		        [checked]="false">
+		        [checked]="options.displayNames">
 		    </mat-slide-toggle>
 			</div>
 		</div>
@@ -188,12 +204,12 @@
 			<button 
 				style="margin-left: 2em;"
 				mat-raised-button  
-				class="left" 
+				class="left fancy-btn" 
 				color="accent" 
 				(click)="showTemplate = false">Close</button>
 			<button 
 				mat-raised-button  
-				class="right select-btn" 
+				class="right select-btn fancy-btn" 
 				color="accent" 
 				(click)="pickTemplate()">Select template <i class="fas fa-angle-right ml-05"></i></button>
 		</div>
@@ -206,9 +222,9 @@
 	<div class="game-editor">
 		<mat-horizontal-stepper labelPosition="bottom" #stepper>
     <mat-step>
-      <ng-template matStepLabel>Game Properties</ng-template>
+      <ng-template matStepLabel>Properties</ng-template>
       <div class="section">
-      	<p class="section-title">Game properties</p>
+      	<p class="section-title">Properties</p>
 				<div class="game-properties-grid">
 					<div class="properties">
 						<mat-form-field>
@@ -238,12 +254,12 @@
 			  			<div class="picture-wrapper">
 								<img *ngIf="game.images.background" [src]="game.images.background">
 							</div>
-							<button mat-raised-button (click)="choosingImage = true; imagePosition = 'background'">
+							<button mat-raised-button class="fancy-btn" (click)="choosingImage = true; imagePosition = 'background'">
 								Change
 								<i class="fas fa-image ml-05"></i>
 							</button>
 							<input type="file" (change)="uploadFile($event, 'background')" id="file" style="visibility: hidden" accept=".png,.jpg" />
-							<button mat-raised-button style="margin-top: -1em;" (click)="choosingImage = true; imagePosition = 'background'">
+							<button mat-raised-button style="margin-top: -1em;" class="fancy-btn" (click)="choosingImage = true; imagePosition = 'background'">
 								<label for="file">Upload<i class="fas fa-cloud-upload-alt ml-05"></i></label>
 							</button>
 			  		</div>
@@ -251,7 +267,7 @@
 				</div>
       </div>
       <div>
-          <button mat-raised-button class="right theme-color" matStepperNext>Next</button>
+        <button mat-raised-button class="right fancy-btn theme-color" matStepperNext>Next</button>
       </div>
     </mat-step>
     <mat-step>
@@ -287,12 +303,12 @@
 			  			<div class="picture-wrapper">
 								<img [src]="game.sender.photo">
 							</div>
-							<button mat-raised-button (click)="choosingImage = true; imagePosition = 'sender'">
+							<button mat-raised-button class="fancy-btn" (click)="choosingImage = true; imagePosition = 'sender'">
 								Change
 								<i class="fas fa-image ml-05"></i>
 							</button>
 							<input type="file" (change)="uploadFile($event, 'sender-photo')" id="senderPhoto" style="visibility: hidden" accept=".png,.jpg" />
-							<button mat-raised-button style="margin-top: -1em;" (click)="choosingImage = true; imagePosition = 'sender'">
+							<button mat-raised-button class="fancy-btn" style="margin-top: -1em;" (click)="choosingImage = true; imagePosition = 'sender'">
 								<label for="senderPhoto">Upload<i class="fas fa-cloud-upload-alt ml-05"></i></label>
 							</button>
 			  		</div>
@@ -300,15 +316,15 @@
 		  	</div>
       </div>
       <div>
-          <button mat-raised-button class="left theme-color" matStepperPrevious>Back</button>
-          <button mat-raised-button class="right theme-color" matStepperNext>Next</button>
+          <button mat-raised-button class="left theme-color fancy-btn" matStepperPrevious>Back</button>
+          <button mat-raised-button class="right theme-color fancy-btn" matStepperNext>Next</button>
       </div>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Messages</ng-template>
       <div class="section">
       	<p class="section-title">Messages & Questions</p>
-		  	<div class="question-toggle">
+		  	<!--<div class="question-toggle">
 		  		<mat-slide-toggle
 			        class="left"
 			        [color]="accent"
@@ -323,7 +339,20 @@
 				    <mat-option value="button-clicker">Button clicker</mat-option>
 				    <mat-option value="light-pattern">Light pattern</mat-option>
 				  </mat-select>
-				</mat-form-field>
+				</mat-form-field>-->
+				<button mat-button class="question-menu-trigger" [matMenuTriggerFor]="questionTypes">Select Question Type <i class="fas fa-angle-down"></i></button>
+
+				<mat-menu class="question-menu" #questionTypes="matMenu">
+					<button mat-menu-item (click)="isQuestion = false; miniGame = undefined;">Message</button>
+					<button mat-menu-item (click)="isQuestion = true; miniGame = undefined;">Single question</button>
+				  <button mat-menu-item [matMenuTriggerFor]="miniGames">Mini Games</button>
+				</mat-menu>
+
+				<mat-menu class="question-menu" #miniGames="matMenu">
+				  <button mat-menu-item (click)="miniGame = 'button-clicker'">Button Clicker</button>
+				  <button mat-menu-item (click)="miniGame = 'light-pattern'">Light Pattern</button>
+				</mat-menu>
+
 		  	<div class="sender-grid" *ngIf="!isQuestion && !miniGame" [@fade]>
 		  		<div class="sender-name">
 		  			<mat-form-field>
@@ -440,105 +469,108 @@
 		  			Message list ({{ game.messages.length - 1 }})
 		  			<button mat-raised-button (click)="editing=!editing" class="right edit-btn">Edit <i class="far fa-edit ml-05"></i></button>
 		  		</p>
-		  		<div class="message" *ngFor="let message of game.messages; let i = index;">
-		  			<mat-expansion-panel *ngIf="!message.start">
-				    <mat-expansion-panel-header>
-					      <mat-panel-title>
-					        {{ message.text }}
-					      </mat-panel-title>
-					      <mat-panel-description>
-					        {{ message.type }}
-					      </mat-panel-description>
-					      <i class="fas fa-times" (click)="game.messages.splice(i, 1)"></i>
-					    </mat-expansion-panel-header>
-					    <div class="message-grid">
-					    	<div class="message-content" *ngIf="!editing" [@fade]>
-					    		<label for="message-text" class="message-label">
-					    			<span *ngIf="message.responseRequired">Question</span>
-					    			<span *ngIf="!message.responseRequired && !message.points">Message</span>
-					    			<span *ngIf="message.points">Feedback</span>
-					    		</label>
-					    		<p id="message-text">{{ message.text }}</p>
+		  		<div cdkDropList (cdkDropListDropped)="drop($event)" class="drag-list">
+		  			<div class="message drag-box" *ngFor="let message of game.messages; let i = index;" cdkDrag>
+			  			<mat-expansion-panel *ngIf="!message.start">
+					    <mat-expansion-panel-header>
+					    		<i class="fas fa-times message-checked" (click)="game.messages.splice(i, 1); $event.stopPropagation();"></i>
+						      <mat-panel-title>
+						        <span>{{ message.text }}</span>
+						        <span *ngIf="message.game">{{ message.game }}</span>
+						      </mat-panel-title>
+						      <mat-panel-description>
+						        {{ message.type }}
+						      </mat-panel-description>
+						    </mat-expansion-panel-header>
+						    <div class="message-grid">
+						    	<div class="message-content" *ngIf="!editing" [@fade]>
+						    		<label for="message-text" class="message-label">
+						    			<span *ngIf="message.responseRequired">Question</span>
+						    			<span *ngIf="!message.responseRequired && !message.points">Message</span>
+						    			<span *ngIf="message.points">Feedback</span>
+						    		</label>
+						    		<p id="message-text">{{ message.text }}</p>
 
-					    		<label for="message-hint" class="message-label" *ngIf="message.hint">
-					    			<span>Hint</span>
-					    		</label>
-					    		<p id="message-hint" *ngIf="message.hint">{{ message.hint }}</p>
+						    		<label for="message-hint" class="message-label" *ngIf="message.hint">
+						    			<span>Hint</span>
+						    		</label>
+						    		<p id="message-hint" *ngIf="message.hint">{{ message.hint }}</p>
 
-					    		<label for="message-answer" class="message-label" *ngIf="message.responseRequired">
-					    			<span>Answer</span>
-					    		</label>
-					    		<p id="message-answer" *ngIf="message.responseRequired">{{ message.answer }}</p>
+						    		<label for="message-answer" class="message-label" *ngIf="message.responseRequired">
+						    			<span>Answer</span>
+						    		</label>
+						    		<p id="message-answer" *ngIf="message.responseRequired">{{ message.answer }}</p>
 
-					    		<label for="message-points" class="message-label" *ngIf="message.points">
-					    			<span>Points awarded</span>
-					    		</label>
-					    		<p id="message-points" *ngIf="message.points">{{ message.points }}</p>
+						    		<label for="message-points" class="message-label" *ngIf="message.points">
+						    			<span>Points awarded</span>
+						    		</label>
+						    		<p id="message-points" *ngIf="message.points">{{ message.points }}</p>
 
-					    		<label for="message-delay" class="message-label" *ngIf="message.delay">
-					    			<span>Message delay</span>
-					    		</label>
-					    		<p id="message-delay" *ngIf="message.delay">{{ message.delay }}</p>
-					    	</div>
+						    		<label for="message-delay" class="message-label" *ngIf="message.delay">
+						    			<span>Message delay</span>
+						    		</label>
+						    		<p id="message-delay" *ngIf="message.delay">{{ message.delay }}</p>
+						    	</div>
 
-					    	<div class="message-content" *ngIf="editing" [@fade]>
-					    		<mat-form-field *ngIf="message.type === 'Question'">
-										<input 
-											matInput placeholder="Question" 
-											[(ngModel)]="message.text" name="game-title">
-							  	</mat-form-field>
-							  	<mat-form-field *ngIf="message.type === 'Message'">
-										<input 
-											matInput placeholder="Message" 
-											[(ngModel)]="message.text" name="game-title">
-							  	</mat-form-field>
-							  	<mat-form-field *ngIf="message.type === 'Question'">
-										<input 
-											matInput placeholder="Hint" 
-											[(ngModel)]="message.hint" name="game-title">
-							  	</mat-form-field>
-							  	<mat-form-field *ngIf="message.type === 'Feedback'">
-										<input 
-											matInput placeholder="Feedback"
-											[(ngModel)]="message.text" name="game-title">
-							  	</mat-form-field>
-							  	<mat-form-field *ngIf="message.type === 'Question'">
-										<input 
-											matInput placeholder="Answer" 
-											[(ngModel)]="message.answer" name="game-title">
-							  	</mat-form-field>
-							  	<mat-form-field *ngIf="message.type === 'Feedback'">
-										<input 
-											type="number" 
-											matInput placeholder="Points awarded" 
-											[(ngModel)]="message.points" name="game-title">
-							  	</mat-form-field>
-							  	<mat-form-field>
-										<input 
-											type="number" 
-											matInput placeholder="Delay" 
-											[(ngModel)]="message.delay" name="game-title">
-							  	</mat-form-field>
-					    	</div>
+						    	<div class="message-content" *ngIf="editing" [@fade]>
+						    		<mat-form-field *ngIf="message.type === 'Question'">
+											<input 
+												matInput placeholder="Question" 
+												[(ngModel)]="message.text" name="game-title">
+								  	</mat-form-field>
+								  	<mat-form-field *ngIf="message.type === 'Message'">
+											<input 
+												matInput placeholder="Message" 
+												[(ngModel)]="message.text" name="game-title">
+								  	</mat-form-field>
+								  	<mat-form-field *ngIf="message.type === 'Question'">
+											<input 
+												matInput placeholder="Hint" 
+												[(ngModel)]="message.hint" name="game-title">
+								  	</mat-form-field>
+								  	<mat-form-field *ngIf="message.type === 'Feedback'">
+											<input 
+												matInput placeholder="Feedback"
+												[(ngModel)]="message.text" name="game-title">
+								  	</mat-form-field>
+								  	<mat-form-field *ngIf="message.type === 'Question'">
+											<input 
+												matInput placeholder="Answer" 
+												[(ngModel)]="message.answer" name="game-title">
+								  	</mat-form-field>
+								  	<mat-form-field *ngIf="message.type === 'Feedback'">
+											<input 
+												type="number" 
+												matInput placeholder="Points awarded" 
+												[(ngModel)]="message.points" name="game-title">
+								  	</mat-form-field>
+								  	<mat-form-field>
+											<input 
+												type="number" 
+												matInput placeholder="Delay" 
+												[(ngModel)]="message.delay" name="game-title">
+								  	</mat-form-field>
+						    	</div>
 
-					    	<div class="message-image" *ngIf="message.image">
-					    		<div style="width: 7.5em" class="right">
-						  			<p class="background-title message-label">Image</p>
-						  			<div class="picture-wrapper">
-											<img [src]="message.image">
+						    	<div class="message-image" *ngIf="message.image">
+						    		<div style="width: 7.5em" class="right">
+							  			<p class="background-title message-label">Image</p>
+							  			<div class="picture-wrapper">
+												<img [src]="message.image">
+											</div>
 										</div>
-									</div>
-					    	</div>
-					    </div>
-					  </mat-expansion-panel>
-		  		</div>
-			 	</div>
+						    	</div>
+						    </div>
+						  </mat-expansion-panel>
+			  		</div>
+				 	</div>
+			  </div>		
       </div>
       <div>
-          <button mat-raised-button class="left theme-color" matStepperPrevious>Back</button>
+          <button mat-raised-button class="left fancy-btn theme-color" matStepperPrevious>Back</button>
       </div>
     </mat-step>
-</mat-horizontal-stepper>
+	</mat-horizontal-stepper>
 	</div>
 
 	<div class="profile-picture-selector" *ngIf="choosingImage" [@fade]>
@@ -563,14 +595,14 @@
 	</div>
 
 	<div class="controls" *ngIf="temp.text || game.messages.length > 1 || miniGame" [@fade]>
-		<button mat-raised-button color="accent" class="save-question-btn" [@fade] (click)="saveQuestion()">Save question</button>
-		<button mat-raised-button *ngIf="game.messages.length > 1 && !key" color="accent" [@fade] (click)="showModal = true">Create game</button>
-		<button mat-raised-button *ngIf="key" color="accent" [@fade] (click)="saveChanges()">Save changes</button>
+		<button mat-raised-button color="accent" class="save-question-btn fancy-btn" *ngIf="temp.text || miniGame != undefined" [@fade] (click)="saveQuestion()">Save question</button>
+		<button mat-raised-button class="fancy-btn" *ngIf="game.messages.length > 1 && !key" color="accent" [@fade] (click)="showModal = true">Create game</button>
+		<button mat-raised-button class="fancy-btn" *ngIf="key" color="accent" [@fade] (click)="saveChanges()">Save changes</button>
 	</div>
 
 	<div class="create-game-modal" *ngIf="showModal" [@fade]>
 		<p>Are you ready to create this game?</p>
-		<button mat-raised-button color="accent" class="right" (click)="save()">Yes</button>
-		<button mat-raised-button color="accent" class="left" (click)="showModal = false">Cancel</button>
+		<button mat-raised-button color="accent" class="right fancy-btn" (click)="save()">Yes</button>
+		<button mat-raised-button color="accent" class="left fancy-btn" (click)="showModal = false">Cancel</button>
 	</div>
 </div>
