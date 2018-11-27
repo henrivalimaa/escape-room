@@ -437,7 +437,7 @@
 							<input 
 								matInput placeholder="Feedback (required)" 
 								[(ngModel)]="temp.feedback" name="game-title">
-				    	<mat-hint>(default="Well done...")</mat-hint>
+				    	<mat-hint>(default="That's correct!")</mat-hint>
 				  	</mat-form-field>
 				  	<mat-form-field>
 							<input type="number"
@@ -486,8 +486,7 @@
 						    	<div class="message-content" *ngIf="!editing" [@fade]>
 						    		<label for="message-text" class="message-label">
 						    			<span *ngIf="message.responseRequired">Question</span>
-						    			<span *ngIf="!message.responseRequired && !message.points">Message</span>
-						    			<span *ngIf="message.points">Feedback</span>
+						    			<span *ngIf="!message.responseRequired">Message</span>
 						    		</label>
 						    		<p id="message-text">{{ message.text }}</p>
 

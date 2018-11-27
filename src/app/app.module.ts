@@ -28,11 +28,10 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { LoginComponent } from './login/login.component';
 
-import { MessageService } from './services/message.service';
+import { GameService } from './services/game.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { CanDeactivateGuard } from './services/can-deactivate-guard.service';
-import { WindowRefService } from './services/result';
 
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
@@ -125,7 +124,7 @@ const cookieConfig:NgcCookieConsentConfig = {
     SlickModule.forRoot(),
     NgcCookieConsentModule.forRoot(cookieConfig)
   ],
-  providers: [MessageService, AuthService, AuthGuard, WindowRefService, CanDeactivateGuard],
+  providers: [GameService, AuthService, AuthGuard, CanDeactivateGuard],
   bootstrap: [AppComponent],
   entryComponents: []
 })

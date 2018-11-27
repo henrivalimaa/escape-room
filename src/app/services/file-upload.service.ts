@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import * as firebase from 'firebase';
  
-import { FileUpload } from './result';
+import { FileUpload } from '../models/models';
 
 import { map } from 'rxjs/operators';
 

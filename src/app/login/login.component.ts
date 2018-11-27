@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { fadeAnimation, slideAnimation } from '../animations/animations';
-import { Result, User } from '../services/result';
+import { Result, User } from '../models/models';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -30,21 +30,31 @@ export class LoginComponent implements OnInit {
     private storage: AngularFireStorage) { }
 
   ngOnInit() {
+    // Checks if user is already authenticated
     if (this.authService.authenticated) {
       this.afterSignIn();
     }
   }
 
+  /**
+  * Authenticates with google credentials
+  */
   signInWithGoogle(): void {
     this.authService.googleLogin()
       .then(() => this.afterSignIn());
   }
 
+  /**
+  * Authenticates with facebook credentials
+  */
   signInWithFacebook(): void {
     this.authService.facebookLogin()
       .then(() => this.afterSignIn());
   }
 
+  /**
+  * Redirects user to start view or setup view if first login
+  */
   private afterSignIn(): void {
     let player = this.authService.currentUser;
     this.userService.getCurrentUser(player.email)

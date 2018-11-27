@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { viewFadeAnimation } from './animations/animations';
 import { NgcCookieConsentService } from 'ngx-cookieconsent';
-import { Subscription }   from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',

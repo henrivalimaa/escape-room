@@ -1,12 +1,13 @@
 import { Component, OnInit, NgZone, OnDestroy } from '@angular/core';
 import { Router } from "@angular/router";
+
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
-import { MessageService } from '../services/message.service';
+import { GameService } from '../services/game.service';
 
 import { fadeAnimation } from '../animations/animations';
 
-import { Game, User } from '../services/result';
+import { Game, User } from '../models/models';
 
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -36,27 +37,28 @@ export class StartComponent implements OnInit, OnDestroy {
 
   constructor(
   	private authService: AuthService, 
-  	private messageService: MessageService,
+  	private gameService: GameService,
     private userService: UserService,
   	private router: Router,
   	private zone: NgZone) { }
 
   ngOnInit() {
   	this.player = this.userService.currentUser;
-  	this.messageService.reset();
+  	this.gameService.reset();
   }
 
   ngOnDestroy() {
-    //this.gameSubscription.unsubscribe();
-    //this.keySubscription.unsubscribe();
   }
 
+  /**
+  * Joins room with pin and redirects player to the game if it's activated
+  */
   joinRoom(key:string): void {
     this.joiningRoom = true;
     this.error.showError = false;
     this.activeGame = {};
 
-    this.gameSubscription = this.messageService.getGameWithRoomKey(this.room).subscribe(game => {
+    this.gameSubscription = this.gameService.getGameWithRoomKey(this.room).subscribe(game => {
       if (game.length === 0) {
         this.displayError('Check game pin!');
 	    	this.joiningRoom = false;      
@@ -100,7 +102,7 @@ export class StartComponent implements OnInit, OnDestroy {
       }
 
       if (!this.activeGame.joined && game[0].gameState.state === 'waiting') {
-        this.keySubscription = this.messageService.getGameKey(game[0].key).subscribe(response => {
+        this.keySubscription = this.gameService.getGame(game[0].key).subscribe(response => {
 
           if (this.containsPlayer(game[0].gameState.users, this.player)) {
             this.activeGame = {}
@@ -116,7 +118,7 @@ export class StartComponent implements OnInit, OnDestroy {
             temp.additionalData.activeGame.isFinished = false;
             game[0].gameState.users.push(temp);
 
-            this.messageService.updateGame(response[0].$key, game[0]);
+            this.gameService.updateGame(response[0].$key, game[0]);
 
             this.activeGame = {}
             this.activeGame.joined = true;
@@ -128,6 +130,9 @@ export class StartComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+  * Checks if user has already joined to the room
+  */
   containsPlayer(players, player): boolean {
     for (let i in players) {
       if (players[i].email === this.player.email) return true;
@@ -135,6 +140,9 @@ export class StartComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  /**
+  * Displays error
+  */
   displayError(message: string): void {
     this.error.showError = true;
     this.error.errorMessage = message;

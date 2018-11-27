@@ -7,9 +7,9 @@ import { ActivatedRoute } from "@angular/router";
 
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
-import { MessageService } from '../services/message.service';
+import { GameService } from '../services/game.service';
 import { FileUploadService } from '../services/file-upload.service';
-import { User, FileUpload, Game } from '../services/result';
+import { User, FileUpload, Game } from '../models/models';
 
 import { fadeAnimation } from '../animations/animations';
 
@@ -58,7 +58,7 @@ export class GameEditorComponent implements OnInit {
     private authService: AuthService,
   	private userService: UserService,
   	private storage: AngularFireStorage,
-  	private messageService: MessageService,
+  	private gameService: GameService,
   	private fileUploadService: FileUploadService) { }
 
   ngOnInit() {
@@ -74,22 +74,23 @@ export class GameEditorComponent implements OnInit {
       displayName: false
     };
 
+    // Edit mode is activated if route is activated with params
     this.route
       .queryParams
       .subscribe(params => {
         if (params.id) {
           this.editMode = true;
-          this.messageService.getGameKey(params.id).subscribe( key => {
+          this.gameService.getGame(params.id).subscribe( key => {
             this.key = key[0].$key;
           })
 
-          this.messageService.getCurrentGame(params.id).subscribe(game => {
+          this.gameService.getCurrentGame(params.id).subscribe(game => {
             this.game = game[0];
             this.game.messages.splice(this.game.messages.length - 1, 1);
           })
         } else {
           this.choosingTemplate = true;
-          this.messageService.getGames().subscribe(templates => {
+          this.gameService.getGames().subscribe(templates => {
             this.templates = templates;  
           });
         }
@@ -101,6 +102,7 @@ export class GameEditorComponent implements OnInit {
   		this.userFileUploads = res;
   	});
 
+    // Placeholder images
   	this.placeholders = [
       './assets/images/placeholders/pexels-photo-255379.jpeg',
   		'./assets/images/placeholders/pexels-photo-1011334.jpeg',
@@ -117,6 +119,9 @@ export class GameEditorComponent implements OnInit {
   	];
   }
 
+  /**
+  * Sets user's selection as game template
+  */
   pickTemplate(): void {
     this.choosingTemplate = false;
     this.showTemplate = false;
@@ -125,6 +130,9 @@ export class GameEditorComponent implements OnInit {
     this.game.owner = this.user.email;
   }
 
+  /**
+  * Sets template as blank
+  */
   setBlankGame(): void {
     this.choosingTemplate = false;
     this.game = new Game();
@@ -143,6 +151,9 @@ export class GameEditorComponent implements OnInit {
     this.temp.points = 100;
   }
 
+  /**
+  * Uploads file (accepts: .png, .jpg)
+  */
   uploadFile(event, property) {
   	this.loadingImage = true;
     const file = event.target.files[0];
@@ -175,25 +186,36 @@ export class GameEditorComponent implements OnInit {
     });
   }
 
+  /**
+  * Saves and creates new game
+  */
   save() {
+    // Random id for the newly created game
   	this.game.key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   	this.game.messages.push({ continous: false, text: 'Bye...', time: '', final: true, delay: 7000 });
-  	this.messageService.createGame(this.game);
+  	this.gameService.createGame(this.game);
 
+    // Go to game list view
   	this.zone.run(() => {
       this.router.navigate(['game-list']);
     });
   }
 
+  /**
+  * Saves changes (edit mode)
+  */
   saveChanges(): void {
     delete this.game.$key;
     this.game.messages.push({ continous: false, text: 'Bye...', time: '', final: true, delay: 7000 });
-    this.messageService.updateGame(this.key, this.game);
+    this.gameService.updateGame(this.key, this.game);
     this.zone.run(() => {
       this.router.navigate(['game-list']);
     }); 
   }
 
+  /**
+  * Creates and saves question
+  */
   saveQuestion(): void {
   	let question = {
   		continous: false,
@@ -204,7 +226,9 @@ export class GameEditorComponent implements OnInit {
   		delay: this.temp.delay !== undefined ? this.temp.delay : 3000,
   		text: this.temp.text !== undefined ? this.temp.text : '',
   		image: this.temp.image !== undefined ? this.temp.image : '',
-  		answer: this.temp.answer !== undefined ? this.temp.answer : ''
+  		answer: this.temp.answer !== undefined ? this.temp.answer : '',
+      points: this.temp.points,
+      feedback: this.temp.feedback !== undefined ? this.temp.feedback : 'That\'s correct!'
   	}
 
   	let message = {
@@ -215,16 +239,6 @@ export class GameEditorComponent implements OnInit {
   		delay: this.temp.delay !== undefined ? this.temp.delay : 3000,
   		text: this.temp.text !== undefined ? this.temp.text : '',
   		image: this.temp.image !== undefined ? this.temp.image : '',
-  	};
-
-  	let feedback = { 
-  		time: '',
-      type: 'Feedback', 
-  		text: this.temp.feedback !== undefined ? this.temp.feedback : 'Well done...', 
-  		continous: true, 
-  		incoming: true, 
-  		delay: 2000, 
-  		points: this.temp.points
   	};
 
     let game = {
@@ -243,7 +257,6 @@ export class GameEditorComponent implements OnInit {
       if (this.isQuestion) {
         this.isQuestion = false;
         this.game.messages.push(question);
-        this.game.messages.push(feedback);
         this.game.questions = this.game.questions + 1;
       } else {
         this.game.messages.push(message);
@@ -254,6 +267,9 @@ export class GameEditorComponent implements OnInit {
     }
   }
 
+  /**
+  * Sets image for content
+  */
   setImage(url: string): void {
     if (this.imagePosition === 'background') this.game.images.background = url;
     if (this.imagePosition === 'sender') this.game.sender.photo = url;
@@ -261,11 +277,17 @@ export class GameEditorComponent implements OnInit {
     this.choosingImage = false;
   }
 
+  /**
+  * Displays template preview modal
+  */
   previewTemplate(template: any): void {
     this.showTemplate = true;
     this.template = template;
   }
 
+  /**
+  * Drag & Drop event for message list
+  */
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.game.messages, event.previousIndex, event.currentIndex);
   }

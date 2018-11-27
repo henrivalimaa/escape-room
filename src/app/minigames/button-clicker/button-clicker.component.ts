@@ -30,6 +30,9 @@ export class ButtonClicker implements OnInit {
   ngOnInit() {
   }
 
+  /**
+  * Starts game
+  */
   startGame() {
   	this.state = 'started'
   	this.interval = setInterval(() => {
@@ -50,10 +53,16 @@ export class ButtonClicker implements OnInit {
     }, 1000);
   }
 
+  /**
+  * Updates subscribers
+  */
   updateResult(clicks: number) {
     this.resultSource.next(clicks);
   }
 
+  /**
+  * Initialises view
+  */
   display() {
   	this.show = true;
   }

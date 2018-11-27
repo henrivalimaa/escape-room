@@ -1,12 +1,13 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from "@angular/router";
+
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
-import { MessageService } from '../services/message.service';
+import { GameService } from '../services/game.service';
 
 import { fadeAnimation } from '../animations/animations';
 
-import { Game, User } from '../services/result';
+import { Game, User } from '../models/models';
 
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -38,24 +39,29 @@ export class GameListComponent implements OnInit {
 
   private gameSubscription: Subscription;
 
-	slideConfig = {'slidesToShow': 1, 'dots': true};
+	slideConfig = { 'slidesToShow': 1, 'dots': true };
 
   constructor(
   	private authService: AuthService, 
-  	private messageService: MessageService,
+  	private gameService: GameService,
     private userService: UserService,
   	private router: Router,
   	private zone: NgZone) { }
 
   ngOnInit() {
   	this.player = this.userService.currentUser;
-  	this.messageService.reset();
-    this.games = this.messageService.getGames();
-    this.messageService.getCurrentUserGames(this.player.email).subscribe(response => {
+  	this.gameService.reset();
+    this.games = this.gameService.getGames();
+
+    // Fetches user's games
+    this.gameService.getCurrentUserGames(this.player.email).subscribe(response => {
       this.userGames = response;
     });
   }
 
+  /**
+  * Sets game ready (room key/pin created)
+  */
   setGameReady(game: Game) {
     this.showResults = false;
     
@@ -66,22 +72,27 @@ export class GameListComponent implements OnInit {
     game.gameState = {};
     game.gameState.state = 'waiting';
     game.gameState.users = [];
+    game.gameState.sessionState = 1;
     game.gameState.users.push({ owner: this.player.displayName });
 
+    // Random number between 0-100000
     this.room = Math.floor(Math.random() * 100000).toString();
     game.room = this.room;
 
     this.temp = game;
 
-    this.gameSubscription = this.messageService.getGameKey(game.key).subscribe(response => {
-      this.messageService.updateGame(response[0].$key, game);
+    this.gameSubscription = this.gameService.getGame(game.key).subscribe(response => {
+      this.gameService.updateGame(response[0].$key, game);
       this.gameSubscription.unsubscribe();
       return;
     });
   }
 
+  /**
+  * Sets game public so that users can join the game with pin
+  */
   setGamePublic(): void {
-    this.gameSubscription = this.messageService.getGameKey(this.temp.key).subscribe(response => {
+    this.gameSubscription = this.gameService.getGame(this.temp.key).subscribe(response => {
       this.temp = undefined;
       if (this.session.state === undefined) return;
 
@@ -102,6 +113,9 @@ export class GameListComponent implements OnInit {
     });
   }
 
+  /**
+  * Checks if all users have finished the game
+  */
   playersFinished(users: any): boolean {
     if (users.length === 1) return false;
     for (let user in users) {
@@ -112,15 +126,21 @@ export class GameListComponent implements OnInit {
     return true;
   }
 
+  /**
+  * Starts active game
+  */
   startActiveGame(): void {
     this.session.state = 'running';
     this.activeGame.game.gameState.state = this.session.state;
     delete this.activeGame.game.$key;
-    this.messageService.updateGame(this.activeGame.key, this.activeGame.game);
+    this.gameService.updateGame(this.activeGame.key, this.activeGame.game);
 
     setTimeout(() => { this.session.started = true; }, 4000)
   }
 
+  /**
+  * Deactivates game
+  */
   deactivateGame() {
     let temp = this.activeGame.game;
     let key = this.activeGame.key;
@@ -134,20 +154,26 @@ export class GameListComponent implements OnInit {
 
     this.gameSubscription.unsubscribe();
 
-    setTimeout(() => { this.messageService.updateGame(key, temp); }, 1000)
+    setTimeout(() => { this.gameService.updateGame(key, temp); }, 1000)
   }
 
+  /**
+  * Displays user's session results
+  */
   displayGameResults(): void {
     let temp = this.activeGame.game;
     temp.gameState.state = 'finished';
 
     delete temp.$key;
     this.sortResults('DESC');
-    this.messageService.updateGame(this.activeGame.key, temp);
+    this.gameService.updateGame(this.activeGame.key, temp);
 
     this.showResults = true;
   }
 
+  /**
+  * Sorts players
+  */
   sortResults(order: string): void {
     this.activeGame.game.gameState.users.sort((a, b) => {
         if (a['points'] < b['points'])
@@ -162,6 +188,9 @@ export class GameListComponent implements OnInit {
     }
   }
 
+  /**
+  * Validates if user is in the game
+  */
   containsPlayer(players, player):boolean {
     for (let i in players) {
       if (players[i] === player) return true;
@@ -169,20 +198,29 @@ export class GameListComponent implements OnInit {
     return false;
   }
 
+  /**
+  * Displays error message
+  */
   displayError(message: string): void {
     this.error.showError = true;
     this.error.errorMessage = message;
   }
 
+  /**
+  * Activates game editor view with selected params
+  */
   editGame(game: any) {
     this.zone.run(() => {
       this.router.navigate(['game-editor'], { queryParams: { id: game.key } });
     });
   }
 
+  /**
+  * Removes user's selected game
+  */
   removeGame(game: any): void {
-    this.messageService.getGameKey(game.key).subscribe(key => {
-      this.messageService.deleteGame(key[0].$key);
+    this.gameService.getGame(game.key).subscribe(key => {
+      this.gameService.deleteGame(key[0].$key);
     });
   }
 

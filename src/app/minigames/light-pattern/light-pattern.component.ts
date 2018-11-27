@@ -56,11 +56,17 @@ export class LightPattern implements OnInit {
   	];
   }
 
+  /**
+  * Starts game
+  */
   startGame() {
   	this.state = 'started'
   	this.showInstructions();
   }
 
+  /**
+  * Shows light
+  */
   showLight(index: number) {
   	setTimeout(() => {
   		this.grid[index].isLighted = true;
@@ -70,6 +76,9 @@ export class LightPattern implements OnInit {
   	}, 500);
   }
 
+  /**
+  * Displays light pattern
+  */
   showInstructions() {
   	this.resultText = 'Please wait..'
   	let delay = this.gameState === 0 ? 1000 : 1000;
@@ -89,6 +98,9 @@ export class LightPattern implements OnInit {
   	}, delay)
   }
 
+  /**
+  * Sets light as selected
+  */
   lightSelected(index: number) {
   	this.grid[index].isLighted = true;
   	this.playerSelection.push(index);
@@ -126,17 +138,30 @@ export class LightPattern implements OnInit {
   	}
   }
 
+  /**
+  * Turns all lights off
+  */
   turnLightsOff(): void {
   	for (let i in this.grid) this.grid[i].isLighted = false;
   }
 
+  /**
+  * Updates result for subcribers
+  */
   updateResult(points: number) {
     this.resultSource.next(points);
   }
 
+  /**
+  * Initialises view
+  */
   display() {
   	this.show = true;
   }
+
+  /**
+  * Displays awarded points
+  */
   displayPoints(points: string): void {
   	this.visiblePoints = points;
   	setTimeout(() => {

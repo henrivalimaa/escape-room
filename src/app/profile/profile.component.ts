@@ -3,7 +3,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { FileUploadService } from '../services/file-upload.service';
-import { User, FileUpload } from '../services/result';
+import { User, FileUpload } from '../models/models';
 
 import { fadeAnimation } from '../animations/animations';
 
@@ -62,11 +62,17 @@ export class ProfileComponent implements OnInit {
   	});
   }
 
+  /**
+  * Prevents user to unactive route if changes detected
+  */
   @HostListener('window:beforeunload', ['$event'])
   public onDestroy($event) {
     return $event.returnValue = true;
   }
 
+  /**
+  * Prevents user to unactive route if changes detected
+  */
   canDeactivate() {
     if (this.temp.gamerTag != this.user.gamerTag) {
       return window.confirm('You have unsaved changes. Do you want to discard them?');
@@ -75,6 +81,9 @@ export class ProfileComponent implements OnInit {
     return true;
   }
 
+  /**
+  * Sets new profile image
+  */
   setProfilePicture(url: string) {
   	this.user.photoURL = url;
   	this.choosingProfilePicture = false;
@@ -82,6 +91,9 @@ export class ProfileComponent implements OnInit {
     this.save();
   }
 
+  /**
+  * Uploads file (accepts: .png, .jpg)
+  */
   uploadFile(event) {
   	this.loadingImage = true;
     const file = event.target.files[0];
@@ -113,6 +125,9 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  /**
+  * Sets upload as removed
+  */
   toBeRemoved(upload): void {
     let picture = upload;
     if (this.temp.selectedUploads.includes(picture)) {
@@ -127,6 +142,9 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  /**
+  * Deletes selected uploads
+  */
   toBeDeleted() {
   	for (let i in this.temp.selectedUploads) {
   		this.fileUploadService.deleteUserFileUpload(this.temp.selectedUploads[i]);
@@ -134,12 +152,18 @@ export class ProfileComponent implements OnInit {
   	this.temp.selectedUploads = [];
   }
 
+  /**
+  * Saves profile changes
+  */
   save(): void {
   	this.temp.gamerTag = this.user.gamerTag;
   	this.temp.userImage = null;
   	this.userService.updateUser(this.key, this.user);
   }
 
+  /**
+  * Deletes account and all it's data (uploads, games, etc.) - GDPR
+  */
   deleteAccount(): void {
   	this.deletingUser = true;
 

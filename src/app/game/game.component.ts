@@ -1,11 +1,11 @@
 import { Component, OnInit, AfterViewChecked, OnDestroy, ElementRef, ViewChild, HostListener, NgZone, Input } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { MessageService } from '../services/message.service';
+import { GameService } from '../services/game.service';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 
-import { Result, Game } from '../services/result';
+import { Result, Game } from '../models/models';
 import { ScoreService } from '../services/score.service';
 
 import { ButtonClicker } from '../minigames/button-clicker/button-clicker.component';
@@ -52,9 +52,12 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   private result: Result = new Result();
   private results: any;
   private showResult: boolean = false;
+
   private points: number;
   private showPoints: boolean = false;
+
   private loadingLeaderboard: boolean = false;
+  
   private hint: any = {};
   private showHint: boolean = false;
 
@@ -64,7 +67,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   slideConfig = {'slidesToShow': 1, 'dots': true};
 
   constructor(
-  	private messageService: MessageService,
+  	private gameService: GameService,
     private authService: AuthService,
     private userService: UserService,
     private scoreService: ScoreService,
@@ -78,8 +81,9 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     this.result = new Result();
     this.time = {};
-    this.messageService.reset();
+    this.gameService.reset(); // Resets game
 
+    // If route is activated with params (id = game.key)
     this.route
       .queryParams
       .subscribe(params => {
@@ -90,11 +94,17 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   ngOnDestroy() {
   }
 
+  /**
+  * Before unload listener asks user to confirm route changes
+  */
   @HostListener('window:beforeunload', ['$event'])
   public onDestroy($event) {
     return $event.returnValue = true;
   }
 
+  /**
+  * After message is pushed to list go bottom (Chat functionality)
+  */
   ngAfterViewChecked() {
     window.scrollTo(0, document.body.scrollHeight);
   }
@@ -103,6 +113,9 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.imageLoaded = true;
   }
 
+  /**
+  * Activated when file is downloaded from user's device
+  */
   handleInputChange(e) {
     var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
 
@@ -114,6 +127,9 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     reader.readAsDataURL(file);
   }
   
+  /**
+  * Pushed downloaded image to the chat
+  */
   handleReaderLoaded(e) {
     var reader = e.target;
     this.imageSrc = reader.result;
@@ -123,12 +139,15 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), image: this.images[this.images.length - 1] , incoming: false });
   }
 
+  /**
+  * Starts game and subscriptions
+  */
   startGame(key: string): void {
-    this.messageService.getGameKey(key).subscribe(res => {
+    this.gameService.getGame(key).subscribe(res => {
       this.key = res[0].$key;
     });
 
-    this.messageService.getCurrentGame(key).subscribe(games => {
+    this.gameService.getCurrentGame(key).subscribe(games => {
       if (games[0].gameState.state === 'inactive') {
         this.zone.run(() => {
           this.router.navigate(['start']);
@@ -137,7 +156,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
       }
       
       this.game = games[0];
-      this.messageService.setGame(this.game);
+      this.gameService.setGame(this.game);
       
       if (!this.gameInitialized) {
         this.gameInitialized = true;
@@ -154,6 +173,9 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     });
   }
 
+  /**
+  * Adds emoiji to the message 
+  */
   addEmoji(event): void {
   		if (this.message == null) this.message = event.emoji.native;
   		else this.message = this.message + event.emoji.native;
@@ -161,17 +183,49 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   		this.showEmojiPicker = false;
   } 
 
+  /**
+  * Sends user message to the chat and 
+  * checks if response is required (points awarded)
+  */
   sendMessage(): void {
   	if (this.message != null || this.message == '') {
   		this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: this.message, incoming: false });
-    	this.continueDialog(this.message);
+      if (this.nextMessage) {
+        if (this.nextMessage.responseRequired) {
+          if (this.message.toLowerCase().toString() === this.nextMessage.answer.toLowerCase().toString()) {
+            setTimeout(() => {this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: this.nextMessage.feedback, incoming: true });}, 2000);
+            this.updateUserPoints(this.nextMessage.points);
+            this.continueDialog(this.message);
+          } else {
+            setTimeout(() => {this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Invalid answer..', incoming: true });}, 2000);
+            this.updateUserPoints(-25);
+          }
+        } else {
+          this.continueDialog(this.message);
+        }
+      } else this.continueDialog(this.message);
     	this.message = '';
   	}
 	}
 
+  /**
+  * Updates user's session points
+  */
+  updateUserPoints(points: number): void {
+    let temp = this.player;
+    temp.additionalData.activeGame.points = temp.additionalData.activeGame.points + points;
+    if (points < 0) temp.additionalData.activeGame.invalidAnswers = temp.additionalData.activeGame.invalidAnswers + 1;
+    if (points > 0) temp.additionalData.activeGame.correctAnswers = temp.additionalData.activeGame.correctAnswers + 1;
+    this.gameService.updateCurrentGameUser(this.key, temp);
+    this.displayPoints(points);
+  }
+
+  /**
+  * Fetches next message and initialises mini games if required
+  */
 	continueDialog(message: string): void {
 		this.typing = true;
-		this.nextMessage = this.messageService.getNextMessage(message);
+		this.nextMessage = this.gameService.getNextMessage(message);
     if (this.nextMessage === null) {
       this.typing = false;
       return;
@@ -186,7 +240,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
             let temp = this.player;
             temp.additionalData.activeGame.points = temp.additionalData.activeGame.points + result;
             temp.additionalData.activeGame.correctAnswers = temp.additionalData.activeGame.correctAnswers + 1;
-            this.messageService.updateCurrentGameUser(this.key, temp);
+            this.gameService.updateCurrentGameUser(this.key, temp);
             setTimeout(() => {
               setTimeout(() => {this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Button clicker score = ' + result + '!', incoming: true })});
               this.displayPoints(result);
@@ -204,7 +258,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
             let temp = this.player;
             temp.additionalData.activeGame.points = temp.additionalData.activeGame.points + result;
             temp.additionalData.activeGame.correctAnswers = temp.additionalData.activeGame.correctAnswers + 1;
-            this.messageService.updateCurrentGameUser(this.key, temp);
+            this.gameService.updateCurrentGameUser(this.key, temp);
             setTimeout(() => {
               setTimeout(() => {this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Light pattern game score = ' + result + '!', incoming: true })});
               this.displayPoints(result);
@@ -213,15 +267,6 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
           }
         });
       }
-    }
-
-    if (this.nextMessage.points) {
-      let temp = this.player;
-      temp.additionalData.activeGame.points = temp.additionalData.activeGame.points + this.nextMessage.points;
-      if (this.nextMessage.points < 0) temp.additionalData.activeGame.invalidAnswers = temp.additionalData.activeGame.invalidAnswers + 1;
-      if (this.nextMessage.points > 0) temp.additionalData.activeGame.correctAnswers = temp.additionalData.activeGame.correctAnswers + 1;
-      this.messageService.updateCurrentGameUser(this.key, temp);
-      this.displayPoints(this.nextMessage.points);
     }
 
     if (this.nextMessage.type !== 'Game') {
@@ -240,6 +285,9 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
 	}
 
+  /**
+  * Sorts results
+  */
   sortResults<T>(propName: keyof Result, order: "ASC" | "DESC"): void {
     this.results.sort((a, b) => {
         if (a[propName] < b[propName])
@@ -254,6 +302,9 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
   }
 
+  /**
+  * Sorts players
+  */
   sortPlayers(order: string): void {
     this.game.gameState.users.sort((a, b) => {
         if (a['points'] < b['points'])
@@ -268,12 +319,18 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
   }
 
+  /**
+  * Activated when game session is closed
+  */
   endGame(): void {
     if (this.showResult === true) return;
     this.showResult = true;
     this.saveScore();
   }
 
+  /**
+  * Saves player's session result
+  */
   saveScore() {
     this.time.end = new Date();
     this.result.time =  Math.floor((this.time.end.getTime()/1000) - (this.time.start.getTime()/1000));
@@ -289,15 +346,21 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     temp.additionalData.activeGame.isFinished = true;
     temp.additionalData.activeGame.points = this.result.score;
     temp.additionalData.activeGame.time = this.result.time;
-    this.messageService.updateCurrentGameUser(this.key, temp);
+    this.gameService.updateCurrentGameUser(this.key, temp);
 
     this.sortPlayers('DESC');
   }
 
+  /**
+  * Converts user's session time to points
+  */
   getTimePoints(seconds:number): number {
     return Math.floor((120 - seconds/60) * 50);
   }
 
+  /**
+  * Displays awarded points
+  */
   displayPoints(points: number): void {
     this.result.score = this.result.score + points;
     this.showPoints = true;
@@ -312,20 +375,29 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
      }, 1500);
   }
 
+  /**
+  * Prevents page reload if user's session is still active
+  */
   canDeactivate() {
-    if (this.messageService.isUnfinished === true) {
+    if (this.gameService.isUnfinished === true) {
       return window.confirm('Do you want to leave this game?');
     }
 
     return true;
   }
 
+  /**
+  * Attaches image to message
+  */
   attachImage(imagePath: string): void {
   	this.showGallery = false;
   	this.images.push(imagePath);
     this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), image: imagePath , incoming: false });
   }
-
+  
+  /**
+  * Converts seconds to string (? min ? s)
+  */
   convertTime(seconds: number): string {
     let m = Math.floor(seconds / 60);
     let s = seconds - m * 60;

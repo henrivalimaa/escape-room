@@ -6,7 +6,7 @@ import { UserService } from '../services/user.service';
 import { FileUploadService } from '../services/file-upload.service';
 
 import { fadeAnimation, slideAnimation } from '../animations/animations';
-import { User, FileUpload } from '../services/result';
+import { User, FileUpload } from '../models/models';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -62,6 +62,9 @@ export class SetupComponent implements OnInit {
       });
   }
 
+  /**
+  * Uploads file (accepts: .png, .jpg)
+  */
   uploadFile(event) {
     this.loadingImage = true;
     const file = event.target.files[0];
@@ -92,6 +95,9 @@ export class SetupComponent implements OnInit {
     });
   }
 
+  /**
+  * Creates user
+  */
   createUser(): void {
     if (this.user.gamerTag.trim() === '' || this.user.gamerTag.length < 3) {
       this.invalid = true;
