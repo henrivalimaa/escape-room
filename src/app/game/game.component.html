@@ -69,6 +69,7 @@
 	<div *ngFor='let message of messages' class="message-row" [@fade]>
 		<button-clicker #buttonClicker></button-clicker>
 		<light-pattern #lightPattern></light-pattern>
+		<hit-the-buttons #hitTheButtons></hit-the-buttons>
 	  <div class="row" *ngIf="message.type !== 'button-clicker'" [ngClass]="{ 'message-right': !message.incoming, 'message-left': message.incoming }">
 	  	<div class="tip"></div>
 	  	<div class="message-content">

@@ -23,7 +23,7 @@ export class ButtonClicker implements OnInit {
   @Input() show: boolean;
 
   private resultSource = new Subject<number>();
-  result = this.resultSource.asObservable();
+  public result = this.resultSource.asObservable();
 
   constructor() { }
 

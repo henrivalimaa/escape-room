@@ -247,11 +247,12 @@ export class GameEditorComponent implements OnInit {
       game: this.miniGame,
       responseRequired: false,
       incoming: true,
-      delay: this.temp.delay !== undefined ? this.temp.delay : 3000
+      delay: this.temp.delay !== undefined ? this.temp.delay : 6000
     }
 
     if (this.miniGame != undefined) {
       this.miniGame = undefined;
+      this.game.questions = this.game.questions + 1;
       this.game.messages.push(game);
     } else {
       if (this.isQuestion) {

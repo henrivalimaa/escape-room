@@ -10,6 +10,7 @@ import { ScoreService } from '../services/score.service';
 
 import { ButtonClicker } from '../minigames/button-clicker/button-clicker.component';
 import { LightPattern } from '../minigames/light-pattern/light-pattern.component';
+import { HitTheButtons } from '../minigames/hit-the-buttons/hit-the-buttons.component';
 
 import { fadeAnimation, slideAnimation, darkenAnimation } from '../animations/animations';
 
@@ -63,6 +64,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   @ViewChild('buttonClicker') buttonClicker: ButtonClicker;
   @ViewChild('lightPattern') lightPattern: LightPattern;
+  @ViewChild('hitTheButtons') hitTheButtons: LightPattern;
 
   slideConfig = {'slidesToShow': 1, 'dots': true};
 
@@ -162,13 +164,11 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.gameInitialized = true;
 
         this.time.start = new Date();
-        this.typing = true;
         this.result.score = 0;
 
         setTimeout(() => {
-          this.typing = false;
-          this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Hello ' + this.player.displayName, incoming: true });
-        }, 2000)
+          this.continueDialog();
+        }, 3000)
       }
     });
   }
@@ -195,15 +195,15 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
           if (this.message.toLowerCase().toString() === this.nextMessage.answer.toLowerCase().toString()) {
             setTimeout(() => {this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: this.nextMessage.feedback, incoming: true });}, 2000);
             this.updateUserPoints(this.nextMessage.points);
-            this.continueDialog(this.message);
+            this.continueDialog();
           } else {
             setTimeout(() => {this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Invalid answer..', incoming: true });}, 2000);
             this.updateUserPoints(-25);
           }
         } else {
-          this.continueDialog(this.message);
+          this.continueDialog();
         }
-      } else this.continueDialog(this.message);
+      } else this.continueDialog();
     	this.message = '';
   	}
 	}
@@ -223,9 +223,9 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   /**
   * Fetches next message and initialises mini games if required
   */
-	continueDialog(message: string): void {
+	continueDialog(): void {
 		this.typing = true;
-		this.nextMessage = this.gameService.getNextMessage(message);
+		this.nextMessage = this.gameService.getNextMessage();
     if (this.nextMessage === null) {
       this.typing = false;
       return;
@@ -233,21 +233,41 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     if (this.nextMessage.type === 'Game') {
       if(this.nextMessage.game === 'button-clicker') {
-        setTimeout(() => { this.buttonClicker.display(); }, this.nextMessage.delay)
+        setTimeout(() => { 
+          this.buttonClicker.display();
+          this.buttonClicker.result.subscribe(result => {
+            if (result !== undefined) {
+              let temp = this.player;
+              temp.additionalData.activeGame.points = temp.additionalData.activeGame.points + result;
+              temp.additionalData.activeGame.correctAnswers = temp.additionalData.activeGame.correctAnswers + 1;
+              this.gameService.updateCurrentGameUser(this.key, temp);
+              setTimeout(() => {
+                setTimeout(() => {this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Button clicker score = ' + result + '!', incoming: true })});
+                this.displayPoints(result);
+                this.continueDialog();
+              }, 6000);
+            }
+          }); 
+        }, this.nextMessage.delay)
+      }
 
-        this.buttonClicker.result.subscribe(result => {
-          if (result !== undefined) {
-            let temp = this.player;
-            temp.additionalData.activeGame.points = temp.additionalData.activeGame.points + result;
-            temp.additionalData.activeGame.correctAnswers = temp.additionalData.activeGame.correctAnswers + 1;
-            this.gameService.updateCurrentGameUser(this.key, temp);
-            setTimeout(() => {
-              setTimeout(() => {this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Button clicker score = ' + result + '!', incoming: true })});
-              this.displayPoints(result);
-              this.continueDialog(message);
-            }, 6000);
-          }
-        });
+      if(this.nextMessage.game === 'hit-the-buttons') {
+        setTimeout(() => { 
+          this.hitTheButtons.display();
+          this.hitTheButtons.result.subscribe(result => {
+            if (result !== undefined) {
+              let temp = this.player;
+              temp.additionalData.activeGame.points = temp.additionalData.activeGame.points + result;
+              temp.additionalData.activeGame.correctAnswers = temp.additionalData.activeGame.correctAnswers + 1;
+              this.gameService.updateCurrentGameUser(this.key, temp);
+              setTimeout(() => {
+                setTimeout(() => {this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Hit The Buttons game score = ' + result + '!', incoming: true })});
+                this.displayPoints(result);
+                this.continueDialog();
+              }, 6000);
+            }
+          }); 
+        }, this.nextMessage.delay)
       }
 
       if(this.nextMessage.game === 'light-pattern') {
@@ -262,7 +282,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
             setTimeout(() => {
               setTimeout(() => {this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Light pattern game score = ' + result + '!', incoming: true })});
               this.displayPoints(result);
-              this.continueDialog(message);
+              this.continueDialog();
             }, 6000);
           }
         });
@@ -280,7 +300,7 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.typing = false;
 
         if (this.nextMessage.final === true) this.endGame();
-        if (this.nextMessage.continous) this.continueDialog(message);
+        if (this.nextMessage.continous) this.continueDialog();
        }, this.nextMessage.delay);
     }
 	}

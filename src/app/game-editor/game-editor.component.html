@@ -324,22 +324,7 @@
       <ng-template matStepLabel>Messages</ng-template>
       <div class="section">
       	<p class="section-title">Messages & Questions</p>
-		  	<!--<div class="question-toggle">
-		  		<mat-slide-toggle
-			        class="left"
-			        [color]="accent"
-			        [checked]="false"
-			        (click)="miniGame = undefined"
-			        [(ngModel)]="isQuestion" style="color: #fff">
-			        Question
-			    </mat-slide-toggle>
-		  	</div>
-		  	<mat-form-field>
-				  <mat-select [(value)]="miniGame" placeholder="Select mini game">
-				    <mat-option value="button-clicker">Button clicker</mat-option>
-				    <mat-option value="light-pattern">Light pattern</mat-option>
-				  </mat-select>
-				</mat-form-field>-->
+
 				<button mat-button class="question-menu-trigger" [matMenuTriggerFor]="questionTypes">Select Question Type <i class="fas fa-angle-down"></i></button>
 
 				<mat-menu class="question-menu" #questionTypes="matMenu">
@@ -351,6 +336,7 @@
 				<mat-menu class="question-menu" #miniGames="matMenu">
 				  <button mat-menu-item (click)="miniGame = 'button-clicker'">Button Clicker</button>
 				  <button mat-menu-item (click)="miniGame = 'light-pattern'">Light Pattern</button>
+				  <button mat-menu-item (click)="miniGame = 'hit-the-buttons'">Hit The Buttons</button>
 				</mat-menu>
 
 		  	<div class="sender-grid" *ngIf="!isQuestion && !miniGame" [@fade]>

@@ -106,7 +106,7 @@ export class GameService {
   	localStorage.setItem('phase', '1');
   }
 
-  getNextMessage(userResponse: string): any {
+  getNextMessage(): any {
     if (parseInt(localStorage.getItem('phase')) >= this.game.messages.length) return null;
   	
     let phase = localStorage.getItem('phase');

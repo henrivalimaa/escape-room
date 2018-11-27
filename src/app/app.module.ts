@@ -51,6 +51,7 @@ import { StartComponent } from './start/start.component';
 import { SearchPipe } from './pipes/search.pipe';
 import { ButtonClicker } from './minigames/button-clicker/button-clicker.component';
 import { LightPattern } from './minigames/light-pattern/light-pattern.component';
+import { HitTheButtons } from './minigames/hit-the-buttons/hit-the-buttons.component';
 
 const cookieConfig:NgcCookieConsentConfig = {
   "cookie": {
@@ -93,7 +94,8 @@ const cookieConfig:NgcCookieConsentConfig = {
     StartComponent,
     SearchPipe,
     ButtonClicker,
-    LightPattern
+    LightPattern,
+    HitTheButtons
   ],
   imports: [
     BrowserModule,

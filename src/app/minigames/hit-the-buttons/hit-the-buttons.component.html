@@ -1,0 +1,20 @@
+<div class="button-clicker" *ngIf="show" [@fade]>
+	<h2 *ngIf="state ==='inactive'" [@fade]>Hit as many buttons you can!</h2>
+	<button 
+		class="start-btn"
+		color="accent" 
+		mat-raised-button 
+		*ngIf="state ==='inactive'"
+		(click)="startGame()" [@fade]>Start game</button>
+	<div 
+		class="hittable-button" 
+		*ngFor="let button of gameArea.buttons"  
+		[ngStyle]="{ 'left': button.left, 'top': button.top }">
+		<button 
+			mat-raised-button 
+			color="accent" 
+			*ngIf="button.isVisible === true" 
+			(click)="clicks = clicks + 1" [@fade]>Hit!</button>
+	</div>
+	<p class="hits">Hits: {{ clicks }}</p>
+</div>
