@@ -1,20 +1,24 @@
 <div class="button-clicker" *ngIf="show" [@fade]>
-	<h2 *ngIf="state ==='inactive'" [@fade]>Hit as many buttons you can!</h2>
+	<p *ngIf="state === 'inactive'">Hit The Balls</p>
+	<h2 *ngIf="state === 'inactive'" [@fade]>Hit as many balls you can!</h2>
+	<small *ngIf="state === 'inactive'">Note! Balls can be hitten multiple times!</small>
 	<button 
 		class="start-btn"
 		color="accent" 
 		mat-raised-button 
 		*ngIf="state ==='inactive'"
 		(click)="startGame()" [@fade]>Start game</button>
-	<div 
-		class="hittable-button" 
-		*ngFor="let button of gameArea.buttons"  
-		[ngStyle]="{ 'left': button.left, 'top': button.top }">
-		<button 
-			mat-raised-button 
-			color="accent" 
-			*ngIf="button.isVisible === true" 
-			(click)="clicks = clicks + 1" [@fade]>Hit!</button>
+	<div *ngIf="state === 'started'" [@fade]>
+		<div 
+			class="hittable-button" 
+			*ngFor="let button of gameArea.buttons">
+			<button 
+				mat-raised-button 
+				color="accent" 
+				[ngStyle]="{ 'left': button.left, 'top': button.top }"
+				*ngIf="button.isVisible === true" 
+				(click)="clicks = clicks + 1" [@fade]>Hit!</button>
+		</div>
+		<p class="hits">Hits: {{ clicks }}</p>
 	</div>
-	<p class="hits">Hits: {{ clicks }}</p>
 </div>

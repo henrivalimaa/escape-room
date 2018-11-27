@@ -36,7 +36,7 @@ export class HitTheButtons implements OnInit {
 
   	for(let i = 0; i < 100; i++) {
   		this.gameArea.buttons.push({ 
-  			top: getRandomPosition(0, window.innerHeight - 80).toString() + 'px', 
+  			top: getRandomPosition(80, window.innerHeight).toString() + 'px', 
   			left: getRandomPosition(0, window.innerWidth - 80).toString() + 'px', 
   			isVisible: false });
   	}
@@ -53,13 +53,19 @@ export class HitTheButtons implements OnInit {
   	this.state = 'started'
 
   	for(let i = 0; i < this.gameArea.buttons.length; i++) {
-  		setTimeout(() => {
-  			console.log(i);
-  			this.gameArea.buttons[i].isVisible = true;
-	  		setTimeout(() => {
-	  			 this.gameArea.buttons[i].isVisible = false;
-	  		}, 1500);
-  		}, 750 * i);
+  		if (i === this.gameArea.buttons.length + 1) {
+				this.updateResult(this.clicks);
+				this.show = false;
+				break;
+			} else {
+				setTimeout(() => {
+	  			this.gameArea.buttons[i].isVisible = true;
+		  		
+		  		setTimeout(() => {
+		  			 this.gameArea.buttons[i].isVisible = false;
+		  		}, 1500);
+	  		}, 750 * i);
+			}
   	}
   }
 
