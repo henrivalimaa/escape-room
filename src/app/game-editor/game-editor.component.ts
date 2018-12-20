@@ -23,7 +23,7 @@ import { AngularFireStorage } from 'angularfire2/storage';
 })
 export class GameEditorComponent implements OnInit {
 	private user: User;
-	private game: any;
+	private game: any = new Game();
   private options: any;
 
   private key: string;
@@ -86,7 +86,7 @@ export class GameEditorComponent implements OnInit {
 
           this.gameService.getCurrentGame(params.id).subscribe(game => {
             this.game = game[0];
-            this.game.messages.splice(this.game.messages.length - 1, 1);
+            delete this.game.messages[this.game.messages.length -1].final;
           })
         } else {
           this.choosingTemplate = true;
@@ -128,6 +128,7 @@ export class GameEditorComponent implements OnInit {
     this.game = this.template;
     this.game.options = this.options;
     this.game.owner = this.user.email;
+    delete this.game.messages[this.game.messages.length -1].final;
   }
 
   /**
@@ -192,7 +193,7 @@ export class GameEditorComponent implements OnInit {
   save() {
     // Random id for the newly created game
   	this.game.key = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-  	this.game.messages.push({ continous: false, text: 'Bye...', time: '', final: true, delay: 7000 });
+  	this.game.messages[this.game.messages.length -1].final = true;
   	this.gameService.createGame(this.game);
 
     // Go to game list view
@@ -206,7 +207,7 @@ export class GameEditorComponent implements OnInit {
   */
   saveChanges(): void {
     delete this.game.$key;
-    this.game.messages.push({ continous: false, text: 'Bye...', time: '', final: true, delay: 7000 });
+    this.game.messages[this.game.messages.length -1].final = true;
     this.gameService.updateGame(this.key, this.game);
     this.zone.run(() => {
       this.router.navigate(['game-list']);
@@ -227,9 +228,21 @@ export class GameEditorComponent implements OnInit {
   		text: this.temp.text !== undefined ? this.temp.text : '',
   		image: this.temp.image !== undefined ? this.temp.image : '',
   		answer: this.temp.answer !== undefined ? this.temp.answer : '',
-      points: this.temp.points,
+      points: this.temp.points !== undefined ? this.temp.points : 100,
       feedback: this.temp.feedback !== undefined ? this.temp.feedback : 'That\'s correct!'
   	}
+
+    let multipleChoice = {
+      continous: false,
+      type: 'Multiple Choice',
+      responseRequired: false,
+      question: this.temp.question,
+      incoming: true,
+      delay: this.temp.delay !== undefined ? this.temp.delay : 6000,
+      image: this.temp.image !== undefined ? this.temp.image : '',
+      points: this.temp.points !== undefined ? this.temp.points : 100,
+      choices: this.temp.choices
+    }
 
   	let message = {
   		continous: true,
@@ -254,18 +267,37 @@ export class GameEditorComponent implements OnInit {
       this.miniGame = undefined;
       this.game.questions = this.game.questions + 1;
       this.game.messages.push(game);
-    } else {
-      if (this.isQuestion) {
-        this.isQuestion = false;
-        this.game.messages.push(question);
-        this.game.questions = this.game.questions + 1;
-      } else {
-        this.game.messages.push(message);
-      }
-
-      this.temp = {};
-      this.temp.points = 100;
     }
+
+    if (this.temp.type === 'Multiple Choice') {
+      this.game.questions = this.game.questions + 1;
+      this.game.messages.push(multipleChoice);
+    }
+
+    if (this.temp.type === 'Question') {
+      this.isQuestion = false;
+      this.game.messages.push(question);
+      this.game.questions = this.game.questions + 1;
+    } 
+
+    if (this.temp.type === 'Message') {
+      this.game.messages.push(message);
+    }
+
+    this.temp = {};
+  }
+
+  /**
+  * Sets multiple choice placeholder values 
+  */
+  setupMultipleChoice(): void {
+    this.temp.type = 'Multiple Choice';
+    this.temp.choices = [
+      { value: '', isCorrect: false },
+      { value: '', isCorrect: false },
+      { value: '', isCorrect: false },
+      { value: '', isCorrect: false }
+    ]
   }
 
   /**

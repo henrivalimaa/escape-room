@@ -11,8 +11,11 @@ import { ScoreService } from '../services/score.service';
 import { ButtonClicker } from '../minigames/button-clicker/button-clicker.component';
 import { LightPattern } from '../minigames/light-pattern/light-pattern.component';
 import { HitTheButtons } from '../minigames/hit-the-buttons/hit-the-buttons.component';
+import { OrganizeOrder } from '../minigames/organize-order/organize-order.component';
 
-import { fadeAnimation, slideAnimation, darkenAnimation } from '../animations/animations';
+import { MultipleChoice } from '../question-types/multiple-choice/multiple-choice.component';
+
+import { fadeAnimation, slideAnimation, darkenAnimation, textAnimation } from '../animations/animations';
 
 import { Subject, Observable, SubscriptionLike, timer } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
@@ -21,7 +24,7 @@ import { switchMap, take, tap } from 'rxjs/operators';
   selector: 'game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
-  animations: [fadeAnimation, slideAnimation, darkenAnimation]
+  animations: [fadeAnimation, slideAnimation, darkenAnimation, textAnimation]
 })
 
 export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
@@ -44,11 +47,11 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   private imageLoaded: boolean = false;
   private imageSrc: string = '';
   private images: any[] = [];
-  private galleryImages: any[] = [];
-  private showGallery: boolean = false;
 
   private game: any;
   private key: string;
+
+  private startingText: string;
 
   private result: Result = new Result();
   private results: any;
@@ -56,15 +59,16 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   private points: number;
   private showPoints: boolean = false;
-
-  private loadingLeaderboard: boolean = false;
   
   private hint: any = {};
   private showHint: boolean = false;
 
   @ViewChild('buttonClicker') buttonClicker: ButtonClicker;
   @ViewChild('lightPattern') lightPattern: LightPattern;
-  @ViewChild('hitTheButtons') hitTheButtons: LightPattern;
+  @ViewChild('hitTheButtons') hitTheButtons: HitTheButtons;
+  @ViewChild('organizeOrder') organizeOrder: OrganizeOrder;
+
+  @ViewChild('multipleChoice') multipleChoice: MultipleChoice;
 
   slideConfig = {'slidesToShow': 1, 'dots': true};
 
@@ -91,6 +95,13 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
       .subscribe(params => {
         if (params.id) this.startGame(params.id);
       });
+
+    setTimeout(() => {
+      this.startingText = 'Game starts now!';
+        setTimeout(() => {
+          this.startingText = undefined;
+      }, 2500);
+    }, 1500);
   }
 
   ngOnDestroy() {
@@ -136,7 +147,6 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
     var reader = e.target;
     this.imageSrc = reader.result;
     this.images.push(this.imageSrc);
-    this.galleryImages.push({ src: this.imageSrc });
     this.loaded = true;
     this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), image: this.images[this.images.length - 1] , incoming: false });
   }
@@ -287,6 +297,46 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
           }
         });
       }
+
+      if(this.nextMessage.game === 'organize-order') {
+        setTimeout(() => { 
+          this.organizeOrder.display();
+          this.organizeOrder.result.subscribe(result => {
+            if (result !== undefined) {
+              let temp = this.player;
+              temp.additionalData.activeGame.points = temp.additionalData.activeGame.points + result;
+              temp.additionalData.activeGame.correctAnswers = temp.additionalData.activeGame.correctAnswers + 1;
+              this.gameService.updateCurrentGameUser(this.key, temp);
+              setTimeout(() => {
+                setTimeout(() => {this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Organize order game score = ' + result + '!', incoming: true })});
+                this.displayPoints(result);
+                this.continueDialog();
+              }, 6000);
+            }
+          }); 
+        }, this.nextMessage.delay)
+      }
+    }
+
+    if (this.nextMessage.type === 'Multiple Choice') {
+        setTimeout(() => { 
+          this.multipleChoice.display();
+          this.multipleChoice.setData(this.nextMessage);
+          let sub = this.multipleChoice.result.subscribe(result => {
+            if (result !== undefined) {
+              let temp = this.player;
+              temp.additionalData.activeGame.points = temp.additionalData.activeGame.points + result;
+              temp.additionalData.activeGame.correctAnswers = temp.additionalData.activeGame.correctAnswers + 1;
+              this.gameService.updateCurrentGameUser(this.key, temp);
+              sub.unsubscribe();
+              setTimeout(() => {
+                setTimeout(() => {this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), text: 'Multiple choice score = ' + result + '!', incoming: true })});
+                this.displayPoints(result);
+                this.continueDialog();
+              }, 6000);
+            }
+          }); 
+        }, this.nextMessage.delay);
     }
 
     if (this.nextMessage.type !== 'Game') {
@@ -410,7 +460,6 @@ export class GameComponent implements OnInit, AfterViewChecked, OnDestroy {
   * Attaches image to message
   */
   attachImage(imagePath: string): void {
-  	this.showGallery = false;
   	this.images.push(imagePath);
     this.messages.push({ time: new Date().getHours() + '.' + new Date().getMinutes(), image: imagePath , incoming: false });
   }

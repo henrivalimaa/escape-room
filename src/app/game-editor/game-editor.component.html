@@ -10,7 +10,6 @@
 	<button class="transparent inline right center-y mr-05" [matMenuTriggerFor]="menu"><i class="fas fa-bars fa-2x"></i></button>
 	<mat-menu #menu="matMenu">
 	  <a mat-menu-item routerLink="/game-list">My games</a>
-	  <!--<a mat-menu-item routerLink="/leaderboard">Leaderboards</a>-->
 	  <a mat-menu-item routerLink="/profile">Profile</a>
 	  <a mat-menu-item (click)="authService.logout()" style="color:red;">Logout</a>
 	</mat-menu>
@@ -251,8 +250,8 @@
 					<div class="game-background">
 						<div style="width: 7.5em">
 							<p class="background-title">Background</p>
-			  			<div class="picture-wrapper">
-								<img *ngIf="game.images.background" [src]="game.images.background">
+			  			<div class="picture-wrapper" *ngIf="game.images">
+								<img [src]="game.images.background">
 							</div>
 							<button mat-raised-button class="fancy-btn" (click)="choosingImage = true; imagePosition = 'background'">
 								Change
@@ -276,20 +275,20 @@
       	<p class="section-title">Sender</p>
 		  	<div class="sender-grid">
 		  		<div class="sender-name">
-		  			<mat-form-field>
+		  			<mat-form-field *ngIf="game.sender">
 							<input 
 								matInput placeholder="Sender name" 
 								[(ngModel)]="game.sender.name" name="game-title">
 				    	<mat-hint>e.q. Santa</mat-hint>
 				  	</mat-form-field>
-				  	<mat-form-field>
+				  	<mat-form-field *ngIf="game.sender">
 							<input 
 								type="email"
 								matInput placeholder="Email" 
 								[(ngModel)]="game.sender.email" name="game-title">
 				    	<mat-hint>e.q. santa@example.com</mat-hint>
 				  	</mat-form-field>
-				  	<mat-form-field>
+				  	<mat-form-field *ngIf="game.sender">
 							<input
 								type="phone"
 								matInput placeholder="Phone" 
@@ -300,7 +299,7 @@
 			  	<div class="sender-picture">
 			  		<div style="width: 7.5em" class="right">
 			  			<p class="background-title">Sender photo</p>
-			  			<div class="picture-wrapper">
+			  			<div class="picture-wrapper" *ngIf="game.sender">
 								<img [src]="game.sender.photo">
 							</div>
 							<button mat-raised-button class="fancy-btn" (click)="choosingImage = true; imagePosition = 'sender'">
@@ -328,8 +327,9 @@
 				<button mat-button class="question-menu-trigger" [matMenuTriggerFor]="questionTypes">Select Question Type <i class="fas fa-angle-down"></i></button>
 
 				<mat-menu class="question-menu" #questionTypes="matMenu">
-					<button mat-menu-item (click)="isQuestion = false; miniGame = undefined;">Message</button>
-					<button mat-menu-item (click)="isQuestion = true; miniGame = undefined;">Single question</button>
+					<button mat-menu-item (click)="temp.type = 'Message'; miniGame = undefined;">Message</button>
+					<button mat-menu-item (click)="temp.type = 'Question'; miniGame = undefined;">Single question</button>
+					<button mat-menu-item (click)="setupMultipleChoice(); miniGame = undefined;">Multiple Choice</button>
 				  <button mat-menu-item [matMenuTriggerFor]="miniGames">Mini Games</button>
 				</mat-menu>
 
@@ -339,7 +339,7 @@
 				  <button mat-menu-item (click)="miniGame = 'hit-the-buttons'">Hit The Buttons</button>
 				</mat-menu>
 
-		  	<div class="sender-grid" *ngIf="!isQuestion && !miniGame" [@fade]>
+		  	<div class="sender-grid" *ngIf="temp.type === 'Message' && !miniGame" [@fade]>
 		  		<div class="sender-name">
 		  			<mat-form-field>
 							<input 
@@ -378,7 +378,7 @@
 			  		</div>
 					</div>
 		  	</div>
-		  	<div class="sender-grid" *ngIf="!isQuestion && miniGame" [@fade]>
+		  	<div class="sender-grid" *ngIf="miniGame" [@fade]>
 		  		<div class="sender-name">
 				  	<mat-form-field>
 							<input type="number"
@@ -388,7 +388,7 @@
 				  	</mat-form-field>
 		  		</div>
 		  	</div>
-		  	<div class="sender-grid" *ngIf="isQuestion && !miniGame" [@fade]>
+		  	<div class="sender-grid" *ngIf="temp.type === 'Question' && !miniGame" [@fade]>
 		  		<div class="sender-name">
 		  			<mat-form-field>
 							<input 
@@ -449,8 +449,59 @@
 			  		</div>
 					</div>
 		  	</div>
+		  	<div class="sender-grid" *ngIf="temp.type === 'Multiple Choice'" [@fade]>
+		  		<div class="sender-name">
+		  			<mat-form-field>
+							<input 
+								matInput placeholder="Question" 
+								[(ngModel)]="temp.question" name="game-title">
+				    	<mat-hint>e.q. What is opposite color of white?</mat-hint>
+				  	</mat-form-field>
+				  	<div class="choices" style="margin-top: 2em;">
+				  		<div *ngFor="let choice of temp.choices">
+					  		<mat-form-field>
+									<input
+										matInput placeholder="Choice" 
+										[(ngModel)]="choice.value" name="game-title">
+						  	</mat-form-field>
+						  	<mat-checkbox
+						  			style="margin-left: 1em;"
+					          [(ngModel)]="choice.isCorrect">
+					      </mat-checkbox>
+					  	</div>
+				  	</div>
+				  	<mat-form-field>
+							<input 
+								matInput placeholder="Points awarded" 
+								[(ngModel)]="temp.points" name="game-title">
+				    	<mat-hint>Points as number (default=100)</mat-hint>
+				  	</mat-form-field>
+				  	<mat-form-field>
+							<input type="number"
+								matInput placeholder="Delay" 
+								[(ngModel)]="temp.delay" name="game-title">
+				    	<mat-hint>Message delay (default=3000ms)</mat-hint>
+				  	</mat-form-field>
+		  		</div>
+		  		<div class="sender-picture">
+			  		<div style="width: 7.5em" class="right">
+			  			<p class="background-title">Image</p>
+			  			<div class="picture-wrapper">
+								<img *ngIf="temp.image" [src]="temp.image">
+							</div>
+							<button mat-raised-button (click)="choosingImage = true; imagePosition = 'message'">
+								Change
+								<i class="fas fa-image ml-05"></i>
+							</button>
+							<input type="file" (change)="uploadFile($event, 'message')" id="messageImage" style="visibility: hidden" accept=".png,.jpg" />
+							<button mat-raised-button style="margin-top: -1em;" (click)="choosingImage = true; imagePosition = 'message'">
+								<label for="messageImage">Upload<i class="fas fa-cloud-upload-alt ml-05"></i></label>
+							</button>
+			  		</div>
+					</div>
+		  	</div>
 
-		  	<div class="messages" *ngIf="game.messages.length > 1" [@fade]>
+		  	<div class="messages" *ngIf="game.messages" [@fade]>
 		  		<p class="section-title" style="margin-top: 3em;">
 		  			Message list ({{ game.messages.length - 1 }})
 		  			<button mat-raised-button (click)="editing=!editing" class="right edit-btn">Edit <i class="far fa-edit ml-05"></i></button>
@@ -461,7 +512,8 @@
 					    <mat-expansion-panel-header>
 					    		<i class="fas fa-times message-checked" (click)="game.messages.splice(i, 1); $event.stopPropagation();"></i>
 						      <mat-panel-title>
-						        <span>{{ message.text }}</span>
+						        <span *ngIf="message.text">{{ message.text }}</span>
+						        <span *ngIf="message.question">{{ message.question }}</span>
 						        <span *ngIf="message.game">{{ message.game }}</span>
 						      </mat-panel-title>
 						      <mat-panel-description>
@@ -471,10 +523,20 @@
 						    <div class="message-grid">
 						    	<div class="message-content" *ngIf="!editing" [@fade]>
 						    		<label for="message-text" class="message-label">
-						    			<span *ngIf="message.responseRequired">Question</span>
-						    			<span *ngIf="!message.responseRequired">Message</span>
+						    			<span *ngIf="message.question">Question</span>
+						    			<span *ngIf="message.type === 'Message'">Message</span>
+						    			<span *ngIf="message.type === 'Game'">Game</span>
 						    		</label>
 						    		<p id="message-text">{{ message.text }}</p>
+						    		<p id="message-text">{{ message.question }}</p>
+						    		<p id="message-text">{{ message.game }}</p>
+
+										<label for="message-choices" class="message-label" *ngIf="message.choices">
+						    			<span>Choices</span>
+						    		</label>
+						    		<div id="message-choices" *ngIf="message.choices">
+						    			<p *ngFor="let choice of message.choices">{{ choice.value }}</p>
+						    		</div>					    		
 
 						    		<label for="message-hint" class="message-label" *ngIf="message.hint">
 						    			<span>Hint</span>
@@ -503,11 +565,29 @@
 												matInput placeholder="Question" 
 												[(ngModel)]="message.text" name="game-title">
 								  	</mat-form-field>
+								  	<mat-form-field *ngIf="message.question">
+											<input 
+												matInput placeholder="Question" 
+												[(ngModel)]="message.question" name="game-title">
+								  	</mat-form-field>
 								  	<mat-form-field *ngIf="message.type === 'Message'">
 											<input 
 												matInput placeholder="Message" 
 												[(ngModel)]="message.text" name="game-title">
 								  	</mat-form-field>
+								  	<div class="choices" *ngIf="message.choices">
+								  		<div *ngFor="let choice of message.choices">
+									  		<mat-form-field>
+													<input
+														matInput placeholder="Choice" 
+														[(ngModel)]="choice.value" name="game-title">
+										  	</mat-form-field>
+										  	<mat-checkbox
+										  			style="margin-left: 1em;"
+									          [(ngModel)]="choice.isCorrect">
+									      </mat-checkbox>
+									  	</div>
+								  	</div>
 								  	<mat-form-field *ngIf="message.type === 'Question'">
 											<input 
 												matInput placeholder="Hint" 
@@ -579,8 +659,8 @@
 		</div>
 	</div>
 
-	<div class="controls" *ngIf="temp.text || game.messages.length > 1 || miniGame" [@fade]>
-		<button mat-raised-button color="accent" class="save-question-btn fancy-btn" *ngIf="temp.text || miniGame != undefined" [@fade] (click)="saveQuestion()">Save question</button>
+	<div class="controls" *ngIf="temp.type || game.messages || miniGame" [@fade]>
+		<button mat-raised-button color="accent" class="save-question-btn fancy-btn" *ngIf="temp.type || miniGame != undefined" [@fade] (click)="saveQuestion()">Save question</button>
 		<button mat-raised-button class="fancy-btn" *ngIf="game.messages.length > 1 && !key" color="accent" [@fade] (click)="showModal = true">Create game</button>
 		<button mat-raised-button class="fancy-btn" *ngIf="key" color="accent" [@fade] (click)="saveChanges()">Save changes</button>
 	</div>

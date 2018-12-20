@@ -43,16 +43,19 @@ export class SetupComponent implements OnInit {
 
   ngOnInit() {
   	const auth = this.authService.currentUser;
+
+    this.user = new User();
+    this.user.displayName = auth.displayName;
+    this.user.email = auth.email;
+    this.user.additionalData = {};
+    this.user.gamerTag = '';
+    this.user.photoURL = auth.photoURL;
+    this.user.additionalData.provider = auth.providerData[0].providerId;
+
   	this.userService.getCurrentUser(auth.email)
       .subscribe(user => {
-        if (user.length === 0 || user.additionalData.provider != auth.providerData[0].providerId) {
-          this.user = new User();
-          this.user.displayName = auth.displayName;
-          this.user.email = auth.email;
-          this.user.additionalData = {};
-          this.user.gamerTag = '';
-          this.user.photoURL = auth.photoURL;
-          this.user.additionalData.provider = auth.providerData[0].providerId;
+        if (user.length === 0) {
+          //console.log(this.user);
         } else {
           this.userService.setUser(user[0]);
           this.zone.run(() => {

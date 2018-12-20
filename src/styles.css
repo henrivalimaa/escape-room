@@ -333,6 +333,49 @@ button:focus {
   height: 100%;
 }
 
+.game-list .slick-prev, .slick-next {
+    font-size: 0;
+    line-height: 0;
+    position: absolute;
+    top: 50%;
+    display: block;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    -webkit-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+    cursor: pointer;
+    color: transparent;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 21px;
+    z-index: 1;
+}
+
+.game-list .slick-prev:before, .slick-next:before {
+    font-family: 'slick';
+    font-size: 48px;
+    line-height: 1;
+    opacity: .75;
+    color: white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.game-list .slick-next {
+    right: -14px;
+}
+
+.game-list .slick-prev {
+    left: -14px;
+}
+
 .fa-2x {
     font-size: 1.8em;
+}
+
+.example-box {
+    z-index: 2001;
 }

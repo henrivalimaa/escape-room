@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
     let player = this.authService.currentUser;
     this.userService.getCurrentUser(player.email)
       .subscribe(user => {
-        if (user.length === 0 || user.additionalData.provider != player.providerData[0].providerId) {
+        if (user.length === 0) {
           this.zone.run(() => {
             this.router.navigate(['setup']);
           });

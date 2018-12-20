@@ -762,7 +762,7 @@ iframe {
 .question-menu-trigger {
     font-family: unset;
     border-bottom: 1px solid #35806b;
-    padding: 0;
+    padding: 0 0.5em;
     text-shadow: none;
     margin-bottom: 1em;
     font-weight: 700;

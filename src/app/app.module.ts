@@ -52,6 +52,8 @@ import { SearchPipe } from './pipes/search.pipe';
 import { ButtonClicker } from './minigames/button-clicker/button-clicker.component';
 import { LightPattern } from './minigames/light-pattern/light-pattern.component';
 import { HitTheButtons } from './minigames/hit-the-buttons/hit-the-buttons.component';
+import { MultipleChoice } from './question-types/multiple-choice/multiple-choice.component';
+import { OrganizeOrder } from './minigames/organize-order/organize-order.component';
 
 const cookieConfig:NgcCookieConsentConfig = {
   "cookie": {
@@ -95,7 +97,9 @@ const cookieConfig:NgcCookieConsentConfig = {
     SearchPipe,
     ButtonClicker,
     LightPattern,
-    HitTheButtons
+    HitTheButtons,
+    MultipleChoice,
+    OrganizeOrder
   ],
   imports: [
     BrowserModule,

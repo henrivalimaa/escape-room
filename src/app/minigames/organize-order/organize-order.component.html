@@ -1,0 +1,8 @@
+<div class="button-clicker" *ngIf="show" [@fade]>
+	<p>Organize The order</p>
+	<h2>Organize item in the right order!</h2>
+	<button mat-raised-button color="accent" *ngIf="state === 'inactive'" (click)="startGame()">Start</button>
+	<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+	  <div class="example-box" *ngFor="let movie of movies" cdkDrag>{{movie}}</div>
+	</div>
+</div>

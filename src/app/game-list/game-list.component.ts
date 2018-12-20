@@ -148,13 +148,14 @@ export class GameListComponent implements OnInit {
     this.session.state = undefined;
     this.activeGame = {};
 
-    delete temp.$key;
-    temp.gameState = {};
-    temp.gameState.state = 'inactive';
+    if (temp != undefined) {
+      delete temp.$key;
+      temp.gameState = {};
+      temp.gameState.state = 'inactive';
+      setTimeout(() => { this.gameService.updateGame(key, temp); }, 1000);
+    }
 
     this.gameSubscription.unsubscribe();
-
-    setTimeout(() => { this.gameService.updateGame(key, temp); }, 1000)
   }
 
   /**

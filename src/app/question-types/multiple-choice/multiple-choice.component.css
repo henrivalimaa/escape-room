@@ -1,4 +1,4 @@
-.button-clicker {
+.multiple-choice {
     color: #fff;
     position: fixed;
     height: 100%;
@@ -12,59 +12,54 @@
     padding-top: 5em;
 }
 
-.button-clicker h2 {
+.multiple-choice h2 {
     color: #fdff84;
     font-size: 18px;
     text-shadow: 0 1px #172926;
     font-family: 'Luckiest Guy', cursive;
 }
 
-.button-clicker p {
+.multiple-choice p {
     font-size: 28px;
     margin-top: 1em;
     font-weight: bold;
 }
 
-.button-clicker button {
-    position: absolute;
+.multiple-choice button {
     margin-top: 1em;
-    height: 80px;
-    width: 80px;
+    height: 12em;
+    width: 12em;
     border-radius: 50%;
     text-shadow: 0 1px #172926;
     font-family: 'Luckiest Guy', cursive;
 }
 
-.result-text {
-    font-size: 18px !important;
+.choice {
+    display: inline-block;
+    width: 46%;
+    background: #ff3e9945;
+    height: 8em;
+    text-align: center;
+    margin: 0.5%;
+    box-shadow: 0 1px 5px #0000004d;
+    position: relative;
+    transition: all 0.3s ease;
 }
 
-.start-btn {
-    position: relative !important;
-    margin-top: 3em !important;
-    width: 8em !important;
-    height: 8em !important;
-    display: block;
-    left: 50%;
-    transform: translateX(-50%);
+.choice:hover {
+    background: #ffa2ce45 !important;
+    cursor: pointer;
 }
 
-.hittable-button {
+.choice span {
     position: absolute;
-    height: 4em;
-    width: 4em;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.hits {
-    position: absolute;
-    bottom: 4em;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.timer {
-    position: absolute;
-    top: 4em;
-    left: 50%;
-    transform: translateX(-50%);
+.image {
+    height: 15em;
+    background-position: center;
+    background-size: cover;
 }

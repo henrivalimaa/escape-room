@@ -13,7 +13,7 @@ import { fadeAnimation } from '../../animations/animations';
 })
 export class HitTheButtons implements OnInit {
 	
-	private timeLeft: number = 7;
+	private timeLeft: number = 20;
   private interval;
 
   private clicks: number = 0;
@@ -34,7 +34,7 @@ export class HitTheButtons implements OnInit {
   	this.gameArea.width = window.innerWidth;
   	this.gameArea.buttons = [];
 
-  	for(let i = 0; i < 100; i++) {
+  	for(let i = 0; i < 20; i++) {
   		this.gameArea.buttons.push({ 
   			top: getRandomPosition(80, window.innerHeight).toString() + 'px', 
   			left: getRandomPosition(0, window.innerWidth - 80).toString() + 'px', 
@@ -53,19 +53,21 @@ export class HitTheButtons implements OnInit {
   	this.state = 'started'
 
   	for(let i = 0; i < this.gameArea.buttons.length; i++) {
-  		if (i === this.gameArea.buttons.length + 1) {
-				this.updateResult(this.clicks);
-				this.show = false;
-				break;
-			} else {
-				setTimeout(() => {
-	  			this.gameArea.buttons[i].isVisible = true;
-		  		
-		  		setTimeout(() => {
-		  			 this.gameArea.buttons[i].isVisible = false;
-		  		}, 1500);
-	  		}, 750 * i);
-			}
+			setTimeout(() => {
+				if (i === this.gameArea.buttons.length - 1) {
+					this.updateResult(this.clicks);
+					this.state = 'finished';
+					setTimeout(() => {
+						this.state = 'inactive';
+						this.show = false;
+					}, 6000);
+				}			
+  			this.gameArea.buttons[i].isVisible = true;
+	  		this.timeLeft--;
+	  		setTimeout(() => {
+	  			 this.gameArea.buttons[i].isVisible = false;
+	  		}, 1500);
+  		}, 1000 * i);
   	}
   }
 

@@ -60,16 +60,22 @@
 	</div>
 </div>
 
-<div class="message-area" *ngIf="!showResult" [@fade]>
+<div class="start-header">
+	<h2 class="game-start-header" *ngIf="startingText" [@textFade]>{{ startingText }}</h2>
+</div>
+
+<div class="message-area" [hidden]="showResult">
 	<i class="far fa-lightbulb hint" *ngIf="hint.isActive == true" (click)="showHint = !showHint" [@fade]></i>
 	<div *ngIf="showHint && hint.isActive == true" class="hint-content" [@fade]>
 		<div class="tip"></div>
 		{{ hint.text }}
 	</div>
+	<button-clicker #buttonClicker></button-clicker>
+	<light-pattern #lightPattern></light-pattern>
+	<hit-the-buttons #hitTheButtons></hit-the-buttons>
+	<organize-order #organizeOrder></organize-order>
+	<multiple-choice [data]="nextMessage" #multipleChoice></multiple-choice>
 	<div *ngFor='let message of messages' class="message-row" [@fade]>
-		<button-clicker #buttonClicker></button-clicker>
-		<light-pattern #lightPattern></light-pattern>
-		<hit-the-buttons #hitTheButtons></hit-the-buttons>
 	  <div class="row" *ngIf="message.type !== 'button-clicker'" [ngClass]="{ 'message-right': !message.incoming, 'message-left': message.incoming }">
 	  	<div class="tip"></div>
 	  	<div class="message-content">

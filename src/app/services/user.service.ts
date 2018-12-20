@@ -20,7 +20,7 @@ export class UserService {
   	this.users = db.list(this.basePath);
   }
 
-  createUser(user: User): void {
+  createUser(user: any): void {
   	this.currUser = user;
     this.users.push(user);
   }

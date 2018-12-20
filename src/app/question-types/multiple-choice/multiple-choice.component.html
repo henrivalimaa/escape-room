@@ -1,0 +1,14 @@
+<div class="multiple-choice" *ngIf="show" [@fade]>
+	<p>Multiple choice</p>
+	<h2>Select the correct answer!</h2>
+	<div *ngIf="data">
+		<div 
+			class="image"
+			*ngIf="data.image != ''" 
+			[ngStyle]="{'background-image': 'url(' + data.image + ')'}">
+		</div>
+		<p>{{ data.question }}</p>
+		<div class="choice" *ngFor="let choice of data.choices" (click)="selectChoice(choice)"><span>{{ choice.value }}</span></div>
+	</div>
+	<p *ngIf="resultText !== undefined" [@fade]>{{ resultText }}</p>
+</div>

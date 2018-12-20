@@ -106,11 +106,11 @@ export class LightPattern implements OnInit {
   	this.playerSelection.push(index);
   	if (this.playerSelection.length === this.games[this.gameState].length) {
   		if (this.playerSelection.join() === this.games[this.gameState].join()) {
-  			this.points = this.points + 50;
+  			this.points = this.points + 20;
   			this.resultText = 'Well done!'
   			this.displayPoints('+ 50p');
   		} else {
-  			this.points = this.points - 20;
+  			this.points = this.points - 10;
   			this.resultText = 'Damn it! That\'s not the pattern..';
   			this.displayPoints('- 20p');
   		}

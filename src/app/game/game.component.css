@@ -506,6 +506,28 @@ button:focus {
     text-shadow: 0 1px 2px #000;
 }
 
+.start-header {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    width: 100%;
+    z-index: 10000;
+}
+
+.game-start-header {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-family: 'Luckiest Guy', cursive;
+    text-shadow: 0 1px 2px #000;
+    font-size: 2em;
+    white-space: nowrap;
+    width: fit-content;
+}
+
 .points-text span {
     left: 50%;
     -webkit-transform: translateX(-50%);

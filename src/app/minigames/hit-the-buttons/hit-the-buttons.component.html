@@ -1,6 +1,6 @@
 <div class="button-clicker" *ngIf="show" [@fade]>
 	<p *ngIf="state === 'inactive'">Hit The Balls</p>
-	<h2 *ngIf="state === 'inactive'" [@fade]>Hit as many balls you can!</h2>
+	<h2 *ngIf="state === 'inactive'" [@fade]>Hit as many balls you can in 20 seconds!</h2>
 	<small *ngIf="state === 'inactive'">Note! Balls can be hitten multiple times!</small>
 	<button 
 		class="start-btn"
@@ -19,6 +19,12 @@
 				*ngIf="button.isVisible === true" 
 				(click)="clicks = clicks + 1" [@fade]>Hit!</button>
 		</div>
+		<p class="timer">Time left: {{ timeLeft }}</p>
 		<p class="hits">Hits: {{ clicks }}</p>
+	</div>
+	<div *ngIf="state === 'finished'">
+		<p>Hit The Balls</p>
+		<h2>Game over!</h2>
+		<p class="result-text">You hit the balls {{ clicks }} times!</p>
 	</div>
 </div>
